@@ -5,6 +5,7 @@ import { EmiCalculatorComponent } from './pages/emi-calculator/emi-calculator.co
 import { TilesComponent } from './pages/tiles/tiles.component';
 import { ShowAccountsComponent } from './pages/accounts/show-accounts/show-accounts.component';
 import { AccountDetailsComponent } from './pages/accounts/account-details/account-details.component';
+import { CreateModifyAccountComponent } from './pages/accounts/create-modify-account/create-modify-account.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -14,5 +15,6 @@ export const routes: Routes = [
     {path : 'main', component: TilesComponent},
     {path : 'allAccountsHome', component: ShowAccountsComponent},
     {path : 'accountDetails/:account_number', component: AccountDetailsComponent},
-    { path: '', redirectTo: '/allAccountsHome', pathMatch: 'full' }
+    { path: '', redirectTo: '/allAccountsHome', pathMatch: 'full' },
+    {path : 'createModifyAccount', component: CreateModifyAccountComponent}
 ];

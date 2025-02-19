@@ -4,12 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../../../services/accounts/account.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SessionStorageService } from '../../../services/session/session-storage.service';
 
 @Component({
   selector: 'app-show-accounts',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule,RouterModule ],
   templateUrl: './show-accounts.component.html',
   styleUrls: ['./show-accounts.component.css']
 })
