@@ -1,0 +1,33 @@
+
+h2 {
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table thead {
+    background-color: #f8f9fa; /* Light header */
+    color: #333;
+}
+
+.table th, .table td {
+    border-bottom: 1px solid #ddd; 
+    text-align: left;
+    border-right: 1px #333;
+    text-align: left;
+    text-overflow: inherit;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1; 
+}
+thead {
+    background-color: lightblue;
+    color: black; /* Ensures text is readable */
+  }

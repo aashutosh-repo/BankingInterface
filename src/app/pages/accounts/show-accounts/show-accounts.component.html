@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <div class="card shadow-lg">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h3 class="mb-0"><i class="bi bi-table"></i> Account Details</h3>
+    <div class="dropdown">
+      <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="#">Create New Account</a></li>
+        <li><a class="dropdown-item" href="#">Add Instrument</a></li>
+        <li><a class="dropdown-item" href="#">Delete Multiple Account</a></li>
+      </ul>
+    </div>
+  </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Account Number</th>
+              <th>Customer ID</th>
+              <th>Currency</th>
+              <th>Available Balance</th>
+              <th>Account Status</th>
+              <th>Account Open Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let account of accounts">
+              <td>{{ account.account_number }}</td>
+              <td>{{ account.cust_id }}</td>
+              <td>{{ account.currency }}</td>
+              <td>{{ account.available_balance | currency }}</td>
+              <td>
+                <span class="badge" 
+                      [ngClass]="account.account_status === 1 ? 'bg-success' : 'bg-danger'">
+                  {{ account.account_status === 1 ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td>{{ account.account_open_dt | date:'yyyy-MM-dd' }}</td>
+              <td>
+                <button class="btn btn-info btn-sm me-1" (click)="viewAccount(account)">
+                  <i class="bi bi-eye"></i> View
+                </button>
+                <button class="btn btn-warning btn-sm me-1" (click)="modifyAccount(account)">
+                  <i class="bi bi-pencil"></i> Modify
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteAccount(account)">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

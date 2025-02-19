@@ -1,0 +1,22 @@
+body {
+    background: linear-gradient(to right, #2193b0, #6dd5ed);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card {
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-img-top {
+    height: 100px;
+    object-fit: cover;
+  }
+  

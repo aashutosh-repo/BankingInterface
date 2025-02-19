@@ -1,0 +1,83 @@
+<div class="container mt-4">
+  <div class="card shadow-lg">
+    <div class="card-header bg-primary text-white text-center">
+      <h3 class="mb-0"><i class="bi bi-person-circle"></i> Account Details</h3>
+    </div>
+    <ng-template #noData>
+      <p>No data found</p>
+    </ng-template>
+    <div class="card-body">
+      <div class="row">
+        <!-- First Row -->
+        <div class="col-md-6">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th>Account Number</th>
+                <td>{{ account.account_number }}</td>
+              </tr>
+              <tr>
+                <th>Customer ID</th>
+                <td>{{ account.cust_id }}</td>
+              </tr>
+              <tr>
+                <th>Currency</th>
+                <td>{{ account.currency }}</td>
+              </tr>
+              <tr>
+                <th>Available Balance</th>
+                <td>{{ account.available_balance | currency }}</td>
+              </tr>
+              <tr>
+                <th>Account Status</th>
+                <td>
+                  <span class="badge" 
+                        [ngClass]="account.account_status === 1 ? 'bg-success' : 'bg-danger'">
+                    {{ account.account_status === 1 ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Second Row -->
+        <div class="col-md-6">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th>Account Open Date</th>
+                <td>{{ account.account_open_dt | date:'yyyy-MM-dd' }}</td>
+              </tr>
+              <tr>
+                <th>ATM Request</th>
+                <td>{{ account.atm_req_flag ? 'Yes' : 'No' }}</td>
+              </tr>
+              <tr>
+                <th>Cheque Book Request</th>
+                <td>{{ account.cheq_req_flag ? 'Yes' : 'No' }}</td>
+              </tr>
+              <tr>
+                <th>SMS Alert Enabled</th>
+                <td>{{ account.sms_req_flag ? 'Yes' : 'No' }}</td>
+              </tr>
+              <tr>
+                <th>Closure Date</th>
+                <td *ngIf="account.clsr_dt">{{ account.clsr_dt | date:'yyyy-MM-dd' }}</td>
+                <td *ngIf="!account.clsr_dt">N/A</td>
+              </tr>
+              <!-- <tr>
+                <th>Closure Reason</th>
+                <td>{{ account?.clsr_reason ?? 'N/A' }}</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <button class="btn btn-secondary mt-3" (click)="goBack()">
+        <i class="bi bi-arrow-left" ></i> Go Back
+      </button>
+    </div>
+  </div>
+</div>
