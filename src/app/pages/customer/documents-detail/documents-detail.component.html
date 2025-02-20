@@ -1,0 +1,53 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Document Details</h2>
+    <form (ngSubmit)="nextStep()" class="row g-3">
+      
+      <!-- Customer ID -->
+      <div class="col-md-6">
+        <label for="custId" class="form-label">Customer ID</label>
+        <input type="number" class="form-control" id="custId" [(ngModel)]="docDto.custId" name="custId" required />
+      </div>
+  
+      <!-- Document Description -->
+      <div class="col-md-6">
+        <label for="docDescription" class="form-label">Document Description</label>
+        <input type="text" class="form-control" id="docDescription" [(ngModel)]="docDto.docDescription" name="docDescription" />
+      </div>
+  
+      <!-- Document Identification Number -->
+      <div class="col-md-6">
+        <label for="docIdentificationNumber" class="form-label">Identification Number</label>
+        <input type="text" class="form-control" id="docIdentificationNumber" [(ngModel)]="docDto.docIdentificationNumber" name="docIdentificationNumber" />
+      </div>
+  
+      <!-- Document Type -->
+      <div class="col-md-6">
+        <label for="docType" class="form-label">Document Type</label>
+        <input type="text" class="form-control" id="docType" [(ngModel)]="docDto.docType" name="docType" />
+      </div>
+  
+      <!-- Document Type Code -->
+      <div class="col-md-6">
+        <label for="docTypeCode" class="form-label">Document Type Code</label>
+        <input type="text" class="form-control" id="docTypeCode" [(ngModel)]="docDto.docTypeCode" name="docTypeCode" />
+      </div>
+  
+      <!-- Issue Date -->
+      <div class="col-md-6">
+        <label for="issueDate" class="form-label">Issue Date</label>
+        <input type="date" class="form-control" id="issueDate" [(ngModel)]="docDto.issueDate" name="issueDate" />
+      </div>
+  
+      <!-- Expiry Date -->
+      <div class="col-md-6">
+        <label for="expiryDate" class="form-label">Expiry Date</label>
+        <input type="date" class="form-control" id="expiryDate" [(ngModel)]="docDto.expiryDate" name="expiryDate" />
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Next</button>
+      </div>
+    </form>
+  </div>
+  

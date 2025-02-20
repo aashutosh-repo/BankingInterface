@@ -20,7 +20,7 @@ export class CreateModifyAccountComponent implements OnInit {
       account_number: [''], // Hidden in 'create' mode
       accType: ['1'],
       account_open_dt: [''],
-      currency: [''],
+      currency: ['1'],
       cust_id: [0],
       cus_type: [0],
       npa_status: [0],
@@ -43,6 +43,10 @@ export class CreateModifyAccountComponent implements OnInit {
   accountTypes = [
     { value: 1, label: 'Saving' },
     { value: 2, label: 'Current' }
+  ];
+  currency = [
+    { value: 1, label: 'INR' },
+    { value: 2, label: 'USD' }
   ];
 
   onSubmit() {

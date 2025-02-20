@@ -1,0 +1,82 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Customer Basic Details</h2>
+    <form (ngSubmit)="nextStep()" class="row g-3">
+      <!-- First Name -->
+      <div class="col-md-6">
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName" [(ngModel)]="customerDto.firstName" name="firstName" required />
+      </div>
+  
+      <!-- Last Name -->
+      <div class="col-md-6">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" [(ngModel)]="customerDto.lastName" name="lastName" required />
+      </div>
+  
+      <!-- Father's Name -->
+      <div class="col-md-6">
+        <label for="fatherName" class="form-label">Father's Name</label>
+        <input type="text" class="form-control" id="fatherName" [(ngModel)]="customerDto.fatherName" name="fatherName" />
+      </div>
+  
+      <!-- Mother's Name -->
+      <div class="col-md-6">
+        <label for="motherName" class="form-label">Mother's Name</label>
+        <input type="text" class="form-control" id="motherName" [(ngModel)]="customerDto.motherName" name="motherName" />
+      </div>
+  
+      <!-- Email -->
+      <div class="col-md-6">
+        <label for="mail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="mail" [(ngModel)]="customerDto.mail" name="mail" required />
+      </div>
+  
+      <!-- Mobile Number -->
+      <div class="col-md-6">
+        <label for="mobileNumber" class="form-label">Mobile Number</label>
+        <input type="text" class="form-control" id="mobileNumber" [(ngModel)]="customerDto.mobileNumber" name="mobileNumber" />
+      </div>
+  
+      <!-- Status -->
+      <div class="col-md-6">
+        <label for="status" class="form-label">Status</label>
+        <input type="number" class="form-control" id="status" [(ngModel)]="customerDto.status" name="status" />
+      </div>
+  
+      <!-- Date of Birth -->
+      <div class="col-md-6">
+        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+        <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
+      </div>
+  
+      <!-- Onboarding Date -->
+      <div class="col-md-6">
+        <label for="onboardingDate" class="form-label">Onboarding Date</label>
+        <input type="date" class="form-control" id="onboardingDate" [(ngModel)]="customerDto.onboardingDate" name="onboardingDate" />
+      </div>
+  
+      <!-- Customer Closing Date -->
+      <div class="col-md-6">
+        <label for="custClsngDt" class="form-label">Customer Closing Date</label>
+        <input type="date" class="form-control" id="custClsngDt" [(ngModel)]="customerDto.custClsngDt" name="custClsngDt" />
+      </div>
+  
+      <!-- Risk Profile -->
+      <div class="col-md-6">
+        <label for="riskProfile" class="form-label">Risk Profile</label>
+        <input type="number" class="form-control" id="riskProfile" [(ngModel)]="customerDto.riskProfile" name="riskProfile" />
+      </div>
+  
+      <!-- Rating Agency -->
+      <div class="col-md-6">
+        <label for="ratingAgency" class="form-label">Rating Agency</label>
+        <input type="text" class="form-control" id="ratingAgency" [(ngModel)]="customerDto.ratingAgency" name="ratingAgency" />
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Next</button>
+      </div>
+    </form>
+  </div>
+  

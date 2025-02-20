@@ -1,0 +1,83 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Customer Address Details</h2>
+    <form (ngSubmit)="nextStep()" class="row g-3">
+  
+      <!-- Customer ID -->
+      <div class="col-md-6">
+        <label for="customerID" class="form-label">Customer ID</label>
+        <input type="number" class="form-control" id="customerID" [(ngModel)]="customerAddress.customerID" name="customerID" required />
+      </div>
+  
+      <!-- Address Type -->
+      <div class="col-md-6">
+        <label for="addressType" class="form-label">Address Type</label>
+        <input type="number" class="form-control" id="addressType" [(ngModel)]="customerAddress.addressType" name="addressType" required />
+      </div>
+  
+      <!-- Address Line 1 -->
+      <div class="col-md-6">
+        <label for="addressLn1" class="form-label">Address Line 1</label>
+        <input type="text" class="form-control" id="addressLn1" [(ngModel)]="customerAddress.addressLn1" name="addressLn1" />
+      </div>
+  
+      <!-- Address Line 2 -->
+      <div class="col-md-6">
+        <label for="addressLn2" class="form-label">Address Line 2</label>
+        <input type="text" class="form-control" id="addressLn2" [(ngModel)]="customerAddress.addressLn2" name="addressLn2" />
+      </div>
+  
+      <!-- City -->
+      <div class="col-md-6">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" [(ngModel)]="customerAddress.city" name="city" />
+      </div>
+  
+      <!-- Village -->
+      <div class="col-md-6">
+        <label for="village" class="form-label">Village</label>
+        <input type="text" class="form-control" id="village" [(ngModel)]="customerAddress.village" name="village" />
+      </div>
+  
+      <!-- District -->
+      <div class="col-md-6">
+        <label for="district" class="form-label">District</label>
+        <input type="text" class="form-control" id="district" [(ngModel)]="customerAddress.district" name="district" />
+      </div>
+  
+      <!-- Taluka -->
+      <div class="col-md-6">
+        <label for="taluka" class="form-label">Taluka</label>
+        <input type="text" class="form-control" id="taluka" [(ngModel)]="customerAddress.taluka" name="taluka" />
+      </div>
+  
+      <!-- State -->
+      <div class="col-md-6">
+        <label for="state" class="form-label">State</label>
+        <input type="text" class="form-control" id="state" [(ngModel)]="customerAddress.state" name="state" />
+      </div>
+  
+      <!-- Pin Code -->
+      <div class="col-md-6">
+        <label for="pinCode" class="form-label">Pin Code</label>
+        <input type="number" class="form-control" id="pinCode" [(ngModel)]="customerAddress.pinCode" name="pinCode" />
+      </div>
+  
+      <!-- Last Update -->
+      <div class="col-md-6">
+        <label for="lastUpdate" class="form-label">Last Update</label>
+        <input type="date" class="form-control" id="lastUpdate" [(ngModel)]="customerAddress.lastUpdate" name="lastUpdate" />
+      </div>
+  
+      <!-- Date of Capture -->
+      <div class="col-md-6">
+        <label for="dateOfCapture" class="form-label">Date of Capture</label>
+        <input type="date" class="form-control" id="dateOfCapture" [(ngModel)]="customerAddress.dateOfCapture" name="dateOfCapture" />
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Next</button>
+      </div>
+    </form>
+  </div>
+  

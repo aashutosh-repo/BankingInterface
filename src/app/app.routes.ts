@@ -6,6 +6,10 @@ import { TilesComponent } from './pages/tiles/tiles.component';
 import { ShowAccountsComponent } from './pages/accounts/show-accounts/show-accounts.component';
 import { AccountDetailsComponent } from './pages/accounts/account-details/account-details.component';
 import { CreateModifyAccountComponent } from './pages/accounts/create-modify-account/create-modify-account.component';
+import { CustomerBasicDetailsComponent } from './pages/customer/customer-basic-details/customer-basic-details.component';
+import { DocumentsDetailComponent } from './pages/customer/documents-detail/documents-detail.component';
+import { AddressDetailComponent } from './pages/customer/address-detail/address-detail.component';
+import { NomineeDetailComponent } from './pages/customer/nominee-detail/nominee-detail.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -16,5 +20,10 @@ export const routes: Routes = [
     {path : 'allAccountsHome', component: ShowAccountsComponent},
     {path : 'accountDetails/:account_number', component: AccountDetailsComponent},
     { path: '', redirectTo: '/allAccountsHome', pathMatch: 'full' },
-    {path : 'createModifyAccount', component: CreateModifyAccountComponent}
+    {path : 'createModifyAccount', component: CreateModifyAccountComponent},
+    {path : 'customerCreation', component: CustomerBasicDetailsComponent},
+    {path : 'document', component: DocumentsDetailComponent},
+    {path : 'address', component: AddressDetailComponent},
+    {path : 'nominee', component: NomineeDetailComponent},
+
 ];

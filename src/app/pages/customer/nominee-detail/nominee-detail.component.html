@@ -1,0 +1,105 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Nominee Details</h2>
+    <form (ngSubmit)="submit()" class="row g-3">
+  
+      <!-- Owner ID -->
+      <div class="col-md-6">
+        <label for="ownerId" class="form-label">Owner ID</label>
+        <input type="number" class="form-control" id="ownerId" [(ngModel)]="nomineeDetail.ownerId" name="ownerId" required />
+      </div>
+  
+      <!-- Nominee Reference Number -->
+      <div class="col-md-6">
+        <label for="nomineeRefNum" class="form-label">Nominee Reference Number</label>
+        <input type="number" class="form-control" id="nomineeRefNum" [(ngModel)]="nomineeDetail.nomineeRefNum" name="nomineeRefNum" />
+      </div>
+  
+      <!-- Owner Type -->
+      <div class="col-md-6">
+        <label for="ownerType" class="form-label">Owner Type</label>
+        <input type="number" class="form-control" id="ownerType" [(ngModel)]="nomineeDetail.ownerType" name="ownerType" />
+      </div>
+  
+      <!-- Sequence Number -->
+      <div class="col-md-6">
+        <label for="seqNum" class="form-label">Sequence Number</label>
+        <input type="number" class="form-control" id="seqNum" [(ngModel)]="nomineeDetail.seqNum" name="seqNum" />
+      </div>
+  
+      <!-- Nominee Share -->
+      <div class="col-md-6">
+        <label for="nomShare" class="form-label">Nominee Share (%)</label>
+        <input type="number" class="form-control" id="nomShare" [(ngModel)]="nomineeDetail.nomShare" name="nomShare" />
+      </div>
+  
+      <!-- Nominee Type -->
+      <div class="col-md-6">
+        <label for="nomType" class="form-label">Nominee Type</label>
+        <input type="number" class="form-control" id="nomType" [(ngModel)]="nomineeDetail.nomType" name="nomType" />
+      </div>
+  
+      <!-- Nominee Type Code -->
+      <div class="col-md-6">
+        <label for="nomTypeCode" class="form-label">Nominee Type Code</label>
+        <input type="number" class="form-control" id="nomTypeCode" [(ngModel)]="nomineeDetail.nomTypeCode" name="nomTypeCode" />
+      </div>
+  
+      <!-- Nominee Name Fields -->
+      <div class="col-md-4">
+        <label for="nomineeFirstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="nomineeFirstName" [(ngModel)]="nomineeDetail.nomineeFirstName" name="nomineeFirstName" />
+      </div>
+  
+      <div class="col-md-4">
+        <label for="nomineeMiddleName" class="form-label">Middle Name</label>
+        <input type="text" class="form-control" id="nomineeMiddleName" [(ngModel)]="nomineeDetail.nomineeMiddleName" name="nomineeMiddleName" />
+      </div>
+  
+      <div class="col-md-4">
+        <label for="nomineeLastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="nomineeLastName" [(ngModel)]="nomineeDetail.nomineeLastName" name="nomineeLastName" />
+      </div>
+  
+      <!-- Relationship Type -->
+      <div class="col-md-6">
+        <label for="rtlnType" class="form-label">Relationship Type</label>
+        <input type="number" class="form-control" id="rtlnType" [(ngModel)]="nomineeDetail.rtlnType" name="rtlnType" />
+      </div>
+  
+      <!-- Relationship Type Code -->
+      <div class="col-md-6">
+        <label for="rtlnTypeCode" class="form-label">Relationship Type Code</label>
+        <input type="number" class="form-control" id="rtlnTypeCode" [(ngModel)]="nomineeDetail.rtlnTypeCode" name="rtlnTypeCode" />
+      </div>
+  
+      <!-- Date of Birth -->
+      <div class="col-md-6">
+        <label for="dateOfBirth" class="form-label">Date of Birth</label>
+        <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="nomineeDetail.dateOfBirth" name="dateOfBirth" />
+      </div>
+  
+      <!-- Nominee Address ID -->
+      <div class="col-md-6">
+        <label for="nomAddId" class="form-label">Nominee Address ID</label>
+        <input type="number" class="form-control" id="nomAddId" [(ngModel)]="nomineeDetail.nomAddId" name="nomAddId" />
+      </div>
+  
+      <!-- Nominee Document ID -->
+      <div class="col-md-6">
+        <label for="nomDocId" class="form-label">Nominee Document ID</label>
+        <input type="text" class="form-control" id="nomDocId" [(ngModel)]="nomineeDetail.nomDocId" name="nomDocId" />
+      </div>
+  
+      <!-- Version -->
+      <div class="col-md-6">
+        <label for="ver" class="form-label">Version</label>
+        <input type="number" class="form-control" id="ver" [(ngModel)]="nomineeDetail.ver" name="ver" />
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+  
