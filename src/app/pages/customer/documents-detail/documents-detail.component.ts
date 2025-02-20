@@ -20,7 +20,7 @@ export class DocumentsDetailComponent {
     // Save data to session storage
     sessionStorage.setItem('docDto', JSON.stringify(this.docDto));
     console.log(this.docDto)
-    this.router.navigate(['/customer-details/address-details']);
+    this.router.navigate(['customer/address']);
   }
 
 }

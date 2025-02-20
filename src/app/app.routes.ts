@@ -21,9 +21,9 @@ export const routes: Routes = [
     {path : 'accountDetails/:account_number', component: AccountDetailsComponent},
     { path: '', redirectTo: '/allAccountsHome', pathMatch: 'full' },
     {path : 'createModifyAccount', component: CreateModifyAccountComponent},
-    {path : 'customerCreation', component: CustomerBasicDetailsComponent},
-    {path : 'document', component: DocumentsDetailComponent},
-    {path : 'address', component: AddressDetailComponent},
-    {path : 'nominee', component: NomineeDetailComponent},
+    {path : 'customer/basicdetail', component: CustomerBasicDetailsComponent},
+    {path : 'customer/document', component: DocumentsDetailComponent},
+    {path : 'customer/address', component: AddressDetailComponent},
+    {path : 'customer/nominee', component: NomineeDetailComponent}
 
 ];

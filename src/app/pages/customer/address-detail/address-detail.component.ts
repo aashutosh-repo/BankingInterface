@@ -20,7 +20,7 @@ export class AddressDetailComponent {
     // Save data to session storage
     sessionStorage.setItem('customerAddress', JSON.stringify(this.customerAddress));
     console.log(this.customerAddress);
-    this.router.navigate(['/customer-details/nominee-details']);
+    this.router.navigate(['/customer/nominee']);
   }
 
 

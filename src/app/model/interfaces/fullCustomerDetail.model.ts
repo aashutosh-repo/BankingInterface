@@ -1,7 +1,7 @@
 import { CustomerAddress } from "./customerAddress.model"
 import { CustomerDto } from "./customerDTO.model"
 import { DocumentDTO } from "./DocumentDTO.model"
-import { NomineeDetails } from "./nomineeDetails.model"
+import { NomineeDetails } from "./NomineeDetails.model"
 
 export interface Root {
     customerDto: CustomerDto
