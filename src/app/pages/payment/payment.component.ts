@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -12,6 +13,7 @@ export class PaymentComponent {
 
   paymentForm!: FormGroup;
   cardType: string | null = null;
+  http = inject(HttpClient)
 
   constructor(private fb: FormBuilder) {}
 
@@ -100,5 +102,25 @@ export class PaymentComponent {
     } else {
       console.log('Invalid Form');
     }
+  }
+
+  submitPayment() {
+    this.http.post('http://localhost:8081/api/token/tokenize', `cardNumber=${this.paymentForm.value.cardNumber}`, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      responseType: 'text'
+    }).subscribe({
+      next: (token: string) => {
+        console.log('Received Token:', token);
+        this.initiatePayment(token);
+      },
+      error: () => alert('Tokenization failed!')
+    });
+  }
+  initiatePayment(token: string) {
+    this.http.post('http://localhost:8081/process-payment', { token, amount: 100 })
+      .subscribe({
+        next: () => alert('Payment Successful!'),
+        error: () => alert('Payment Failed!')
+      });
   }
 }
