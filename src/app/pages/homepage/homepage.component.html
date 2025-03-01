@@ -24,10 +24,26 @@
       </div>
     </div>
   </header>
+  <div class="card shadow-lg">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <div class="flex-grow-1 text-center">
+        <h3 class="mb-0"><i class="bi bi-table"></i> Customer Details </h3>
+      </div>      
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+       <li><a class="dropdown-item">  <!--[routerLink]="['/createModifyAccount']" [queryParams]="{ mode: 'create' }">   -->
+            Customer Onboarding </a></li>
+          <li><a class="dropdown-item" href="#">Delete Customers</a></li>
+          <li><a class="dropdown-item" href="#">Add Instruments</a></li>
+        </ul>
+      </div>
+  </div>
+  </div>
 
   <div class="container">
-    <h2>Customer Details</h2>
-    <p>Customer details available in the bank</p>
     <table class="table table-striped">
         <thead class="table-primary">
             <tr>

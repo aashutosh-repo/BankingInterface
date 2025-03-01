@@ -18,7 +18,7 @@ export class CustomerBasicDetailsComponent {
   nextStep() {
     // Save data to session storage
     sessionStorage.setItem('customerDto', JSON.stringify(this.customerDto));
-    console.log(this.customerDto)
+    // console.log(this.customerDto)
     this.router.navigate(['/customer/document']);
   }
 

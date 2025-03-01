@@ -10,7 +10,7 @@ import { CustomerBasicDetailsComponent } from './pages/customer/customer-basic-d
 import { DocumentsDetailComponent } from './pages/customer/documents-detail/documents-detail.component';
 import { AddressDetailComponent } from './pages/customer/address-detail/address-detail.component';
 import { NomineeDetailComponent } from './pages/customer/nominee-detail/nominee-detail.component';
-import { PaymentComponent } from './pages/payment/payment.component';
+import { PaymentProcesingComponent } from './pages/payments/payment-procesing/payment-procesing.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -26,5 +26,5 @@ export const routes: Routes = [
     {path : 'customer/document', component: DocumentsDetailComponent},
     {path : 'customer/address', component: AddressDetailComponent},
     {path : 'customer/nominee', component: NomineeDetailComponent},
-    {path: 'payment', component: PaymentComponent}
+    {path: 'payment', component: PaymentProcesingComponent}
 ];
