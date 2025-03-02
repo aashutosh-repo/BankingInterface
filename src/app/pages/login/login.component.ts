@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { LoginServicesService } from '../../services/login-services.service';
-import { IUserDTO } from '../../model/interfaces/UserDetails.model';
+import { IUserDTO, UserRequest } from '../../model/interfaces/UserDetails.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,19 +17,16 @@ export class LoginComponent {
   loginservice = inject(LoginServicesService);
   route = inject(Router);
   
-  user: IUserDTO ={
+  user: UserRequest ={
     username: '',
-    password: '',
+    password: ''
   }
 
   verifyUser(){
-    console.log(this.user)
     this.loginservice.login(this.user).subscribe({
       next: (response) => {
-        if(response.password === this.user.password && response.username === this.user.username){
+          sessionStorage.setItem('userDetails', JSON.stringify(response));
           this.route.navigate(["/main"]);
-        }
-        console.log(response);
       }
     });
   }

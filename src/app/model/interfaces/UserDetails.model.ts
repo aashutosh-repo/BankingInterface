@@ -1,12 +1,12 @@
-// export interface UserDetails{
-//     id: number;
-//     name: string;
-//     email: string;
-//     username: string;
-//     password : string;
-// }
+export interface UserRequest{
+    username: string
+    password: string
+}
 
 export interface IUserDTO{
-    username: string;
-    password: string;
+    userName: string
+    firstName: string
+    lastName: string
+    email: string
+    lastLogin: string | Date
 }

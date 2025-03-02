@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
-import { IUserDTO } from '../model/interfaces/UserDetails.model';
+import { IUserDTO, UserRequest } from '../model/interfaces/UserDetails.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class LoginServicesService {
 
   constructor(private http : HttpClient) { }
 
-  login(userdto: IUserDTO): Observable<IUserDTO>{
+  login(userdto: UserRequest): Observable<IUserDTO>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post<IUserDTO>(this.ApiUrl,userdto,{headers})
     .pipe(
