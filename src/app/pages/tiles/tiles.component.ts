@@ -18,6 +18,9 @@ export class TilesComponent implements OnInit{
   showUserDetails: boolean = false; // To toggle user details visibility
   userDetails: IUserDTO | null = null;
   userDTO : IUserDTO ={
+    errorId:'',
+    message:'',
+    userId: '',
     userName: '',
     firstName: '',
     lastName: '',

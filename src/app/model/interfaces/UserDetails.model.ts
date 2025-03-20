@@ -4,6 +4,9 @@ export interface UserRequest{
 }
 
 export interface IUserDTO{
+    errorId:string
+    message:string
+    userId:string
     userName: string
     firstName: string
     lastName: string

@@ -21,7 +21,6 @@ export class HomepageComponent implements OnInit{
   getCustomerDetails(){
     this.customerDetails.loadCustomerDetails().subscribe(data => {
       this.customers = data;
-      console.log(data);
   });
 }
 

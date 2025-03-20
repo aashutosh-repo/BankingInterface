@@ -11,6 +11,7 @@ import { DocumentsDetailComponent } from './pages/customer/documents-detail/docu
 import { AddressDetailComponent } from './pages/customer/address-detail/address-detail.component';
 import { NomineeDetailComponent } from './pages/customer/nominee-detail/nominee-detail.component';
 import { PaymentProcesingComponent } from './pages/payments/payment-procesing/payment-procesing.component';
+import { TestComponent } from './pages/test/test.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -26,5 +27,6 @@ export const routes: Routes = [
     {path : 'customer/document', component: DocumentsDetailComponent},
     {path : 'customer/address', component: AddressDetailComponent},
     {path : 'customer/nominee', component: NomineeDetailComponent},
-    {path: 'payment', component: PaymentProcesingComponent}
+    {path: 'payment', component: PaymentProcesingComponent},
+    {path: 'test', component: TestComponent }
 ];
