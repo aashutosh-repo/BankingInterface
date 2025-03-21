@@ -1,105 +1,113 @@
-<div class="container mt-4">
-    <h2 class="mb-4">Nominee Details</h2>
-    <form (ngSubmit)="submit()" class="row g-3">
-  
+<div class="container">
+  <h2 class="mb-4 text-center nominee-header">
+    <mat-icon class="header-icon">person</mat-icon> Nominee Details
+  </h2>  
+  <form (ngSubmit)="submitCustomerData()" #nomineeForm="ngForm">
+    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
+      
       <!-- Owner ID -->
-      <div class="col-md-6">
-        <label for="ownerId" class="form-label">Owner ID</label>
-        <input type="number" class="form-control" id="ownerId" [(ngModel)]="nomineeDetail.ownerId" name="ownerId" required />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Owner ID</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.ownerId" name="ownerId" required />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Nominee Reference Number -->
-      <div class="col-md-6">
-        <label for="nomineeRefNum" class="form-label">Nominee Reference Number</label>
-        <input type="number" class="form-control" id="nomineeRefNum" [(ngModel)]="nomineeDetail.nomineeRefNum" name="nomineeRefNum" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nominee Reference Number</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.nomineeRefNum" name="nomineeRefNum" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Owner Type -->
-      <div class="col-md-6">
-        <label for="ownerType" class="form-label">Owner Type</label>
-        <input type="number" class="form-control" id="ownerType" [(ngModel)]="nomineeDetail.ownerType" name="ownerType" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Owner Type</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.ownerType" name="ownerType" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Sequence Number -->
-      <div class="col-md-6">
-        <label for="seqNum" class="form-label">Sequence Number</label>
-        <input type="number" class="form-control" id="seqNum" [(ngModel)]="nomineeDetail.seqNum" name="seqNum" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Sequence Number</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.seqNum" name="seqNum" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Nominee Share -->
-      <div class="col-md-6">
-        <label for="nomShare" class="form-label">Nominee Share (%)</label>
-        <input type="number" class="form-control" id="nomShare" [(ngModel)]="nomineeDetail.nomShare" name="nomShare" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nominee Share (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.nomShare" name="nomShare" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Nominee Type -->
-      <div class="col-md-6">
-        <label for="nomType" class="form-label">Nominee Type</label>
-        <input type="number" class="form-control" id="nomType" [(ngModel)]="nomineeDetail.nomType" name="nomType" />
-      </div>
-  
-      <!-- Nominee Type Code -->
-      <div class="col-md-6">
-        <label for="nomTypeCode" class="form-label">Nominee Type Code</label>
-        <input type="number" class="form-control" id="nomTypeCode" [(ngModel)]="nomineeDetail.nomTypeCode" name="nomTypeCode" />
-      </div>
-  
-      <!-- Nominee Name Fields -->
-      <div class="col-md-4">
-        <label for="nomineeFirstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="nomineeFirstName" [(ngModel)]="nomineeDetail.nomineeFirstName" name="nomineeFirstName" />
-      </div>
-  
-      <div class="col-md-4">
-        <label for="nomineeMiddleName" class="form-label">Middle Name</label>
-        <input type="text" class="form-control" id="nomineeMiddleName" [(ngModel)]="nomineeDetail.nomineeMiddleName" name="nomineeMiddleName" />
-      </div>
-  
-      <div class="col-md-4">
-        <label for="nomineeLastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="nomineeLastName" [(ngModel)]="nomineeDetail.nomineeLastName" name="nomineeLastName" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nominee Type</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.nomType" name="nomType" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee First Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" [(ngModel)]="nomineeDetail.nomineeFirstName" name="nomineeFirstName" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee Last Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" [(ngModel)]="nomineeDetail.nomineeLastName" name="nomineeLastName" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Relationship Type -->
-      <div class="col-md-6">
-        <label for="rtlnType" class="form-label">Relationship Type</label>
-        <input type="number" class="form-control" id="rtlnType" [(ngModel)]="nomineeDetail.rtlnType" name="rtlnType" />
-      </div>
-  
-      <!-- Relationship Type Code -->
-      <div class="col-md-6">
-        <label for="rtlnTypeCode" class="form-label">Relationship Type Code</label>
-        <input type="number" class="form-control" id="rtlnTypeCode" [(ngModel)]="nomineeDetail.rtlnTypeCode" name="rtlnTypeCode" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Relationship Type</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.rtlnType" name="rtlnType" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Date of Birth -->
-      <div class="col-md-6">
-        <label for="dateOfBirth" class="form-label">Date of Birth</label>
-        <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="nomineeDetail.dateOfBirth" name="dateOfBirth" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput [matDatepicker]="dobPicker" [(ngModel)]="nomineeDetail.dateOfBirth" name="dateOfBirth" />
+          <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+          <mat-datepicker #dobPicker></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Nominee Address ID -->
-      <div class="col-md-6">
-        <label for="nomAddId" class="form-label">Nominee Address ID</label>
-        <input type="number" class="form-control" id="nomAddId" [(ngModel)]="nomineeDetail.nomAddId" name="nomAddId" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nominee Address ID</mat-label>
+          <input matInput type="number" [(ngModel)]="nomineeDetail.nomAddId" name="nomAddId" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Nominee Document ID -->
-      <div class="col-md-6">
-        <label for="nomDocId" class="form-label">Nominee Document ID</label>
-        <input type="text" class="form-control" id="nomDocId" [(ngModel)]="nomineeDetail.nomDocId" name="nomDocId" />
-      </div>
-  
-      <!-- Version -->
-      <div class="col-md-6">
-        <label for="ver" class="form-label">Version</label>
-        <input type="number" class="form-control" id="ver" [(ngModel)]="nomineeDetail.ver" name="ver" />
-      </div>
-  
-      <!-- Submit Button -->
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nominee Document ID</mat-label>
+          <input matInput type="text" [(ngModel)]="nomineeDetail.nomDocId" name="nomDocId" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
