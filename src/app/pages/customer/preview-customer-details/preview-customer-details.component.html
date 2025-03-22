@@ -1,0 +1,61 @@
+<div class="container">
+    <h2 class="mb-4 text-center nominee-header">
+      <mat-icon class="header-icon">person</mat-icon> Customer Information
+    </h2>
+  
+    <form (ngSubmit)="submitCustomerData()" #customerForm="ngForm">
+      <!-- Customer Details -->
+      <mat-card class="section-card">
+        <mat-card-title>Customer Details</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
+            <mat-grid-tile *ngFor="let field of customerDto | keyvalue">
+              <div class="data-item">
+                <span class="key">{{ field.key }}:</span>
+                <span class="value">{{ field.value || 'N/A' }}</span>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Address Details -->
+      <mat-card class="section-card">
+        <mat-card-title>Address Details</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
+            <mat-grid-tile *ngFor="let field of customerAddress | keyvalue">
+              <div class="data-item">
+                <span class="key">{{ field.key }}:</span>
+                <span class="value">{{ field.value || 'N/A' }}</span>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Document Details -->
+      <mat-card class="section-card">
+        <mat-card-title>Document Details</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
+            <mat-grid-tile *ngFor="let field of docDto | keyvalue">
+              <div class="data-item">
+                <span class="key">{{ field.key }}:</span>
+                <span class="value">{{ field.value || 'N/A' }}</span>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  

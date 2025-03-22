@@ -1,82 +1,105 @@
-<div class="container mt-4">
-    <h2 class="mb-4">Customer Basic Details</h2>
-    <form (ngSubmit)="nextStep()" class="row g-3">
-      <!-- First Name -->
-      <div class="col-md-6">
-        <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName" [(ngModel)]="customerDto.firstName" name="firstName" required />
-      </div>
-  
-      <!-- Last Name -->
-      <div class="col-md-6">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" [(ngModel)]="customerDto.lastName" name="lastName" required />
-      </div>
-  
-      <!-- Father's Name -->
-      <div class="col-md-6">
-        <label for="fatherName" class="form-label">Father's Name</label>
-        <input type="text" class="form-control" id="fatherName" [(ngModel)]="customerDto.fatherName" name="fatherName" />
-      </div>
-  
-      <!-- Mother's Name -->
-      <div class="col-md-6">
-        <label for="motherName" class="form-label">Mother's Name</label>
-        <input type="text" class="form-control" id="motherName" [(ngModel)]="customerDto.motherName" name="motherName" />
-      </div>
-  
-      <!-- Email -->
-      <div class="col-md-6">
-        <label for="mail" class="form-label">Email</label>
-        <input type="email" class="form-control" id="mail" [(ngModel)]="customerDto.mail" name="mail" required />
-      </div>
-  
-      <!-- Mobile Number -->
-      <div class="col-md-6">
-        <label for="mobileNumber" class="form-label">Mobile Number</label>
-        <input type="text" class="form-control" id="mobileNumber" [(ngModel)]="customerDto.mobileNumber" name="mobileNumber" />
-      </div>
-  
-      <!-- Status -->
-      <div class="col-md-6">
-        <label for="status" class="form-label">Status</label>
-        <input type="number" class="form-control" id="status" [(ngModel)]="customerDto.status" name="status" />
-      </div>
-  
-      <!-- Date of Birth -->
-      <div class="col-md-6">
-        <label for="dateOfBirth" class="form-label">Date of Birth</label>
-        <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
-      </div>
-  
-      <!-- Onboarding Date -->
-      <div class="col-md-6">
-        <label for="onboardingDate" class="form-label">Onboarding Date</label>
-        <input type="date" class="form-control" id="onboardingDate" [(ngModel)]="customerDto.onboardingDate" name="onboardingDate" />
-      </div>
-  
-      <!-- Customer Closing Date -->
-      <div class="col-md-6">
-        <label for="custClsngDt" class="form-label">Customer Closing Date</label>
-        <input type="date" class="form-control" id="custClsngDt" [(ngModel)]="customerDto.custClsngDt" name="custClsngDt" />
-      </div>
-  
-      <!-- Risk Profile -->
-      <div class="col-md-6">
-        <label for="riskProfile" class="form-label">Risk Profile</label>
-        <input type="number" class="form-control" id="riskProfile" [(ngModel)]="customerDto.riskProfile" name="riskProfile" />
-      </div>
-  
-      <!-- Rating Agency -->
-      <div class="col-md-6">
-        <label for="ratingAgency" class="form-label">Rating Agency</label>
-        <input type="text" class="form-control" id="ratingAgency" [(ngModel)]="customerDto.ratingAgency" name="ratingAgency" />
-      </div>
-  
-      <!-- Submit Button -->
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Next</button>
-      </div>
-    </form>
-  </div>
-  
+<div class="container">
+  <h2 class="mb-4 text-center nominee-header">
+    <mat-icon class="header-icon">person</mat-icon> Customer Basic Details
+  </h2>
+  <form (ngSubmit)="nextStep()" #nomineeForm="ngForm">
+    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
+
+      <!-- Owner ID -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.firstName" name="firstName" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee Reference Number -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.lastName" name="lastName" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Owner Type -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Father's Name</mat-label>
+          <input matInput type="number" [(ngModel)]="customerDto.fatherName" name="fatherName" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Sequence Number -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mother's Name</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.motherName" name="motherName" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee Share -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.mail" name="mail" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee Type -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.mobileNumber" name="mobileNumber" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee First Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Status</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.status" name="status" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Onboarding Date</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.onboardingDate" name="onboardingDate" />
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Customer Closing Date</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.custClsngDt" name="custClsngDt" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Risk Profile</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.riskProfile" name="riskProfile" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Rating Agency</mat-label>
+          <input matInput type="text" [(ngModel)]="customerDto.ratingAgency" name="ratingAgency" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>

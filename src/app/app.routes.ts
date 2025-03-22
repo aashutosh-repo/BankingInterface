@@ -13,6 +13,8 @@ import { NomineeDetailComponent } from './pages/customer/nominee-detail/nominee-
 import { PaymentProcesingComponent } from './pages/payments/payment-procesing/payment-procesing.component';
 import { TestComponent } from './pages/test/test.component';
 import { CustomerOnboardingComponent } from './pages/customer/customer-onboarding/customer-onboarding.component';
+import { CustomerDetailsViewComponent } from './pages/customer/customer-details-view/customer-details-view.component';
+import { PreviewCustomerDetailsComponent } from './pages/customer/preview-customer-details/preview-customer-details.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -29,8 +31,10 @@ export const routes: Routes = [
     {path : 'customer/document', component: DocumentsDetailComponent},
     {path : 'customer/address', component: AddressDetailComponent},
     {path : 'customer/nominee', component: NomineeDetailComponent},
+    {path : 'customer/viewDetails', component: CustomerDetailsViewComponent},
     {path: 'payment', component: PaymentProcesingComponent},
     {path: 'customer/submit', component: CustomerOnboardingComponent},
+    {path: 'customer/preview', component: PreviewCustomerDetailsComponent},
     {path: 'test', component: TestComponent },
     {path : '**', redirectTo: '/login', pathMatch: 'full'}
 

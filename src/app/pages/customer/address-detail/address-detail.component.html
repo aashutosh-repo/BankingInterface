@@ -1,83 +1,99 @@
-<div class="container mt-4">
-    <h2 class="mb-4">Customer Address Details</h2>
-    <form (ngSubmit)="nextStep()" class="row g-3">
-  
-      <!-- Customer ID -->
-      <div class="col-md-6">
-        <label for="customerID" class="form-label">Customer ID</label>
-        <input type="number" class="form-control" id="customerID" [(ngModel)]="customerAddress.customerID" name="customerID" required />
-      </div>
-  
+<div class="container">
+  <h2 class="mb-4 text-center nominee-header">
+    <mat-icon class="header-icon">home</mat-icon>Customer Address Details
+  </h2>
+  <form (ngSubmit)="nextStep()" #nomineeForm="ngForm">
+    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
+
+      <!-- Owner ID -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Customer ID</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.customerID" name="customerID" required />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Address Type -->
-      <div class="col-md-6">
-        <label for="addressType" class="form-label">Address Type</label>
-        <input type="number" class="form-control" id="addressType" [(ngModel)]="customerAddress.addressType" name="addressType" required />
-      </div>
-  
-      <!-- Address Line 1 -->
-      <div class="col-md-6">
-        <label for="addressLn1" class="form-label">Address Line 1</label>
-        <input type="text" class="form-control" id="addressLn1" [(ngModel)]="customerAddress.addressLn1" name="addressLn1" />
-      </div>
-  
-      <!-- Address Line 2 -->
-      <div class="col-md-6">
-        <label for="addressLn2" class="form-label">Address Line 2</label>
-        <input type="text" class="form-control" id="addressLn2" [(ngModel)]="customerAddress.addressLn2" name="addressLn2" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address Type</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.addressType" name="addressType" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Owner Type -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address Line-1</mat-label>
+          <input matInput type="number" [(ngModel)]="customerAddress.addressLn1" name="addressLn1" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Sequence Number -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address Line-2</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.addressLn2" name="addressLn2" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- City -->
-      <div class="col-md-6">
-        <label for="city" class="form-label">City</label>
-        <input type="text" class="form-control" id="city" [(ngModel)]="customerAddress.city" name="city" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>City</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.city" name="city" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- Village -->
-      <div class="col-md-6">
-        <label for="village" class="form-label">Village</label>
-        <input type="text" class="form-control" id="village" [(ngModel)]="customerAddress.village" name="village" />
-      </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Village</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.village" name="village" />
+        </mat-form-field>
+      </mat-grid-tile>
+
       <!-- District -->
-      <div class="col-md-6">
-        <label for="district" class="form-label">District</label>
-        <input type="text" class="form-control" id="district" [(ngModel)]="customerAddress.district" name="district" />
-      </div>
-  
-      <!-- Taluka -->
-      <div class="col-md-6">
-        <label for="taluka" class="form-label">Taluka</label>
-        <input type="text" class="form-control" id="taluka" [(ngModel)]="customerAddress.taluka" name="taluka" />
-      </div>
-  
-      <!-- State -->
-      <div class="col-md-6">
-        <label for="state" class="form-label">State</label>
-        <input type="text" class="form-control" id="state" [(ngModel)]="customerAddress.state" name="state" />
-      </div>
-  
-      <!-- Pin Code -->
-      <div class="col-md-6">
-        <label for="pinCode" class="form-label">Pin Code</label>
-        <input type="number" class="form-control" id="pinCode" [(ngModel)]="customerAddress.pinCode" name="pinCode" />
-      </div>
-  
-      <!-- Last Update -->
-      <div class="col-md-6">
-        <label for="lastUpdate" class="form-label">Last Update</label>
-        <input type="date" class="form-control" id="lastUpdate" [(ngModel)]="customerAddress.lastUpdate" name="lastUpdate" />
-      </div>
-  
-      <!-- Date of Capture -->
-      <div class="col-md-6">
-        <label for="dateOfCapture" class="form-label">Date of Capture</label>
-        <input type="date" class="form-control" id="dateOfCapture" [(ngModel)]="customerAddress.dateOfCapture" name="dateOfCapture" />
-      </div>
-  
-      <!-- Submit Button -->
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Next</button>
-      </div>
-    </form>
-  </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>District</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.district" name="district" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>State</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.state" name="state" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pin Code</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.pinCode" name="pinCode" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Update</mat-label>
+          <input matInput type="text" [(ngModel)]="customerAddress.lastUpdate" name="lastUpdate" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- <mat-grid-tile>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Date of Capture</mat-label>
+      <input matInput type="text" [(ngModel)]="customerAddress.dateOfCapture" name="dateOfCapture" />
+    </mat-form-field>
+    </mat-grid-tile>  	   -->
+
+    </mat-grid-list>
+
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>

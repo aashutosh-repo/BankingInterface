@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CustomerOnboardingService } from '../../../services/customer/customer-onboarding.service';
@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-nominee-detail',
+  standalone:true,
   imports: [CommonModule,
     FormsModule,
     MatInputModule,
@@ -28,7 +29,11 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class NomineeDetailComponent {
 
+  constructor(private router: Router, private customerService: CustomerOnboardingService) {}
+
   nomineeDetail: NomineeDetails = {} as NomineeDetails;
+  @Output() finalSubmit = new EventEmitter<void>(); 
+
   nomineeDetailTest: NomineeDetails[] =
   [
     {
@@ -69,16 +74,17 @@ export class NomineeDetailComponent {
     }
   ]
   
-  
-
-  constructor(private router: Router, private customerService: CustomerOnboardingService) {}
-
-  submit() {
+  moveToPreview() {
     // Save data to session storage
     sessionStorage.setItem('nomineeDetails', JSON.stringify(this.nomineeDetailTest));
+    console.log('Data saved to session storage:', this.nomineeDetailTest);
     // Navigate to submission or confirmation page
-    this.router.navigate(['/customer/submit']);
+    // this.router.navigate(['/customer/submit']);
+    this.finalSubmit.emit();
+    
   }
+
+
 
   submitCustomerData() {
     sessionStorage.setItem('nomineeDetails', JSON.stringify(this.nomineeDetailTest));

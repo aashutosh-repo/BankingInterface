@@ -1,53 +1,62 @@
-<div class="container mt-4">
-    <h2 class="mb-4">Document Details</h2>
-    <form (ngSubmit)="nextStep()" class="row g-3">
+<div class="container">
+  <h2 class="mb-4 text-center nominee-header">
+    <mat-icon class="header-icon">description</mat-icon> Document Details
+  </h2>  
+  <form (ngSubmit)="nextStep()" #nomineeForm="ngForm">
+    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
       
-      <!-- Customer ID -->
-      <div class="col-md-6">
-        <label for="custId" class="form-label">Customer ID</label>
-        <input type="number" class="form-control" id="custId" [(ngModel)]="docDto.custId" name="custId" required />
-      </div>
-  
-      <!-- Document Description -->
-      <div class="col-md-6">
-        <label for="docDescription" class="form-label">Document Description</label>
-        <input type="text" class="form-control" id="docDescription" [(ngModel)]="docDto.docDescription" name="docDescription" />
-      </div>
-  
-      <!-- Document Identification Number -->
-      <div class="col-md-6">
-        <label for="docIdentificationNumber" class="form-label">Identification Number</label>
-        <input type="text" class="form-control" id="docIdentificationNumber" [(ngModel)]="docDto.docIdentificationNumber" name="docIdentificationNumber" />
-      </div>
-  
-      <!-- Document Type -->
-      <div class="col-md-6">
-        <label for="docType" class="form-label">Document Type</label>
-        <input type="text" class="form-control" id="docType" [(ngModel)]="docDto.docType" name="docType" />
-      </div>
-  
-      <!-- Document Type Code -->
-      <div class="col-md-6">
-        <label for="docTypeCode" class="form-label">Document Type Code</label>
-        <input type="text" class="form-control" id="docTypeCode" [(ngModel)]="docDto.docTypeCode" name="docTypeCode" />
-      </div>
-  
-      <!-- Issue Date -->
-      <div class="col-md-6">
-        <label for="issueDate" class="form-label">Issue Date</label>
-        <input type="date" class="form-control" id="issueDate" [(ngModel)]="docDto.issueDate" name="issueDate" />
-      </div>
-  
-      <!-- Expiry Date -->
-      <div class="col-md-6">
-        <label for="expiryDate" class="form-label">Expiry Date</label>
-        <input type="date" class="form-control" id="expiryDate" [(ngModel)]="docDto.expiryDate" name="expiryDate" />
-      </div>
-  
-      <!-- Submit Button -->
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Next</button>
-      </div>
-    </form>
-  </div>
-  
+      <!-- Owner ID -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Customer ID</mat-label>
+          <input matInput type="number" [(ngModel)]="docDto.custId" name="custId" required />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee Reference Number -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Document Description</mat-label>
+          <input matInput type="number" [(ngModel)]="docDto.docDescription" name="docDescription" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Owner Type -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Identification Number</mat-label>
+          <input matInput type="number" [(ngModel)]="docDto.docIdentificationNumber" name="docIdentificationNumber" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Sequence Number -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Document Type</mat-label>
+          <input matInput type="number" [(ngModel)]="docDto.docType" name="docType" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee Type -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Issue Date</mat-label>
+          <input matInput type="number" [(ngModel)]="docDto.issueDate" name="issueDate" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Nominee First Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Expiry Date</mat-label>
+          <input matInput type="text" [(ngModel)]="docDto.expiryDate" name="nomineeFirstName" />
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>

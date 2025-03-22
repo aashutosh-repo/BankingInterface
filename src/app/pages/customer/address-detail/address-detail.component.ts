@@ -1,12 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CustomerAddress } from '../../../model/interfaces/customerAddress.model';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-address-detail',
-  imports: [FormsModule, CommonModule],
+  standalone:true,
+  imports: [FormsModule, CommonModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule
+  ],
   templateUrl: './address-detail.component.html',
   styleUrls: ['./address-detail.component.css']
 })
@@ -31,13 +47,15 @@ export class AddressDetailComponent {
   
 
   constructor(private router: Router) {}
+  @Output() nextStepToDocDetail = new EventEmitter<void>(); // Event to notify parent
+
 
   nextStep() {
     // Save data to session storage
     sessionStorage.setItem('customerAddress', JSON.stringify(this.customerAddressTest));
     console.log(this.customerAddress);
-    this.router.navigate(['/customer/nominee']);
+    // this.router.navigate(['/customer/nominee']);
+    this.nextStepToDocDetail.emit();
   }
-
 
 }

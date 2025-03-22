@@ -1,0 +1,26 @@
+.data-item {
+    display: flex;
+    justify-content: space-between;  /* Aligns key & value in a row */
+    align-items: center;
+    width: 100%;
+    padding: 4px 8px;
+  }
+  .section-card {
+    margin: 8px 0;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .key {
+    font-weight: bold;
+    color: #333;
+    flex: 1; /* Takes up space on the left */
+  }
+  
+  .value {
+    flex: 1; /* Takes up space on the right */
+    text-align: right;
+    color: #555;
+  }
+  
