@@ -2,20 +2,26 @@
     display: flex;
     justify-content: space-between;  /* Aligns key & value in a row */
     align-items: center;
-    width: 100%;
+    width: 80%;
     padding: 4px 8px;
+    overflow: hidden;
+  text-overflow: ellipsis;
   }
+  
   .section-card {
     margin: 8px 0;
-    padding: 8px;
-    border: 1px solid #ddd;
+    padding: 10px;
+    border: 1px solid lightblue;
     border-radius: 4px;
+    background-color: rgb(233, 233, 233);
   }
   
   .key {
     font-weight: bold;
     color: #333;
     flex: 1; /* Takes up space on the left */
+    min-width: 150px;
+
   }
   
   .value {
@@ -24,3 +30,8 @@
     color: #555;
   }
   
+  .nomineetable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color:rgb(233, 233, 233);
+  }

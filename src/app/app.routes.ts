@@ -33,6 +33,7 @@ export const routes: Routes = [
     {path : 'customer/nominee', component: NomineeDetailComponent},
     {path : 'customer/viewDetails', component: CustomerDetailsViewComponent},
     {path: 'payment', component: PaymentProcesingComponent},
+    {path : 'customer/onboarding', component: CustomerDetailsViewComponent},
     {path: 'customer/submit', component: CustomerOnboardingComponent},
     {path: 'customer/preview', component: PreviewCustomerDetailsComponent},
     {path: 'test', component: TestComponent },

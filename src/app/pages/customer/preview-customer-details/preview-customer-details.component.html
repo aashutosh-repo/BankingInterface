@@ -12,7 +12,7 @@
           <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
             <mat-grid-tile *ngFor="let field of customerDto | keyvalue">
               <div class="data-item">
-                <span class="key">{{ field.key }}:</span>
+                <span class="key">{{ getCustomerLabel(field.key) }}:</span>
                 <span class="value">{{ field.value || 'N/A' }}</span>
               </div>
             </mat-grid-tile>
@@ -28,7 +28,7 @@
           <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
             <mat-grid-tile *ngFor="let field of customerAddress | keyvalue">
               <div class="data-item">
-                <span class="key">{{ field.key }}:</span>
+                <span class="key">{{ getCustomerAddressLabel(field.key) }}:</span>
                 <span class="value">{{ field.value || 'N/A' }}</span>
               </div>
             </mat-grid-tile>
@@ -44,14 +44,48 @@
           <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
             <mat-grid-tile *ngFor="let field of docDto | keyvalue">
               <div class="data-item">
-                <span class="key">{{ field.key }}:</span>
+                <span class="key">{{ getCustomerDocumentsLabel(field.key) }}:</span>
                 <span class="value">{{ field.value || 'N/A' }}</span>
               </div>
             </mat-grid-tile>
           </mat-grid-list>
         </mat-card-content>
       </mat-card>
-  
+
+      <mat-card class="section-card">
+        <mat-card-title>Nominee Details</mat-card-title>
+        <mat-divider></mat-divider>
+      
+      <table mat-table [dataSource]="nomineeDetails" class="mat-elevation-z8 nomineetable" >
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let nominee">
+            {{ nominee.nomineeFirstName }} {{ nominee.nomineeMiddleName }} {{ nominee.nomineeLastName }}
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="dob">
+          <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
+          <td mat-cell *matCellDef="let nominee">{{ nominee.dateOfBirth }}</td>
+        </ng-container>
+      
+        <ng-container matColumnDef="share">
+          <th mat-header-cell *matHeaderCellDef>Nominee Share</th>
+          <td mat-cell *matCellDef="let nominee">{{ nominee.nomShare }}%</td>
+        </ng-container>
+      
+        <ng-container matColumnDef="docId">
+          <th mat-header-cell *matHeaderCellDef>Document ID</th>
+          <td mat-cell *matCellDef="let nominee">{{ nominee.nomDocId }}</td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="['name', 'dob', 'share', 'docId']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'dob', 'share', 'docId'];"></tr>
+      </table>
+      </mat-card>
+
+      
+      
       <!-- Submit Button -->
       <div class="text-center mt-4">
         <button mat-raised-button color="primary" type="submit">Submit</button>
