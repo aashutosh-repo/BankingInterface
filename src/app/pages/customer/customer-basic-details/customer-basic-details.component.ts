@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CustomerDto } from '../../../model/interfaces/customerDTO.model';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-customer-basic-details',
@@ -50,7 +49,7 @@ export class CustomerBasicDetailsComponent {
     "ratingAgency": "CRISIL"
   }
   
-  constructor(private router: Router) {}
+  constructor() {}
 
 
   nextStep() {

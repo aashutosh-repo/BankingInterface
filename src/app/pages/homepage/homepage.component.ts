@@ -3,7 +3,7 @@ import { CustomerDetailsService } from '../../services/customer-details.service'
 import { CustomerDetails } from '../../model/interfaces/customer.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterModule } from '@angular/router';
+import {RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',

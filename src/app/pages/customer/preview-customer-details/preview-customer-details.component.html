@@ -1,15 +1,15 @@
 <div class="container">
     <h2 class="mb-4 text-center nominee-header">
-      <mat-icon class="header-icon">person</mat-icon> Customer Information
+      <mat-icon class="header-icon">person</mat-icon> Customer Information Preview
     </h2>
   
     <form (ngSubmit)="submitCustomerData()" #customerForm="ngForm">
       <!-- Customer Details -->
       <mat-card class="section-card">
-        <mat-card-title>Customer Details</mat-card-title>
+        <mat-card-title class="title">Customer Basic Details</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
+          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px" class="scard">
             <mat-grid-tile *ngFor="let field of customerDto | keyvalue">
               <div class="data-item">
                 <span class="key">{{ getCustomerLabel(field.key) }}:</span>
@@ -22,7 +22,7 @@
   
       <!-- Address Details -->
       <mat-card class="section-card">
-        <mat-card-title>Address Details</mat-card-title>
+        <mat-card-title class="title">Customer Address Details</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
           <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
@@ -38,7 +38,7 @@
   
       <!-- Document Details -->
       <mat-card class="section-card">
-        <mat-card-title>Document Details</mat-card-title>
+        <mat-card-title class="title">Document Details</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
           <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
@@ -53,7 +53,7 @@
       </mat-card>
 
       <mat-card class="section-card">
-        <mat-card-title>Nominee Details</mat-card-title>
+        <mat-card-title class="title">Nominee Details</mat-card-title>
         <mat-divider></mat-divider>
       
       <table mat-table [dataSource]="nomineeDetails" class="mat-elevation-z8 nomineetable" >

@@ -5,11 +5,13 @@ import { DocumentsDetailComponent } from '../documents-detail/documents-detail.c
 import { AddressDetailComponent } from '../address-detail/address-detail.component';
 import { CustomerBasicDetailsComponent } from '../customer-basic-details/customer-basic-details.component';
 import { PreviewCustomerDetailsComponent } from '../preview-customer-details/preview-customer-details.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-customer-details-view',
-  imports: [NomineeDetailComponent,
+  imports: [CommonModule,FormsModule,NomineeDetailComponent,
     DocumentsDetailComponent,
     AddressDetailComponent,
     CustomerBasicDetailsComponent,
@@ -30,15 +32,4 @@ export class CustomerDetailsViewComponent {
       console.error('Stepper is undefined!');
     }
   }
-
-  // goToNextStep() {
-  //   if (this.stepper) {
-  //     this.stepper.next();
-  //   }
-  // }
-  // // Final submission
-  // submitForm() {
-  //   console.log('Final Form Data');
-  //   alert('Form Submitted Successfully!');
-  // }
 }

@@ -22,7 +22,7 @@ import { NOMINEE_LABEL_MAPPING } from '../../../constants/levels/nomineeDetails-
     MatDividerModule ,MatTableModule 
   ],
   templateUrl: './preview-customer-details.component.html',
-  styleUrl: './preview-customer-details.component.css'
+  styleUrls: ['./preview-customer-details.component.css']
 })
 export class PreviewCustomerDetailsComponent implements OnInit{
   customerDto: any;
@@ -35,7 +35,9 @@ export class PreviewCustomerDetailsComponent implements OnInit{
       this.docDto = JSON.parse(sessionStorage.getItem('docDto') || '{}');
       this.customerDto = JSON.parse(sessionStorage.getItem('customerDto') || '{}');
       this.customerAddress = JSON.parse(sessionStorage.getItem('customerAddress') || '{}');
-      this.nomineeDetails = JSON.parse(sessionStorage.getItem('nomineeDetails') || '{}');  
+      const nomineeData = JSON.parse(sessionStorage.getItem('nomineeDetails') || '[]');
+      //Nominee details can be an array or an object, so we need to convert it to an array
+      this.nomineeDetails = Array.isArray(nomineeData) ? nomineeData : [nomineeData];
       console.log('customerDto:', this.customerDto);
       console.log('customerAddress:', this.customerAddress);
       console.log('docDto:', this.docDto);
@@ -55,14 +57,13 @@ export class PreviewCustomerDetailsComponent implements OnInit{
     });
   }
 
-  labelMapping = CUSTOMER_LABEL_MAPPING;
+  customerlabelMapping = CUSTOMER_LABEL_MAPPING;
   addressLabelMapping = CUSTOMER_ADDRESS_LABEL_MAPPING;
-  //import document label mapping DOCUMENT_LABEL_MAPPING from customer-document-labels.ts
   customerDocumentsLabel= DOCUMENT_LABEL_MAPPING;
   nomineeDetailsLabel =NOMINEE_LABEL_MAPPING;
 
   getCustomerLabel(key: unknown): string {
-    return this.labelMapping[key as string] ?? key as string;
+    return this.customerlabelMapping[key as string] ?? key as string;
   }
   getCustomerAddressLabel(key: unknown): string {
     return this.addressLabelMapping[key as string] ?? key as string;
