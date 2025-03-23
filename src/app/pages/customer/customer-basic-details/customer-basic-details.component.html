@@ -25,7 +25,7 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Father's Name</mat-label>
-          <input matInput type="number" [(ngModel)]="customerDto.fatherName" name="fatherName" />
+          <input matInput type="string" [(ngModel)]="customerDto.fatherName" name="fatherName" />
         </mat-form-field>
       </mat-grid-tile>
 
@@ -64,7 +64,7 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Date of Birth</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
+          <input matInput type="date" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
         </mat-form-field>
       </mat-grid-tile>
 

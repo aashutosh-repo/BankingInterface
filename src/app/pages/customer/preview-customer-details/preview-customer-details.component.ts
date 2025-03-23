@@ -60,7 +60,7 @@ export class PreviewCustomerDetailsComponent implements OnInit{
   customerlabelMapping = CUSTOMER_LABEL_MAPPING;
   addressLabelMapping = CUSTOMER_ADDRESS_LABEL_MAPPING;
   customerDocumentsLabel= DOCUMENT_LABEL_MAPPING;
-  nomineeDetailsLabel =NOMINEE_LABEL_MAPPING;
+  nomineeDetailsLabel = NOMINEE_LABEL_MAPPING;
 
   getCustomerLabel(key: unknown): string {
     return this.customerlabelMapping[key as string] ?? key as string;

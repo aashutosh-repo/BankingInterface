@@ -14,6 +14,7 @@ import { PaymentProcesingComponent } from './pages/payments/payment-procesing/pa
 import { TestComponent } from './pages/test/test.component';
 import { CustomerDetailsViewComponent } from './pages/customer/customer-details-view/customer-details-view.component';
 import { PreviewCustomerDetailsComponent } from './pages/customer/preview-customer-details/preview-customer-details.component';
+import { AccountManagementComponent } from './pages/account/account-management/account-management.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -27,6 +28,7 @@ export const routes: Routes = [
     { path: '', redirectTo: '/allAccountsHome', pathMatch: 'full' },
     {path : 'createModifyAccount', component: CreateModifyAccountComponent},
     {path : 'customer/customerOnboarding', component: CustomerDetailsViewComponent},
+    {path : 'account/createAccount', component: AccountManagementComponent},
     {path: 'payment', component: PaymentProcesingComponent},
     {path: 'customer/preview', component: PreviewCustomerDetailsComponent},
     {path: 'test', component: TestComponent },
