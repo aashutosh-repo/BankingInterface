@@ -1,0 +1,107 @@
+<div class="flight-results">
+    <h2 class="selected-date">{{ selectedDate }}</h2>
+  
+    <div class="filters">
+      <button class="filter-btn">
+        <i class="lucide-filter"></i>
+        Filters
+      </button>
+      <div class="sort">
+        <span>Sort by</span>
+        <button class="sort-btn">
+          Recommendation
+          <i class="lucide-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+  
+    <div class="flights-list">
+      @for (flight of flights; track flight.id) {
+        <div class="flight-card">
+          <!-- Ribbon for seats left -->
+          @if (flight.seatsLeft) {
+            <div class="ribbon">
+              {{ flight.seatsLeft }} seats left
+            </div>
+          }
+  
+          <div class="flight-info">
+            <div class="timeline">
+              <div class="departure">
+                <div class="time">{{ flight.departureTime }}</div>
+                <div class="airport">{{ flight.departureAirport.code }}</div>
+                <div class="terminal">Terminal {{ flight.departureAirport.terminal }}</div>
+              </div>
+  
+              <div class="flight-path">
+                <div class="line"></div>
+                @if (flight.stops.length > 0) {
+                  <div class="stops">
+                    <span class="stop-count">{{ flight.stops.length }}</span>
+                    @for (stop of flight.stops; track stop.airport) {
+                      <div class="stop-info">
+                        <b>{{ stop.airport }}</b>
+                        <span>{{ stop.duration }}</span>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+  
+              <div class="arrival">
+                <div class="time">
+                  {{ flight.arrivalTime }}
+                  @if (flight.nextDayArrival) {
+                    <span class="next-day">+1 day</span>
+                  }
+                </div>
+                <div class="airport">{{ flight.arrivalAirport.code }}</div>
+                <div class="terminal">Terminal {{ flight.arrivalAirport.terminal }}</div>
+              </div>
+            </div>
+  
+            <div class="flight-details">
+              <div class="duration">
+                <i class="lucide-clock"></i>
+                {{ flight.duration }}
+              </div>
+  
+              <div class="airlines">
+                <i class="lucide-plane"></i>
+                <span>Operated by</span>
+                @for (airline of flight.airlines; track airline.code) {
+                  <span class="airline">{{ airline.name }}</span>
+                }
+              </div>
+  
+              @if (flight.aircraft) {
+                <div class="aircraft">{{ flight.aircraft }}</div>
+              }
+            </div>
+          </div>
+  
+          <div class="cabin-classes">
+            @for (cabin of flight.cabinClasses; track cabin.type) {
+              @if (cabin.available) {
+                <button class="cabin-btn {{ cabin.type }}">
+                  <div class="cabin-name">{{ cabin.name }}</div>
+                  @if (cabin.mixedCabin) {
+                    <div class="mixed-cabin">Mixed cabin</div>
+                  }
+                  <div class="price">
+                    <span>from</span>
+                    {{ formatPrice(cabin.price.amount) }}
+                  </div>
+                </button>
+              } @else {
+                <div class="cabin-unavailable">
+                  <div class="cabin-name">{{ cabin.name }}</div>
+                  <div class="unavailable-label">Not available</div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>

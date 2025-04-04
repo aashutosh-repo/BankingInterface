@@ -8,19 +8,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { COUNTRIES, STATES_IN_INDIA } from '../../../constants/dropdowns/DemographicDropdowns';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-address-detail',
   standalone:true,
-  imports: [FormsModule, CommonModule,
+  imports: [FormsModule,CommonModule,
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
     MatGridListModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     MatIconModule
   ],
   templateUrl: './address-detail.component.html',
@@ -29,6 +32,11 @@ import { MatIconModule } from '@angular/material/icon';
 export class AddressDetailComponent {
 
   customerAddress: CustomerAddress = {} as CustomerAddress;
+  countriesOptions: string[] = COUNTRIES;
+  selectedCountry: string = 'India'; // Default value
+  selectedState: string = 'Maharashtra'; // Default value
+  statesOptions: string[] = STATES_IN_INDIA;
+  addressTypes: string[] = ['Permanent', 'Temporary', 'Office', 'Other'];
   customerAddressTest: CustomerAddress =
   {
     "customerID": 1001,

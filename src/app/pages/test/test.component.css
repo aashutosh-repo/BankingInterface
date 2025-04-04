@@ -1,0 +1,45 @@
+/* Container */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  /* Header */
+  .nominee-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .header-icon {
+    margin-right: 8px;
+    font-size: 30px;
+  }
+  
+  /* Full width for form fields */
+  .full-width {
+    width: 100%;
+  }
+  
+  /* Adjust spacing */
+  mat-form-field {
+    width: 100%;
+  }
+  
+  /* Submit buttons alignment */
+  .text-center {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    [fxFlex="45%"] {
+      flex: 100%;
+    }
+  }
+  

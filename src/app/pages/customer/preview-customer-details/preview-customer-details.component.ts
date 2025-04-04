@@ -12,6 +12,7 @@ import { CUSTOMER_LABEL_MAPPING } from '../../../constants/levels/customer-detai
 import { CUSTOMER_ADDRESS_LABEL_MAPPING } from '../../../constants/levels/CustomerAddress-lebels';
 import { DOCUMENT_LABEL_MAPPING } from '../../../constants/levels/customer-document-labels';
 import { NOMINEE_LABEL_MAPPING } from '../../../constants/levels/nomineeDetails-label';
+import { CustomerOperationService } from '../../../services/customer/customer-operation.service';
 
 @Component({
   selector: 'app-preview-customer-details',
@@ -29,7 +30,7 @@ export class PreviewCustomerDetailsComponent implements OnInit{
   customerAddress: any;
   docDto: any;  
   nomineeDetails: any;
-  constructor( private customerService: CustomerOnboardingService) {}
+  constructor( private customerService: CustomerOperationService) {}
   ngOnInit(): void {
     if (typeof window !== 'undefined' && window.sessionStorage) {
       this.docDto = JSON.parse(sessionStorage.getItem('docDto') || '{}');

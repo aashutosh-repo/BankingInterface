@@ -1,6 +1,7 @@
 export type Root = CustomerDetails[]
 
 export interface CustomerDetails {
+  customerCategory:string
   firstName: string
   lastName: string
   fatherName: string

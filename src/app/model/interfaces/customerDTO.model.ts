@@ -1,4 +1,5 @@
 export interface CustomerDto {
+  customerCategory:string
     firstName: string
     lastName: string
     fatherName: string

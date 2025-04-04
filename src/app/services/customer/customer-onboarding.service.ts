@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class CustomerOnboardingService {
 
-  private apiUrl = 'http://localhost:9999/customer/customer-Onboarding';
+  private apiUrl = 'http://localhost:8080/customer/customer-Onboarding';
 
   constructor(private http: HttpClient) {}
 

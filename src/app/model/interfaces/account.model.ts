@@ -1,5 +1,5 @@
 export interface Account {
-    accountId: any;
+    accountId: string;
     internalAcntNumber: string;
     account_status: number;
     account_number: string;

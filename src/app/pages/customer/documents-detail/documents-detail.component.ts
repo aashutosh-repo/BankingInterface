@@ -10,6 +10,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { DOCUMENTS_TYPES } from '../../../constants/dropdowns/CommonDropDowns';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-documents-detail',
@@ -21,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatGridListModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
   MatIconModule
   ],
   templateUrl: './documents-detail.component.html',
@@ -29,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class DocumentsDetailComponent {
 
   docDto: DocumentDTO = {} as DocumentDTO;
+  documentType: string[] = DOCUMENTS_TYPES;
   @Output() nextStepToNomineeDetails = new EventEmitter<void>(); // Event to notify parent
 
   docDtoTest: DocumentDTO =

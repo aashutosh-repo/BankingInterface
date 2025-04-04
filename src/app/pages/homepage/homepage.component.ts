@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CustomerDetailsService } from '../../services/customer-details.service';
 import { CustomerDetails } from '../../model/interfaces/customer.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {RouterModule } from '@angular/router';
+import { CustomerOperationService } from '../../services/customer/customer-operation.service';
 
 @Component({
   selector: 'app-homepage',
@@ -17,7 +17,7 @@ export class HomepageComponent implements OnInit{
   }
   customers: CustomerDetails[] = [];
 
-  customerDetails = inject(CustomerDetailsService);
+  customerDetails = inject(CustomerOperationService);
 
   getCustomerDetails(){
     this.customerDetails.loadCustomerDetails().subscribe(data => {

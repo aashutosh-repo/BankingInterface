@@ -8,22 +8,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-nominee-detail',
   standalone:true,
-  imports: [CommonModule,
-    FormsModule,
+  imports: [FormsModule,CommonModule,
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
     MatGridListModule,
     MatDatepickerModule,
     MatNativeDateModule,
-  MatIconModule],
+    MatIconModule, MatSelectModule],
   templateUrl: './nominee-detail.component.html',
   styleUrl: './nominee-detail.component.css'
 })
@@ -32,7 +32,12 @@ export class NomineeDetailComponent {
   constructor(private router: Router, private customerService: CustomerOnboardingService) {}
 
   nomineeDetail: NomineeDetails = {} as NomineeDetails;
+  nomineeRelaions: string[] = ['Spouse', 'Children', 'Father','Mother', 'Siblings', 'NGO', 'Trust'];
+  nomineeTypes: string[] = ['Major', 'Minor'];
+
   @Output() finalSubmit = new EventEmitter<void>(); 
+
+
 
   nomineeDetailTest: NomineeDetails[] =
   [

@@ -40,3 +40,9 @@ button {
   height: auto;
   width: auto;
 }
+
+.holiday {
+  background-color: red !important;
+  color: white !important;
+  border-radius: 50%;
+}

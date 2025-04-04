@@ -57,41 +57,61 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Status</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.status" name="status" />
+          <mat-select [(ngModel)]="customerDto.status" name="status">
+            <mat-option *ngFor="let status of customerStatusOptions" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Date of Birth</mat-label>
-          <input matInput type="date" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
+          <input matInput [matDatepicker]="picker" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker [dateClass]="highlightHolidays"></mat-datepicker>
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Onboarding Date</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.onboardingDate" name="onboardingDate" />
+          <input matInput [matDatepicker]="onboardingPicker" [(ngModel)]="customerDto.onboardingDate" name="onboardingDate" />
+          <mat-datepicker-toggle matSuffix [for]="onboardingPicker"></mat-datepicker-toggle>
+          <mat-datepicker #onboardingPicker></mat-datepicker>
         </mat-form-field>
       </mat-grid-tile>
+      
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Customer Closing Date</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.custClsngDt" name="custClsngDt" />
+          <input matInput [matDatepicker]="closingPicker" [(ngModel)]="customerDto.custClsngDt" name="custClsngDt" />
+          <mat-datepicker-toggle matSuffix [for]="closingPicker"></mat-datepicker-toggle>
+          <mat-datepicker #closingPicker></mat-datepicker>
         </mat-form-field>
       </mat-grid-tile>
+      
 
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Risk Profile</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.riskProfile" name="riskProfile" />
+          <mat-select [(ngModel)]="customerDto.riskProfile" name="riskProfile">
+            <mat-option *ngFor="let profile of riskProfileOptions" [value]="profile">
+              {{ profile }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-grid-tile>
 
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Rating Agency</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.ratingAgency" name="ratingAgency" />
+          <mat-select [(ngModel)]="customerDto.ratingAgency" name="ratingAgency">
+            <mat-option *ngFor="let agency of ratingAgencies" [value]="agency">
+              {{ agency }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-grid-tile>
 

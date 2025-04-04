@@ -16,7 +16,7 @@ export class PaymentProcesingComponent {
   
     paymentForm!: FormGroup;
     cardType: string | null = null;
-    http = inject(HttpClient)
+    http = inject(HttpClient);
   
     constructor(private fb: FormBuilder, private dialog: MatDialog) {}
   

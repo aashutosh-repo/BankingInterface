@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { IUserDTO, UserRequest } from '../model/interfaces/UserDetails.model';
 import { ErrorService } from './error/error.service';
+import { Oauth2Service } from './security/oauth2.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { ErrorService } from './error/error.service';
 export class LoginServicesService {
   private ApiUrl = 'http://localhost:9999/user/verifyUser';
 
-  constructor(private http : HttpClient,private errorService: ErrorService) { }
+  constructor(private http : HttpClient,private errorService: ErrorService ) { }
 
   login(userdto: UserRequest): Observable<IUserDTO>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

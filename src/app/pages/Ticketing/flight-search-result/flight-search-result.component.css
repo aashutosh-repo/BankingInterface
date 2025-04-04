@@ -1,0 +1,234 @@
+.flight-results {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .selected-date {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+  }
+  
+  .sort {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .sort-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #2563eb;
+    font-weight: 500;
+  }
+  
+  .flight-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .ribbon {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+  }
+  
+  .flight-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .timeline {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .departure, .arrival {
+    text-align: center;
+  }
+  
+  .time {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .airport {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 4px 0;
+  }
+  
+  .terminal {
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  .flight-path {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .line {
+    width: 100%;
+    height: 2px;
+    background: #e2e8f0;
+    position: relative;
+  }
+  
+  .stops {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stop-count {
+    background: #e2e8f0;
+    color: #1e293b;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .stop-info {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .flight-details {
+    display: flex;
+    gap: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  .duration, .airlines {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 14px;
+  }
+  
+  .aircraft {
+    font-size: 14px;
+    color: #64748b;
+    padding: 4px 12px;
+    background: #f1f5f9;
+    border-radius: 16px;
+  }
+  
+  .cabin-classes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  
+  .cabin-btn {
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  
+  .cabin-btn:hover {
+    border-color: #2563eb;
+  }
+  
+  .cabin-btn.business {
+    border-color: #818cf8;
+  }
+  
+  .cabin-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .mixed-cabin {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 8px;
+  }
+  
+  .price {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .price span {
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  .cabin-unavailable {
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+  }
+  
+  .unavailable-label {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+  
+  .next-day {
+    font-size: 14px;
+    color: #64748b;
+    margin-left: 4px;
+  }

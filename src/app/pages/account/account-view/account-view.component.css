@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  font-family: sans-serif;
+}
+.account-container {
+  max-width: 90%;
+  margin: auto;
+  padding: 20px;
+}
+
+::ng-deep .mdc-data-table__cell, 
+::ng-deep .mdc-data-table__header-cell {
+    padding: 0px 5px !important; /* Adjust padding as needed */
+}
+
+mat-table {
+  width: 100%;
+}
+
+mat-header-cell {
+  font-weight: bold;
+}
+
+mat-icon {
+  cursor: pointer;
+}
+
+.edit-btn {
+  color: white !important; /* White text for contrast */
+  background-color: #1976D2 !important; /* Material Blue */
+  margin-right: 10px; /* Space between buttons */
+  width: 100px; /* Adjust width */
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Space between icon and text */
+}
+
+.delete-btn {
+  color: white !important;
+  background-color: #D32F2F !important; /* Material Red */
+  width: 100px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.mat-icon {
+  font-size: 20px; /* Adjust icon size */
+}

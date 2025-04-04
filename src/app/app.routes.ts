@@ -15,11 +15,15 @@ import { TestComponent } from './pages/test/test.component';
 import { CustomerDetailsViewComponent } from './pages/customer/customer-details-view/customer-details-view.component';
 import { PreviewCustomerDetailsComponent } from './pages/customer/preview-customer-details/preview-customer-details.component';
 import { AccountManagementComponent } from './pages/account/account-management/account-management.component';
+import { AccountViewComponent } from './pages/account/account-view/account-view.component';
+import { FlightTicketComponent } from './pages/Ticketing/flight-ticket/flight-ticket.component';
+import { FlightSearchResultComponent } from './pages/Ticketing/flight-search-result/flight-search-result.component';
+import { CustomerSearchComponent } from './pages/customer/customer-search/customer-search/customer-search.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
-    {path : 'homepage' , component: HomepageComponent},
     {path : 'login' , component: LoginComponent},
+    {path : 'homepage' , component: HomepageComponent},
     // {path : '**', redirectTo: '/login', pathMatch: 'full'},
     {path : 'emi', component: EmiCalculatorComponent},
     {path : 'main', component: TilesComponent},
@@ -27,11 +31,16 @@ export const routes: Routes = [
     {path : 'accountDetails/:account_number', component: AccountDetailsComponent},
     { path: '', redirectTo: '/allAccountsHome', pathMatch: 'full' },
     {path : 'createModifyAccount', component: CreateModifyAccountComponent},
+    { path: 'modifyAccount/:account_number', component: AccountManagementComponent },
     {path : 'customer/customerOnboarding', component: CustomerDetailsViewComponent},
     {path : 'account/createAccount', component: AccountManagementComponent},
+    {path : 'testAccount', component: AccountViewComponent},
     {path: 'payment', component: PaymentProcesingComponent},
     {path: 'customer/preview', component: PreviewCustomerDetailsComponent},
+    { path: 'ticket', component: FlightTicketComponent },
+    { path: 'flightresult', component: FlightSearchResultComponent },
+    {path : 'customer/customerSearch', component: CustomerSearchComponent},
     {path: 'test', component: TestComponent },
-    {path : '**', redirectTo: '/login', pathMatch: 'full'}
+    {path : '**', redirectTo: '/login', pathMatch: 'full'},
 
 ];

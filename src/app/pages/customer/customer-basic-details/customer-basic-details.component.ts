@@ -6,9 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule,MatCalendarCellClassFunction  } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { DOCUMENTS_TYPES, RATING_AGENCIES } from '../../../constants/dropdowns/CommonDropDowns';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-customer-basic-details',
@@ -20,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatGridListModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     MatIconModule
   ],
   templateUrl: './customer-basic-details.component.html',
@@ -30,10 +33,14 @@ export class CustomerBasicDetailsComponent {
   customerDto: CustomerDto = {} as CustomerDto;
   // @ViewChild('stepper') stepper!: MatStepper;  // Reference to the stepper
   @Output() nextStepTest = new EventEmitter<void>();
-
+  documentTypes = DOCUMENTS_TYPES;
+  ratingAgencies = RATING_AGENCIES;
+  riskProfileOptions = ['High', 'Medium', 'Low'];
+  customerStatusOptions = ['Active', 'Inactive', 'Pending', 'Closed'];
 
   customerDtoTest: CustomerDto=
   {
+    customerCategory: "Individual",
     "firstName": "John",
     "lastName": "Doe",
     "fatherName": "Robert Doe",
@@ -57,4 +64,18 @@ export class CustomerBasicDetailsComponent {
     // this.router.navigate(['/customer/document']);
     this.nextStepTest.emit();
   }
+
+
+  holidays: string[] = [
+    '2025-01-01', // New Year's Day
+    '2025-08-15', // Independence Day
+    '2025-10-02', // Gandhi Jayanti
+    '2025-12-25',  // Christmas
+    '2025-03-25'
+  ];
+
+  highlightHolidays: MatCalendarCellClassFunction<Date> = (date: Date): string => {
+    const dateStr = date.toISOString().split('T')[0]; // Convert date to YYYY-MM-DD format
+    return this.holidays.includes(dateStr) ? 'holiday' : ''; // ✅ Return empty string instead of null
+  };
 }

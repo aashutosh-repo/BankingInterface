@@ -1,4 +1,6 @@
-<button mat-button (click)="triggerError()">Show Error</button>
+//create a submit button
 <div>
-<button mat-button (click)="showSuccessDialog()">Show Success Dialog</button>
+  <label for="name">Name:</label>
+  <input type="text" id="name" [(ngModel)]="name">
+<button (click)="initiatePayment()">Submit</button>
 </div>

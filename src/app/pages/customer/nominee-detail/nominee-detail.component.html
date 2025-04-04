@@ -14,12 +14,12 @@
       </mat-grid-tile>
 
       <!-- Nominee Reference Number -->
-      <mat-grid-tile>
+      <!-- <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nominee Reference Number</mat-label>
           <input matInput type="number" [(ngModel)]="nomineeDetail.nomineeRefNum" name="nomineeRefNum" />
         </mat-form-field>
-      </mat-grid-tile>
+      </mat-grid-tile> -->
 
       <!-- Owner Type -->
       <mat-grid-tile>
@@ -30,12 +30,12 @@
       </mat-grid-tile>
 
       <!-- Sequence Number -->
-      <mat-grid-tile>
+      <!-- <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Sequence Number</mat-label>
           <input matInput type="number" [(ngModel)]="nomineeDetail.seqNum" name="seqNum" />
         </mat-form-field>
-      </mat-grid-tile>
+      </mat-grid-tile> -->
 
       <!-- Nominee Share -->
       <mat-grid-tile>
@@ -49,9 +49,15 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nominee Type</mat-label>
-          <input matInput type="number" [(ngModel)]="nomineeDetail.nomType" name="nomType" />
+          <mat-select [(ngModel)]="nomineeDetail.nomType" name="nomType">
+            <mat-option *ngFor="let type of nomineeTypes" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-grid-tile>
+      
+      
 
       <!-- Nominee First Name -->
       <mat-grid-tile>
@@ -73,8 +79,11 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Relationship Type</mat-label>
-          <input matInput type="number" [(ngModel)]="nomineeDetail.rtlnType" name="rtlnType" />
-        </mat-form-field>
+          <mat-select [(ngModel)]="nomineeDetail.nomType" name="nomType">
+            <mat-option *ngFor="let type of nomineeRelaions" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>        </mat-form-field>
       </mat-grid-tile>
 
       <!-- Date of Birth -->

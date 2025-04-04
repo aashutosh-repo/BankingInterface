@@ -17,7 +17,9 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Address Type</mat-label>
-          <input matInput type="text" [(ngModel)]="customerAddress.addressType" name="addressType" />
+          <mat-select [(ngModel)]="customerAddress.addressType" name="addressType" required>
+            <mat-option *ngFor="let addressType of addressTypes" [value]="addressType">{{ addressType }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-grid-tile>
 
@@ -64,7 +66,9 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>State</mat-label>
-          <input matInput type="text" [(ngModel)]="customerAddress.state" name="state" />
+          <mat-select [(ngModel)]="customerAddress.state" name="state">
+            <mat-option *ngFor="let allstate of statesOptions" [value]="allstate">{{ allstate }}</mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-grid-tile>
 
