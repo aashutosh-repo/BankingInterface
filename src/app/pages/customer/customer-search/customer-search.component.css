@@ -35,22 +35,38 @@
 
 mat-card-title {
   margin-bottom: 4px;
+  font-size: 18px;
+  text-align: center;
 }
-
+.no-results {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  align-items: center;
+  font-size: 20px;
+  height: 40px;
+}
 
 .form-row {
   display: flex;
   gap: 16px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 
 .form-field {
   flex: 1;
-  min-width: 200px;
+  min-width: 250px;
 }
 
 .button-group {
   margin-top: 16px;
   display: flex;
   justify-content: flex-end;
+}
+
+::ng-deep .holiday-date .mat-calendar-body-cell-content {
+  background-color: #ffcccb !important; /* Light red */
+  color: black !important;
+  border-radius: 50%;
 }

@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CustomerDetails } from '../../model/interfaces/customer.model';
 import { catchError, Observable } from 'rxjs';
 import { CustomerDto } from '../../model/interfaces/customerDTO.model';
+import { CustomerSearchRequestDto } from '../../model/interfaces/customer/customerRequestDTO.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class CustomerOperationService {
 
   private apiUrl = 'http://localhost:8080/customer/customer-Onboarding';
   private custmerUrl = 'http://localhost:8080/customer/getAllCustomerDetails';
-  private baseUrl = 'http://localhost:8080/customer/customerSearch';
+  private baseUrl = 'http://localhost:8080/customer';
 
 
 
@@ -48,16 +49,28 @@ export class CustomerOperationService {
   }
 
 
-  searchcustomerDetails(customerType: string, startDate: Date, endDate: Date): Observable<CustomerDto[]> {
-    const formattedStart = this.formatDate(startDate);
-  const formattedEnd = this.formatDate(endDate);
-    const params = new HttpParams()
-      .set('customerType', customerType)
-      .set('startDate', formattedStart)
-      .set('endDate', formattedEnd);
-    console.log("Start Date:", formattedStart);
-    console.log("End Date:", formattedEnd);
-      return this.http.get<CustomerDto[]>(this.baseUrl, { params });
+  searchcustomerDetails(customerSearchRequest: CustomerSearchRequestDto): Observable<CustomerDto[]> {
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    // const formattedStart = this.formatDate(customerSearchRequest.startDate);
+    // const formattedEnd = this.formatDate(customerSearchRequest.endDate);
+      // const params = new HttpParams()
+      //   .set('customerType', customerSearchRequest.customerType)
+      //   .set('startDate', formattedStart)
+      //   .set('endDate', formattedEnd);
+
+      // console.log("Start Date:", formattedStart);
+      // console.log("End Date:", formattedEnd);
+
+      console.log(customerSearchRequest);
+
+      // return this.http.get<CustomerDto[]>(this.baseUrl, { params });
+      return this.http.post<CustomerDto[]>(
+        `${this.baseUrl}/customerSearch`,
+        customerSearchRequest,
+        { headers }
+      );
   }
   
     private handleException(error: any): Observable<never> {
@@ -65,6 +78,6 @@ export class CustomerOperationService {
     }
 
     private formatDate(date: Date): string {
-      return date.toISOString().split('T')[0]; // 'yyyy-MM-dd'
+      return date.toString().split('T')[0]; // 'yyyy-MM-dd'
     }
 }

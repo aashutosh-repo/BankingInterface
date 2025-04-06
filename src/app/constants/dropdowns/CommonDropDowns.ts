@@ -33,3 +33,10 @@ export const CUSTOMER_TYPE_OPTIONS: CustomerTypeOption[] = [
     { label: 'Corporate', value: '3' },
     { label: 'Others', value: '4' },
   ];
+
+  export const CUSTOMER_STATUS_OPTIONS: CustomerTypeOption[] = [
+    { label: 'Active', value: '1' },
+    { label: 'Closed', value: '2' },
+    { label: 'Pending approval', value: '3' },
+    { label: 'NA', value: '4' },
+  ];

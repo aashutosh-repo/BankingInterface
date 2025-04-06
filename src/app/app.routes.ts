@@ -18,7 +18,7 @@ import { AccountManagementComponent } from './pages/account/account-management/a
 import { AccountViewComponent } from './pages/account/account-view/account-view.component';
 import { FlightTicketComponent } from './pages/Ticketing/flight-ticket/flight-ticket.component';
 import { FlightSearchResultComponent } from './pages/Ticketing/flight-search-result/flight-search-result.component';
-import { CustomerSearchComponent } from './pages/customer/customer-search/customer-search/customer-search.component';
+import { CustomerSearchComponent } from './pages/customer/customer-search/customer-search.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
