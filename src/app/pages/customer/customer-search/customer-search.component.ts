@@ -77,8 +77,8 @@ export class CustomerSearchComponent implements OnInit{
   ];
   
 
-  startDate: Date = new Date();
-  endDate: Date = new Date();
+  startDate: Date = new Date('');
+  endDate: Date = new Date('');
   customerSearchRequestDto: CustomerSearchRequestDto= 
   {
     customerType: '',
