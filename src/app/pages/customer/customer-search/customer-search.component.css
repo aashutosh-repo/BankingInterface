@@ -70,3 +70,11 @@ mat-card-title {
   color: black !important;
   border-radius: 50%;
 }
+
+.results-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 20px;
+}
