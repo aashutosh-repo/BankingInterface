@@ -1,52 +1,82 @@
 <div class="container">
-    <div class="payment-wrapper">
-      <h2 class="title">Payment Gateway</h2>
-      <div class="accepted-cards">
-        <p>We accepts:</p>
-        <div class="card-logos">
-          <img src="/cardlogo/visa.png" alt="VISA" />
-          <img src="/cardlogo/mastercard.png" alt="Mastercard" />
-          <img src="/cardlogo/amex.png" alt="American Express" />
-          <img src="/cardlogo/rupay.png" alt="rupay-card" />
+  <mat-card class="payment-wrapper">
+    <h2 mat-card-title>Payment Gateway</h2>
 
-        </div>
+    <div class="accepted-cards">
+      <p>We accept:</p>
+      <div class="card-logos">
+        <img src="/cardlogo/visa.png" alt="VISA" />
+        <img src="/cardlogo/mastercard.png" alt="Mastercard" />
+        <img src="/cardlogo/amex.png" alt="American Express" />
+        <img src="/cardlogo/rupay.png" alt="rupay-card" />
       </div>
-      <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-        <div>
-          <label>Payment Method</label>
-          <select formControlName="paymentMethod">
-            <option value="card">Credit/Debit Card</option>
-            <option value="upi">UPI</option>
-          </select>
-        </div>
-  
-        <div *ngIf="paymentForm.value.paymentMethod === 'card'">
-          <label>Card Holder Name</label>
-          <input type="text" formControlName="cardHolderName" placeholder="John Doe" />
-  
-          <label>Card Number</label>
-          <div class="card-input-wrapper">
-            <input type="text" 
-                   formControlName="cardNumber" 
-                   placeholder="1234 5678 9123 4567"
-                   (input)="detectCardType(paymentForm.get('cardNumber')?.value)" />
-            <img *ngIf="cardType" 
-                 [src]="'/cardlogo/' + cardType + '.png'" 
-                 [alt]="cardType" 
-                 class="card-icon" />
-          </div>
-          <div class="row">
-            <input type="text" formControlName="expiry" placeholder="MM/YY" />
-            <input type="text" formControlName="cvv" placeholder="CVV" />
-          </div>
-        </div>
-  
-        <div *ngIf="paymentForm.value.paymentMethod === 'upi'">
-          <label>UPI ID</label>
-          <input type="text" formControlName="upiId" placeholder="example@upi" />
-        </div>
-  
-        <button type="submit" (click)="submitPayment()">Pay Now</button>
-      </form>
     </div>
-  </div>
+
+    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Payment Method</mat-label>
+        <mat-select formControlName="paymentMethod">
+          <mat-option value="card">Credit/Debit Card</mat-option>
+          <mat-option value="upi">UPI</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === 'card'">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Card Holder Name</mat-label>
+          <input matInput type="text" formControlName="cardHolderName" placeholder="Aashutosh Kumar" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width card-input-wrapper">
+          <mat-label>Card Number</mat-label>
+          <input matInput type="text" 
+                 formControlName="cardNumber" 
+                 placeholder="1234 5678 9123 4567"
+                 (input)="detectCardType(paymentForm.get('cardNumber')?.value)" />
+          <img *ngIf="cardType" 
+               [src]="'/cardlogo/' + cardType + '.png'" 
+               [alt]="cardType" 
+               class="card-icon" />
+        </mat-form-field>
+
+        <div class="expiry-cvv-row">
+          <!-- Month Dropdown -->
+          <mat-form-field appearance="outline">
+            <mat-label>Month</mat-label>
+            <mat-select formControlName="expiryMonth">
+              <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Year Dropdown -->
+          <mat-form-field appearance="outline">
+            <mat-label>Year</mat-label>
+            <mat-select formControlName="expiryYear">
+              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- CVV Field -->
+          <mat-form-field appearance="outline">
+            <mat-label>CVV</mat-label>
+            <input matInput type="text" formControlName="cvv" placeholder="123" />
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === 'upi'">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>UPI ID</mat-label>
+          <input matInput type="text" formControlName="upiId" placeholder="example@upi" />
+        </mat-form-field>
+      </ng-container>
+
+      <button mat-raised-button 
+              color="primary" 
+              type="submit" 
+              [disabled]="paymentForm.invalid">
+        Pay Now
+      </button>
+    </form>
+  </mat-card>
+</div>

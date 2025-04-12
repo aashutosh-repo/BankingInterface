@@ -9,7 +9,7 @@
             <!-- Customer Type Dropdown -->
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Customer Type</mat-label>
-              <mat-select [(ngModel)]="customerSearchRequestDto.customerType" name="customerType" required>
+              <mat-select [(ngModel)]="customerSearchRequestDto.customerType" name="customerType" aria-label="Customer Type" required>
                 <mat-option *ngFor="let option of customerTypeOptions" [value]="option.value">
                   {{ option.label }}
                 </mat-option>
@@ -19,7 +19,7 @@
             <!-- Start Date -->
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Onboarding Start Date</mat-label>
-              <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" name="startDate" />
+              <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" name="startDate" aria-label="Start Date"/>
               <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
               <mat-datepicker #startPicker></mat-datepicker>
             </mat-form-field>
@@ -27,7 +27,7 @@
             <!-- End Date -->
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Onboarding End Date</mat-label>
-              <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" [max]="todayDate" name="endDate" [matDatepickerFilter]="holidayFilter" />
+              <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" [max]="todayDate" name="endDate" [matDatepickerFilter]="holidayFilter" aria-label="End Date"/>
               <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #endDatePicker [dateClass]="dateClass"></mat-datepicker>
             </mat-form-field>
@@ -37,17 +37,17 @@
             <!-- You can update these labels/fields as needed -->
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Customer Name</mat-label>
-              <input matInput [(ngModel)]="customerSearchRequestDto.name" name="name" />
+              <input matInput [(ngModel)]="customerSearchRequestDto.name" name="name" aria-label="Customer Name"/>
             </mat-form-field>
           
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Customer ID</mat-label>
-              <input matInput [(ngModel)]="customerSearchRequestDto.customerId" name="customerId" />
+              <input matInput [(ngModel)]="customerSearchRequestDto.customerId" name="customerId" aria-label="Customer Id"/>
             </mat-form-field>
           
             <mat-form-field appearance="outline" class="form-field">
               <mat-label>Customer status</mat-label>
-              <mat-select [(ngModel)]="customerSearchRequestDto.status" name="status">
+              <mat-select [(ngModel)]="customerSearchRequestDto.status" name="status" aria-label="Customer Status">
                 <mat-option *ngFor="let option of customerStatusOptions" [value]="option.value">
                   {{ option.label }}
                 </mat-option> 
@@ -57,7 +57,7 @@
       
           <!-- Search Button -->
           <div class="button-group">
-            <button mat-raised-button color="primary" type="submit">Search</button>
+            <button mat-raised-button color="primary" type="submit" aria-label="Search for customers">Search</button>
           </div>
         </form>
       </mat-card-content>
@@ -73,43 +73,43 @@
 
           <!-- Table Columns -->
           <ng-container matColumnDef="customerCategory">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">Category</th>
             <td mat-cell *matCellDef="let element">{{ getCategoryLabel(element.customerCategory) }}</td>
           </ng-container>
 
           <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">First Name</th>
             <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">Last Name</th>
             <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="fatherName">
-            <th mat-header-cell *matHeaderCellDef>Father Name</th>
+            <th mat-header-cell *matHeaderCellDef scope="col">Father Name</th>
             <td mat-cell *matCellDef="let element">{{ element.fatherName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="motherName">
-            <th mat-header-cell *matHeaderCellDef>Mother Name</th>
+            <th mat-header-cell *matHeaderCellDef scope="col">Mother Name</th>
             <td mat-cell *matCellDef="let element">{{ element.motherName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="mail">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <th mat-header-cell *matHeaderCellDef scope="col">Email</th>
             <td mat-cell *matCellDef="let element">{{ element.mail }}</td>
           </ng-container>
 
           <ng-container matColumnDef="mobileNumber">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col">Mobile</th>
             <td mat-cell *matCellDef="let element">{{ element.mobileNumber }}</td>
           </ng-container>
 
 
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <th mat-header-cell *matHeaderCellDef scope="col">Status</th>
             <td mat-cell *matCellDef="let element">
               {{ getStatusLabel(element.status) }}
             </td>
@@ -123,8 +123,9 @@
       </div>
     </mat-card>
     <ng-template class="NodataDFound" #noData>
-      <mat-card class="results-card">
+      <mat-card class="results-card" role="region" aria-live="polite" aria-label="No search results found">
         <div class="no-results">
+          <p class="visually-hidden">Search completed. No customer data was found.</p>
           <p style="text-align: center; padding: 1rem; color: gray;">🚫 No data found</p>
         </div>
       </mat-card>

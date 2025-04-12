@@ -19,6 +19,7 @@ import { CustomerSearchRequestDto } from '../../../model/interfaces/customer/cus
 import { CUSTOMER_STATUS_OPTIONS } from '../../../constants/dropdowns/customer-dropdowns.constants';
 import { CUSTOMER_LABEL_MAPPING } from '../../../constants/levels/customer-details-labels';
 import { LabelMapperService } from '../../../services/utility/label-mapper.service';
+import { EncryptionService } from '../../../services/encryption/encryption.service';
 
 
 @Component({
@@ -44,11 +45,6 @@ import { LabelMapperService } from '../../../services/utility/label-mapper.servi
 })
 export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
   sortAttached = false;
-
-
-
-
-
   ngAfterViewChecked(): void {
     // Ensure the table is updated after view changes
     if (this.showTable && this.sort && !this.sortAttached) {
@@ -76,6 +72,10 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
   }
 
   private customerService = inject(CustomerOperationService);
+  constructor(
+    private encryptionService: EncryptionService
+  ) {}
+  
 
   todayDate: Date = new Date();
   holidays: Date[] = [];
@@ -126,6 +126,8 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
     this.customerSearchRequestDto.startDate = this.formatDate(this.startDate);
     this.customerSearchRequestDto.endDate = this.formatDate(this.endDate);
     console.log(this.customerSearchRequestDto);
+    const requestPayload = JSON.stringify(this.customerSearchRequestDto);
+
     this.customerService
       .searchcustomerDetails(this.customerSearchRequestDto)
       .subscribe({
