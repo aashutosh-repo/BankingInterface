@@ -10,13 +10,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
+import { LoadingComponent } from '../../../shared/loading/loading.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-payment-procesing',
   imports: [FormsModule, CommonModule,
     MatCardModule,MatFormFieldModule, 
     MatInputModule,MatSelectModule,
-    MatButtonModule,ReactiveFormsModule],
+    MatButtonModule,ReactiveFormsModule, LoadingComponent],
   templateUrl: './payment-procesing.component.html',
   styleUrls: ['./payment-procesing.component.css']
 })
@@ -25,6 +27,7 @@ export class PaymentProcesingComponent {
   paymentForm!: FormGroup;
   cardType: string | null = null;
   http = inject(HttpClient);
+  isLoading = false;
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private encryptionService: EncryptionService
   ) {};
@@ -123,17 +126,38 @@ export class PaymentProcesingComponent {
     }
   }
 
-  submitPayment() {
-    this.http.post('http://localhost:8080/core/secureCard/tokenize', `cardNumber=${this.paymentForm.value.cardNumber}`, {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      responseType: 'text'
-    }).subscribe({
-      next: (token: string) => {
-        console.log('Received Token:', token);
-        this.initiatePayment(token);
-      },
-      error: () => alert('Tokenization failed!')
-    });
+  async submitPayment() {
+    this.isLoading = true;
+  
+    // Create a 3-second delay promise
+    const delay = new Promise(resolve => setTimeout(resolve, 3000));
+  
+    try {
+      const cardNumber = this.paymentForm.value.cardNumber;
+  
+      const tokenResponse = firstValueFrom(
+        this.http.post(
+          'http://localhost:8080/core/secureCard/tokenize',
+          `cardNumber=${cardNumber}`,
+          {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            responseType: 'text'
+          }
+        )
+      );
+  
+      // Wait for both token and delay
+      const [token] = await Promise.all([tokenResponse, delay]);
+  
+      console.log('Received Token:', token);
+      await this.initiatePayment(token);  // This also awaits completion
+  
+    } catch (error) {
+      console.error('Tokenization failed!', error);
+      alert('Tokenization failed!');
+    } finally {
+      this.isLoading = false;
+    }
   }
   
   async initiatePayment(token: string) {
@@ -153,7 +177,6 @@ export class PaymentProcesingComponent {
         next: async (response: any) => {
           // Step 2: Optionally decrypt the response if encrypted
           let message: string;
-  debugger;
           if (response?.payload) {
             const decrypted = await this.encryptionService.decrypt(response.payload);
             // message = JSON.parse(decrypted)?.message || 'Payment Successful!';
