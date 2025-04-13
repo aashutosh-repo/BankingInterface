@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { EncryptionService } from '../../../services/encryption/encryption.service';
 
 @Component({
   selector: 'app-payment-procesing',
@@ -25,7 +26,8 @@ export class PaymentProcesingComponent {
   cardType: string | null = null;
   http = inject(HttpClient);
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
+  constructor(private fb: FormBuilder, private dialog: MatDialog, private encryptionService: EncryptionService
+  ) {};
 
   ngOnInit(): void {
     this.initializeForm();
@@ -134,23 +136,46 @@ export class PaymentProcesingComponent {
     });
   }
   
-  initiatePayment(token: string) {
+  async initiatePayment(token: string) {
     const paymentData = { token, amount: '100' };
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
+    try {
+      // Step 1: Encrypt the paymentData
+      const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
+  
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
+      this.http.post<{ payload: string }>(
+        'http://localhost:8080/payments/process-payment',
+        { payload: encryptedPayload },
+        { headers, responseType: 'json' } // Expecting JSON response now
+      ).subscribe({
+        next: async (response: any) => {
+          // Step 2: Optionally decrypt the response if encrypted
+          let message: string;
+  debugger;
+          if (response?.payload) {
+            const decrypted = await this.encryptionService.decrypt(response.payload);
+            // message = JSON.parse(decrypted)?.message || 'Payment Successful!';
 
-    this.http.post('http://localhost:8080/payments/process-payment', paymentData, { headers, responseType: 'text' })
-    .subscribe({
-      next: (response: any) => {
-        console.log("Payment Response:", response); // Log response
-        this.dialog.open(PaymentSuccessDialogComponent, {
-          width: '400px'
-        });
-      },
-      error: (error: any) => {
-        console.error('Payment Failed:', error);
-        alert('Payment Failed!');
-      }
-    });
+            message = decrypted || 'Payment Successful!';
+
+          } else {
+            message = 'Payment Successful!';
+          }
+          this.dialog.open(PaymentSuccessDialogComponent, { width: '400px' });
+        },
+        error: (error: any) => {
+          console.error('Payment Failed:', error);
+          alert('Payment Failed!');
+        }
+      });
+  
+    } catch (error) {
+      console.error('Encryption Failed:', error);
+      alert('Something went wrong. Please try again.');
+    }
   }
   
+ 
 }

@@ -157,16 +157,13 @@ export class TestComponent {
           let message: string;
   debugger;
           if (response?.payload) {
-            // const decrypted = await this.encryptionService.decrypt(response.payload);
+            const decrypted = await this.encryptionService.decrypt(response.payload);
             // message = JSON.parse(decrypted)?.message || 'Payment Successful!';
-            message= 'OK';
+            message = decrypted || 'Payment Successful!';
           } else {
             message = 'Payment Successful!';
           }
-  
-          console.log("Decrypted Payment Response:", message);
           this.dialog.open(PaymentSuccessDialogComponent, { width: '400px' });
-          alert(message);
         },
         error: (error: any) => {
           console.error('Payment Failed:', error);
