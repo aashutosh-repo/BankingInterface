@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { firstValueFrom } from 'rxjs';
+import { CoreServicesService } from '../../../services/core/core-services.service';
+import { PaymentService } from '../../../services/payments/payment.service';
 
 @Component({
   selector: 'app-payment-procesing',
@@ -20,7 +22,7 @@ import { firstValueFrom } from 'rxjs';
     MatInputModule,MatSelectModule,
     MatButtonModule,ReactiveFormsModule, LoadingComponent],
   templateUrl: './payment-procesing.component.html',
-  styleUrls: ['./payment-procesing.component.css']
+  styleUrls: ['./payment-procesing.component.scss']
 })
 export class PaymentProcesingComponent {
   
@@ -28,8 +30,12 @@ export class PaymentProcesingComponent {
   cardType: string | null = null;
   http = inject(HttpClient);
   isLoading = false;
+paymentData: any = {}; // Declare at the component level
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog, private encryptionService: EncryptionService
+  constructor(private fb: FormBuilder, private dialog: MatDialog, 
+    private encryptionService: EncryptionService,
+    private coreServices: CoreServicesService,
+    private paymentService: PaymentService
   ) {};
 
   ngOnInit(): void {
@@ -101,104 +107,59 @@ export class PaymentProcesingComponent {
   onSubmit() {
     if (this.paymentForm.valid) {
       const paymentMethod = this.paymentForm.value.paymentMethod;
-      let paymentData: any = {};
-      this.submitPayment();
-
+      this.paymentData = {}; // Initialize or reset paymentData
+  
       if (paymentMethod === 'card') {
         const expiryMonth = this.paymentForm.get('expiryMonth')?.value;
         const expiryYear = this.paymentForm.get('expiryYear')?.value;
-        paymentData = {
+this.paymentData = {
           cardHolderName: this.paymentForm.get('cardHolderName')?.value,
           cardNumber: this.paymentForm.get('cardNumber')?.value,
-          expiry:  `${expiryMonth?.toString().padStart(2, '0')}-${expiryYear}`,
+          expiry: `${expiryMonth?.toString().padStart(2, '0')}-${expiryYear}`,
           cvv: this.paymentForm.get('cvv')?.value,
         };
       } else if (paymentMethod === 'upi') {
-        paymentData = {
+this.paymentData = {
           upiId: this.paymentForm.get('upiId')?.value,
         };
       }
 
-      console.log('Captured Payment Data:', paymentData);
+      console.log('Captured Payment Data:', this.paymentData);
       // Call your payment API here with the paymentData object
     } else {
       console.log('Invalid Form');
     }
+this.processPayment(this.paymentData);
   }
 
-  async submitPayment() {
+  async processPayment(paymentData: any) {
     this.isLoading = true;
-  
-    // Create a 3-second delay promise
+// Create a 3-second delay promise
     const delay = new Promise(resolve => setTimeout(resolve, 3000));
   
     try {
       const cardNumber = this.paymentForm.value.cardNumber;
-  
-      const tokenResponse = firstValueFrom(
-        this.http.post(
-          'http://localhost:8080/core/secureCard/tokenize',
-          `cardNumber=${cardNumber}`,
-          {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            responseType: 'text'
-          }
-        )
-      );
-  
-      // Wait for both token and delay
-      const [token] = await Promise.all([tokenResponse, delay]);
-  
-      console.log('Received Token:', token);
-      await this.initiatePayment(token);  // This also awaits completion
-  
-    } catch (error) {
-      console.error('Tokenization failed!', error);
-      alert('Tokenization failed!');
+      // Tokenize card number
+      const tokenPromise = this.coreServices.tokenizeCard(cardNumber);
+      const [token] = await Promise.all([tokenPromise, delay]);
+
+      // Initiate payment with the token
+      const paymentData = { token, amount: '100',data: this.paymentData };
+   const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
+
+const response = await this.paymentService.initiatePayment(encryptedPayload);
+
+      // Decrypt the response
+      const decryptedResponse = await this.encryptionService.decrypt(response.payload);
+      console.log('Decrypted Response:', decryptedResponse);
+      this.dialog.open(PaymentSuccessDialogComponent, { width: '400px' });
+
+  } catch (error) {
+      console.error('Tokenization or Payment failed!', error);
+      alert('Tokenization or Payment failed!');
     } finally {
       this.isLoading = false;
     }
   }
-  
-  async initiatePayment(token: string) {
-    const paymentData = { token, amount: '100' };
-  
-    try {
-      // Step 1: Encrypt the paymentData
-      const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
-  
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  
-      this.http.post<{ payload: string }>(
-        'http://localhost:8080/payments/process-payment',
-        { payload: encryptedPayload },
-        { headers, responseType: 'json' } // Expecting JSON response now
-      ).subscribe({
-        next: async (response: any) => {
-          // Step 2: Optionally decrypt the response if encrypted
-          let message: string;
-          if (response?.payload) {
-            const decrypted = await this.encryptionService.decrypt(response.payload);
-            // message = JSON.parse(decrypted)?.message || 'Payment Successful!';
 
-            message = decrypted || 'Payment Successful!';
-
-          } else {
-            message = 'Payment Successful!';
-          }
-          this.dialog.open(PaymentSuccessDialogComponent, { width: '400px' });
-        },
-        error: (error: any) => {
-          console.error('Payment Failed:', error);
-          alert('Payment Failed!');
-        }
-      });
-  
-    } catch (error) {
-      console.error('Encryption Failed:', error);
-      alert('Something went wrong. Please try again.');
-    }
-  }
-  
- 
 }

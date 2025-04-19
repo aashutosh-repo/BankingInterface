@@ -27,7 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
   MatIconModule
   ],
   templateUrl: './documents-detail.component.html',
-  styleUrl: './documents-detail.component.css'
+  styleUrls: ['./documents-detail.component.scss']
 })
 export class DocumentsDetailComponent {
 

@@ -25,7 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatNativeDateModule,
     MatIconModule, MatSelectModule],
   templateUrl: './nominee-detail.component.html',
-  styleUrl: './nominee-detail.component.css'
+  styleUrls: ['./nominee-detail.component.scss']
 })
 export class NomineeDetailComponent {
 

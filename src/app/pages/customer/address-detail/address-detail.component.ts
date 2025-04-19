@@ -27,7 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule
   ],
   templateUrl: './address-detail.component.html',
-  styleUrls: ['./address-detail.component.css']
+  styleUrls: ['./address-detail.component.scss']
 })
 export class AddressDetailComponent {
 
