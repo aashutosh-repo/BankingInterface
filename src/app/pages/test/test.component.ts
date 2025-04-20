@@ -9,8 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PaymentSuccessDialogComponent } from '../payments/payment-success-dialog/payment-success-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SuccessDialogComponent } from '../../shared/dialogs/success-dialog/success-dialog.component';
 
 @Component({
   selector: 'app-test',
@@ -163,7 +163,7 @@ export class TestComponent {
           } else {
             message = 'Payment Successful!';
           }
-          this.dialog.open(PaymentSuccessDialogComponent, { width: '400px' });
+          this.dialog.open(SuccessDialogComponent, { width: '400px' });
         },
         error: (error: any) => {
           console.error('Payment Failed:', error);

@@ -5,7 +5,7 @@ import { AccountService } from '../../../services/accounts/account.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { SessionStorageService } from '../../../services/session/session-storage.service';
-import { LoadingComponent } from '../../../shared/loading/loading.component';
+import { LoadingComponent } from '../../../shared/dialogs/loading/loading.component';
 
 
 @Component({

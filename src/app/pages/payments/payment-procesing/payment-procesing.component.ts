@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PaymentSuccessDialogComponent } from '../payment-success-dialog/payment-success-dialog.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+// import { PaymentSuccessDialogComponent } from '../payment-success-dialog/payment-success-dialog.component';
+import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
-import { LoadingComponent } from '../../../shared/loading/loading.component';
-import { firstValueFrom } from 'rxjs';
+import { LoadingComponent } from '../../../shared/dialogs/loading/loading.component';
 import { CoreServicesService } from '../../../services/core/core-services.service';
 import { PaymentService } from '../../../services/payments/payment.service';
 
@@ -152,7 +152,7 @@ const response = await this.paymentService.initiatePayment(encryptedPayload);
       // Decrypt the response
       const decryptedResponse = await this.encryptionService.decrypt(response.payload);
       console.log('Decrypted Response:', decryptedResponse);
-      this.dialog.open(PaymentSuccessDialogComponent, { width: '400px' });
+      this.dialog.open(SuccessDialogComponent, { width: '400px' });
 
   } catch (error) {
       console.error('Tokenization or Payment failed!', error);
