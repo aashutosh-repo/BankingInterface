@@ -1,0 +1,80 @@
+.dialog-container {
+  text-align: center;
+  padding: 30px;
+  padding-top: 0%;
+  width: 400px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.4s ease-in-out;
+}
+.mat-icon {
+  width: 100px;
+  height: 60px;
+  font-size: inherit;  /* Ensures it scales properly */
+}
+
+.tick-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-bottom: 15px; */
+  overflow: visible;
+  min-width: 100px;
+  min-height: 80px;
+}
+
+/* .success-icon {
+  font-size: 60px;  
+  color: #4caf50;
+  animation: popScale 0.5s ease-in-out;
+} */
+
+.success-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.success-message {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ✅ Animated Button */
+.close-button {
+  width: 100px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 10px;
+  transition: background 0.3s ease-in-out;
+}
+.close-button:hover {
+  background-color: #388e3c;
+}
+
+/* ✅ Animations */
+/* @keyframes popScale {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+} */
+
+@keyframes blinkEffect {
+  0%, 100% { opacity: 1; transform: scale(1); }  
+  50% { opacity: 0.3; transform: scale(50%); } /* Slight scaling for effect */
+}
+
+.success-icon {
+  font-size: 60px; /* ✅ Increase icon size */
+  color: #4caf50;  /* ✅ Green color */
+  animation: blinkEffect 1.5s infinite; /* ✅ Infinite blinking */
+}

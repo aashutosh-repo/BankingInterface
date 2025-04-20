@@ -1,0 +1,29 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.jumbotron {
+  padding: 3rem 1rem;
+  text-align: center;
+  background-color: #f3f3f3;
+  border-top: 1px solid #ddd;
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  h4 {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  background: #eeeeee;
+  padding: 0.5rem 1rem;
+
+  a {
+    margin: 0.25rem 0;
+  }
+}

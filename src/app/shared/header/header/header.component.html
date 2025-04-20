@@ -1,0 +1,31 @@
+<header>
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="mat-elevation-z4">
+    <button mat-icon-button (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="ms-2">My App</span>
+
+    <span class="spacer"></span>
+
+    <a mat-button>Home</a>
+    <a mat-button>Customer</a>
+    <a mat-button>Acounts</a>
+    <a mat-button>About</a>
+  </mat-toolbar>
+
+  <!-- Navigation Panel (for smaller screens) -->
+  <nav *ngIf="isExpanded" class="mobile-nav">
+    <a mat-button (click)="toggleMenu()">Home</a>
+    <a mat-button (click)="toggleMenu()">Customer</a>
+    <a mat-button (click)="toggleMenu()">Acounts</a>
+    <a mat-button (click)="toggleMenu()">About</a>
+  </nav>
+
+  <!-- Jumbotron Replacement -->
+  <!-- <div class="jumbotron">
+    <h1>Heading</h1>
+    <h4>Subheading</h4>
+    <button mat-raised-button color="accent">Call to action</button>
+  </div> -->
+</header>
