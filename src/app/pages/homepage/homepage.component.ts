@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {RouterModule } from '@angular/router';
 import { CustomerOperationService } from '../../services/customer/customer-operation.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-homepage',
@@ -12,7 +14,13 @@ import { CustomerOperationService } from '../../services/customer/customer-opera
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit{
+  constructor(private dialog : MatDialog){}
   ngOnInit(): void {
+    this.dialog.open(LoginComponent, {
+      disableClose: true,
+      width: '400px',
+      height: '600px'
+    });
     this.getCustomerDetails()
   }
   customers: CustomerDetails[] = [];
