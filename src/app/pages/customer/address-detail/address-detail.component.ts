@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { COUNTRIES, STATES_IN_INDIA } from '../../../constants/dropdowns/DemographicDropdowns';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
+import { ADDRESS_TYPE } from '../../../constants/dropdowns/CommonDropDowns';
 
 @Component({
   selector: 'app-address-detail',
@@ -38,7 +39,12 @@ export class AddressDetailComponent implements OnInit {
   selectedCountry: string = 'India'; // Default value
   selectedState: string = 'Maharashtra'; // Default value
   statesOptions: string[] = STATES_IN_INDIA;
-  addressTypes: string[] = ['Permanent', 'Temporary', 'Office', 'Other'];
+  addressTypes= ADDRESS_TYPE;
+
+  getAddressTypeLabel(value: string|number): string {
+    const addressType = this.addressTypes.find(type => type.value === value);
+    return addressType ? addressType.label : 'Unknown Address Type';
+  }
   // customerAddressTest: CustomerAddress =
   // {
   //   "customerID": 1001,
@@ -64,7 +70,7 @@ export class AddressDetailComponent implements OnInit {
       village: ['Borivali'],
       district: ['Mumbai'],
       state: ['Maharashtra'],
-      pinCode: ['400091'],
+      pinCode: ['400091',[Validators.required, Validators.pattern(/^[0-9]{6}$/)]],
       lastUpdate: [''],
     });
   }

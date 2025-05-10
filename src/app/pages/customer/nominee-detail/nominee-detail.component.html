@@ -31,7 +31,9 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nominee Type</mat-label>
           <mat-select formControlName="nomType">
-            <mat-option *ngFor="let type of nomineeTypes" [value]="type">{{ type }}</mat-option>
+            <mat-option *ngFor="let type of nomineeTypes" [value]="type.value">
+              {{ type.label }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>

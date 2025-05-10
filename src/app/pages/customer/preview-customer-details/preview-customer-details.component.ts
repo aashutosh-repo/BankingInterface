@@ -52,7 +52,7 @@ export class PreviewCustomerDetailsComponent implements OnInit{
     console.log('Previewing customerAddress:', this.customerAddress);
     console.log('Previewing docDto:', this.docDto);
     console.log('Previewing nomineeDetails:', this.nomineeDetails);
-  }, 1000);
+  }, 100);
 
   }
 

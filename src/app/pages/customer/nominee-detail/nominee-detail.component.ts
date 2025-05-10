@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
+import { CUSTOMER_ELIGIBILITY_TYPES } from '../../../constants/dropdowns/CommonDropDowns';
 
 @Component({
   selector: 'app-nominee-detail',
@@ -55,7 +56,13 @@ export class NomineeDetailComponent implements OnInit {
     }
   nomineeDetail: NomineeDetails = {} as NomineeDetails;
   nomineeRelations: string[] = ['Spouse', 'Children', 'Father','Mother', 'Siblings', 'NGO', 'Trust'];
-  nomineeTypes: string[] = ['Major', 'Minor'];
+  nomineeTypes=CUSTOMER_ELIGIBILITY_TYPES;
+
+  getNomineeTyepesLabel(nomineeType: string|number): string {
+    const nomineeTypeObj = this.nomineeTypes.find((type) => type.value === nomineeType);
+    return nomineeTypeObj ? nomineeTypeObj.label : 'Unknown Type';
+  }
+
 
   @Output() finalSubmit = new EventEmitter<void>(); 
 

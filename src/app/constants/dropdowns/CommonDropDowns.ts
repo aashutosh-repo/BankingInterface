@@ -19,9 +19,28 @@ export const RATING_AGENCIES: string[] = [
     'CARE',
     'BRICKWORK',
     'SME Rating Agency'
-    ];
-export const RISK_PROFILE: string[] = ['High', 'Medium', 'Low'];
-export const CUSTOMER_STATUS: string[] = ['Active', 'Inactive', 'Pending', 'Closed'];
+  ];
+  export const RISK_PROFILE_OPTIONS = [
+    { label: 'High', value: '1' },
+    { label: 'Medium', value: '2' },
+    { label: 'Low', value: '3' }
+  ];
+
+export const ADDRESS_TYPE = [
+  {label: 'Permanent', value:'1'},
+  {label:'Temporary', value:'2'}, 
+  {label: 'Office', value: '3'},
+];
+
+export const CUSTOMER_ELIGIBILITY_TYPES =[
+  {label: 'Major', value:'101'},
+  {label:'Minor', value:'102'},
+  {label: 'HUF', value:'103'},
+  {label: 'Partnership', value:'104'},
+  {label: 'LLP', value:'105'},
+]
+  
+  export const CUSTOMER_STATUS: string[] = ['Active', 'Inactive', 'Pending', 'Closed'];
 
 export interface CustomerTypeOption {
     label: string;

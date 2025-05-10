@@ -9,10 +9,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule,MatCalendarCellClassFunction  } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { DOCUMENTS_TYPES, RATING_AGENCIES } from '../../../constants/dropdowns/CommonDropDowns';
+import { CUSTOMER_STATUS_OPTIONS, DOCUMENTS_TYPES, RATING_AGENCIES, RISK_PROFILE_OPTIONS } from '../../../constants/dropdowns/CommonDropDowns';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
 import { Router } from '@angular/router';
+import { currentOrFutureDateValidator, mailValidator, phoneNumberValidator } from '../../../shared/validations/validation.service';
 
 @Component({
   selector: 'app-customer-basic-details',
@@ -39,8 +40,21 @@ export class CustomerBasicDetailsComponent implements OnInit {
   @Output() nextStepTest = new EventEmitter<void>();
   documentTypes = DOCUMENTS_TYPES;
   ratingAgencies = RATING_AGENCIES;
-  riskProfileOptions = ['High', 'Medium', 'Low'];
-  customerStatusOptions = ['Active', 'Inactive', 'Pending', 'Closed'];
+  riskProfileOptions = RISK_PROFILE_OPTIONS;
+  
+  getRiskProfileLabel(value: string | number): string {
+    const profile = RISK_PROFILE_OPTIONS.find(opt => opt.value === String(value));
+    return profile ? profile.label : String(value);
+  }
+  // customerStatusOptions = ['Active', 'Inactive', 'Pending', 'Closed'];
+    customerStatusOptions = CUSTOMER_STATUS_OPTIONS;
+  
+    getStatusLabel(status: string |number): string {
+      const statusStr = String(status);
+      const statusOption = this.customerStatusOptions.find(opt => opt.value === statusStr);
+      return statusOption ? statusOption.label : statusStr;
+    }
+
 
   constructor(private fb: FormBuilder, private customerDataService: CustomerDataService, private router: Router) {}
   ngOnInit(): void {
@@ -49,11 +63,11 @@ export class CustomerBasicDetailsComponent implements OnInit {
       lastName: ['Kumar'],
       fatherName: ['Arvind Nath Verma'],
       motherName: ['Puspa devi'],
-      mail: ['aashu@gmail.com', [Validators.email]],
-      mobileNumber: ['123456789'],
+      mail: ['aashu@gmail.com', [Validators.required, mailValidator()]],
+      mobileNumber: ['9098998888', [Validators.required, phoneNumberValidator()]],
       status: ['1'],
       dateOfBirth: [''],
-      onboardingDate: [''],
+      onboardingDate: ['', [Validators.required, currentOrFutureDateValidator()]],
       custClsngDt: ['2024-12-31'],
       riskProfile: [''],
       ratingAgency: ['']
