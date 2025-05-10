@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -12,7 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './success-dialog.component.css'
 })
 export class SuccessDialogComponent {
-  constructor(private dialogRef: MatDialogRef<SuccessDialogComponent>) {}
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { message: string },
+    private dialogRef: MatDialogRef<SuccessDialogComponent>) {}
 
   closeDialog() {
     this.dialogRef.close();

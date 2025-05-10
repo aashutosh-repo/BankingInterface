@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerOnboardingService } from '../../../services/customer/customer-onboarding.service';
+import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +14,9 @@ import { DOCUMENT_LABEL_MAPPING } from '../../../constants/levels/customer-docum
 import { NOMINEE_LABEL_MAPPING } from '../../../constants/levels/nomineeDetails-label';
 import { CustomerOperationService } from '../../../services/customer/customer-operation.service';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { routes } from '../../../app.routes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-preview-customer-details',
@@ -31,7 +34,10 @@ export class PreviewCustomerDetailsComponent implements OnInit{
   customerAddress: any;
   docDto: any;  
   nomineeDetails: any;
-  constructor( private customerService: CustomerOperationService,
+  constructor( 
+    private router: Router,
+    private dialog: MatDialog,
+    private customerService: CustomerOperationService,
     private customerDataService: CustomerDataService
 
   ) {}
@@ -68,7 +74,11 @@ export class PreviewCustomerDetailsComponent implements OnInit{
     this.customerService.sendRequestToBackend(requestData).subscribe({
       next: (response) => {
         console.log('Data successfully sent to backend:', response);
+        this.dialog.open(SuccessDialogComponent, { 
+          data: { message: 'Customer created successfully!' },
+          width: '400px' });
         this.customerDataService.resetAll();
+        this.router.navigate(['/customer/customerSearch']);
       },
       error: (error) => {
         console.error('Error sending data:', error);

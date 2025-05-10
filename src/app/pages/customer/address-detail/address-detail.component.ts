@@ -63,7 +63,7 @@ export class AddressDetailComponent implements OnInit {
   ngOnInit(): void {
     this.addressForm = this.fb.group({
       customerID: ['1234', Validators.required],
-      addressType: ['Permanent', Validators.required],
+      addressType: ['1', Validators.required],
       addressLn1: ['L1'],
       addressLn2: ['L2'],
       city: ['Aurangabad'],
