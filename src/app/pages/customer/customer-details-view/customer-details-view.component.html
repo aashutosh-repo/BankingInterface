@@ -12,7 +12,9 @@
       <app-nominee-detail (finalSubmit)="moveToNextStep()"></app-nominee-detail>
     </mat-step>
     <mat-step label="Preview & Submit">
-      <app-preview-customer-details></app-preview-customer-details>
+      <ng-container *ngIf="stepper.selectedIndex === 4">
+        <app-preview-customer-details></app-preview-customer-details>
+      </ng-container>
     </mat-step>
   </mat-stepper>
   

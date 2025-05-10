@@ -20,6 +20,10 @@ import { CUSTOMER_STATUS_OPTIONS } from '../../../constants/dropdowns/customer-d
 import { CUSTOMER_LABEL_MAPPING } from '../../../constants/levels/customer-details-labels';
 import { LabelMapperService } from '../../../services/utility/label-mapper.service';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { RouterModule } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @Component({
@@ -37,7 +41,9 @@ import { EncryptionService } from '../../../services/encryption/encryption.servi
     MatSelectModule,
     MatNativeDateModule,
     MatSortModule,
-    MatOptionModule
+    MatOptionModule,
+    MatIconModule,
+    RouterModule, MatMenuModule, MatToolbarModule
   ],
   
   templateUrl: './customer-search.component.html',

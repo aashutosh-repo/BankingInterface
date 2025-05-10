@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     MatStepperModule 
   ],
   templateUrl: './customer-details-view.component.html',
-  styleUrl: './customer-details-view.component.css'
+  styleUrls: ['./customer-details-view.component.css']
 })
 export class CustomerDetailsViewComponent {
   @ViewChild('stepper') stepper!: MatStepper;  // Reference to the stepper

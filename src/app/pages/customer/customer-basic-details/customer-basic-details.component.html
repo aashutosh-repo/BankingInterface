@@ -1,125 +1,130 @@
 <div class="container">
   <h2 class="mb-4 text-center nominee-header">
     <mat-icon class="header-icon">person</mat-icon> Customer Basic Details
-  </h2>
-  <form (ngSubmit)="nextStep()" #nomineeForm="ngForm">
-    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
+  </h2> 
 
-      <!-- Owner ID -->
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>First Name</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.firstName" name="firstName" />
-        </mat-form-field>
-      </mat-grid-tile>
+<form [formGroup]="customerForm" (ngSubmit)="nextStep()">
+  <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
 
-      <!-- Nominee Reference Number -->
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Last Name</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.lastName" name="lastName" />
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- First Name -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput type="text" formControlName="firstName" />
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <!-- Owner Type -->
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Father's Name</mat-label>
-          <input matInput type="string" [(ngModel)]="customerDto.fatherName" name="fatherName" />
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Last Name -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput type="text" formControlName="lastName" />
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <!-- Sequence Number -->
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Mother's Name</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.motherName" name="motherName" />
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Father's Name -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Father's Name</mat-label>
+        <input matInput type="text" formControlName="fatherName" />
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <!-- Nominee Share -->
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.mail" name="mail" />
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Mother's Name -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mother's Name</mat-label>
+        <input matInput type="text" formControlName="motherName" />
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <!-- Nominee Type -->
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Mobile Number</mat-label>
-          <input matInput type="text" [(ngModel)]="customerDto.mobileNumber" name="mobileNumber" />
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Email -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="mail" />
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <!-- Nominee First Name -->
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="customerDto.status" name="status">
-            <mat-option *ngFor="let status of customerStatusOptions" [value]="status">
-              {{ status }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Mobile Number -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput type="text" formControlName="mobileNumber" />
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Date of Birth</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="customerDto.dateOfBirth" name="dateOfBirth" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker [dateClass]="highlightHolidays"></mat-datepicker>
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Status -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of customerStatusOptions" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Onboarding Date</mat-label>
-          <input matInput [matDatepicker]="onboardingPicker" [(ngModel)]="customerDto.onboardingDate" name="onboardingDate" />
-          <mat-datepicker-toggle matSuffix [for]="onboardingPicker"></mat-datepicker-toggle>
-          <mat-datepicker #onboardingPicker></mat-datepicker>
-        </mat-form-field>
-      </mat-grid-tile>
-      
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Customer Closing Date</mat-label>
-          <input matInput [matDatepicker]="closingPicker" [(ngModel)]="customerDto.custClsngDt" name="custClsngDt" />
-          <mat-datepicker-toggle matSuffix [for]="closingPicker"></mat-datepicker-toggle>
-          <mat-datepicker #closingPicker></mat-datepicker>
-        </mat-form-field>
-      </mat-grid-tile>
-      
+    <!-- Date of Birth -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Risk Profile</mat-label>
-          <mat-select [(ngModel)]="customerDto.riskProfile" name="riskProfile">
-            <mat-option *ngFor="let profile of riskProfileOptions" [value]="profile">
-              {{ profile }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Onboarding Date -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Onboarding Date</mat-label>
+        <input matInput [matDatepicker]="onboardingPicker" formControlName="onboardingDate" />
+        <mat-datepicker-toggle matSuffix [for]="onboardingPicker"></mat-datepicker-toggle>
+        <mat-datepicker #onboardingPicker></mat-datepicker>
+      </mat-form-field>
+    </mat-grid-tile>
 
-      <mat-grid-tile>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Rating Agency</mat-label>
-          <mat-select [(ngModel)]="customerDto.ratingAgency" name="ratingAgency">
-            <mat-option *ngFor="let agency of ratingAgencies" [value]="agency">
-              {{ agency }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
+    <!-- Customer Closing Date -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Customer Closing Date</mat-label>
+        <input matInput [matDatepicker]="closingPicker" formControlName="custClsngDt" />
+        <mat-datepicker-toggle matSuffix [for]="closingPicker"></mat-datepicker-toggle>
+        <mat-datepicker #closingPicker></mat-datepicker>
+      </mat-form-field>
+    </mat-grid-tile>
 
-    </mat-grid-list>
+    <!-- Risk Profile -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Risk Profile</mat-label>
+        <mat-select formControlName="riskProfile">
+          <mat-option *ngFor="let profile of riskProfileOptions" [value]="profile">
+            {{ profile }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
 
-    <!-- Submit Button -->
-    <div class="text-center mt-4">
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-    </div>
-  </form>
+    <!-- Rating Agency -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Rating Agency</mat-label>
+        <mat-select formControlName="ratingAgency">
+          <mat-option *ngFor="let agency of ratingAgencies" [value]="agency">
+            {{ agency }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+
+  <!-- Submit Button -->
+  <div class="text-center mt-4">
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </div>
+</form>
 </div>

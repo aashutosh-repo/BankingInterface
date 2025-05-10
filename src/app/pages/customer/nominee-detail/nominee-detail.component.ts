@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomerOnboardingService } from '../../../services/customer/customer-onboarding.service';
 import { NomineeDetails } from '../../../model/interfaces/NomineeDetails.model';
 import { MatInputModule } from '@angular/material/input';
@@ -12,12 +12,13 @@ import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { CustomerDataService } from '../../../services/customer/customer-data.service';
 
 @Component({
   selector: 'app-nominee-detail',
   standalone:true,
   imports: [FormsModule,CommonModule,
-    MatInputModule,
+    MatInputModule, ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatGridListModule,
@@ -27,12 +28,33 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './nominee-detail.component.html',
   styleUrls: ['./nominee-detail.component.scss']
 })
-export class NomineeDetailComponent {
+export class NomineeDetailComponent implements OnInit {
+  // @ViewChild('nomineeForm') nomineeForm!: NgForm;
 
-  constructor(private router: Router, private customerService: CustomerOnboardingService) {}
+  nomineeForm!: FormGroup;
+  constructor(private router: Router, 
+    private fb: FormBuilder,
+    private customerService: CustomerOnboardingService,
+    private customerDataService: CustomerDataService) {
+    }
 
+    ngOnInit(): void {
+      console.log('Nominee Detail Component Initialized');
+      this.nomineeForm = this.fb.group({
+        ownerId: ['123', Validators.required],
+        ownerType: ['123'],
+        nomShare: ['100'],
+        nomType: ['Major'],
+        nomineeFirstName: ['Aashu'],
+        nomineeLastName: ['Kumar'],
+        relationshipType: [''],
+        dateOfBirth: [''],
+        nomAddId: ['234'],
+        nomDocId: ['12345']
+      });
+    }
   nomineeDetail: NomineeDetails = {} as NomineeDetails;
-  nomineeRelaions: string[] = ['Spouse', 'Children', 'Father','Mother', 'Siblings', 'NGO', 'Trust'];
+  nomineeRelations: string[] = ['Spouse', 'Children', 'Father','Mother', 'Siblings', 'NGO', 'Trust'];
   nomineeTypes: string[] = ['Major', 'Minor'];
 
   @Output() finalSubmit = new EventEmitter<void>(); 
@@ -80,18 +102,22 @@ export class NomineeDetailComponent {
   ]
   
   moveToPreview() {
-    // Save data to session storage
-    sessionStorage.setItem('nomineeDetails', JSON.stringify(this.nomineeDetailTest));
-    console.log('Data saved to session storage:', this.nomineeDetailTest);
-    // Navigate to submission or confirmation page
-    // this.router.navigate(['/customer/submit']);
-    this.finalSubmit.emit();
+    if (this.nomineeForm.valid) {
+      this.customerDataService.setSection('nomineeDetails', this.nomineeForm.value);
+      const fullPayload = this.customerDataService.getAllData();
+      console.log('Full Payload:', fullPayload); // Log the full payload to the console
+      // this.router.navigate(['/customer/preview']);
+      this.finalSubmit.emit();
+
+    } else {
+      this.nomineeForm.markAllAsTouched();
+    }
     
   }
 
 
 
-  submitCustomerData() {
+  onSubmit() {
     sessionStorage.setItem('nomineeDetails', JSON.stringify(this.nomineeDetailTest));
     this.customerService.sendRequestToBackend()?.subscribe({
       next: (response) => {

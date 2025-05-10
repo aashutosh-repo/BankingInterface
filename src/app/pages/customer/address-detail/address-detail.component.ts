@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CustomerAddress } from '../../../model/interfaces/customerAddress.model';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,7 @@ import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { COUNTRIES, STATES_IN_INDIA } from '../../../constants/dropdowns/DemographicDropdowns';
 import { MatSelectModule } from '@angular/material/select';
+import { CustomerDataService } from '../../../services/customer/customer-data.service';
 
 @Component({
   selector: 'app-address-detail',
@@ -24,45 +25,64 @@ import { MatSelectModule } from '@angular/material/select';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule, ReactiveFormsModule
   ],
   templateUrl: './address-detail.component.html',
   styleUrls: ['./address-detail.component.scss']
 })
-export class AddressDetailComponent {
+export class AddressDetailComponent implements OnInit {
 
+  addressForm!: FormGroup;
   customerAddress: CustomerAddress = {} as CustomerAddress;
   countriesOptions: string[] = COUNTRIES;
   selectedCountry: string = 'India'; // Default value
   selectedState: string = 'Maharashtra'; // Default value
   statesOptions: string[] = STATES_IN_INDIA;
   addressTypes: string[] = ['Permanent', 'Temporary', 'Office', 'Other'];
-  customerAddressTest: CustomerAddress =
-  {
-    "customerID": 1001,
-    "addressType": 1,
-    "addressLn1": "123, MG Road",
-    "addressLn2": "Near Central Park",
-    "city": "Mumbai",
-    "village": "Borivali",
-    "district": "Mumbai Suburban",
-    "taluka": "Borivali West",
-    "state": "Maharashtra",
-    "pinCode": 400091,
-    "lastUpdate": "2025-03-20T14:30:00Z",
-    "dateOfCapture": "2024-05-15T10:00:00Z"
+  // customerAddressTest: CustomerAddress =
+  // {
+  //   "customerID": 1001,
+  //   "addressType": 1,
+  //   "addressLn1": "123, MG Road",
+  //   "addressLn2": "Near Central Park",
+  //   "city": "Mumbai",
+  //   "village": "Borivali",
+  //   "district": "Mumbai Suburban",
+  //   "taluka": "Borivali West",
+  //   "state": "Maharashtra",
+  //   "pinCode": 400091,
+  //   "lastUpdate": "2025-03-20T14:30:00Z",
+  //   "dateOfCapture": "2024-05-15T10:00:00Z"
+  // }
+  ngOnInit(): void {
+    this.addressForm = this.fb.group({
+      customerID: ['1234', Validators.required],
+      addressType: ['Permanent', Validators.required],
+      addressLn1: ['L1'],
+      addressLn2: ['L2'],
+      city: ['Aurangabad'],
+      village: ['Borivali'],
+      district: ['Mumbai'],
+      state: ['Maharashtra'],
+      pinCode: ['400091'],
+      lastUpdate: [''],
+    });
   }
-  
 
-  constructor(private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private customerDataService: CustomerDataService
+  ) {}  
   @Output() nextStepToDocDetail = new EventEmitter<void>(); // Event to notify parent
 
 
-  nextStep() {
-    // Save data to session storage
-    sessionStorage.setItem('customerAddress', JSON.stringify(this.customerAddressTest));
-    console.log(this.customerAddress);
-    // this.router.navigate(['/customer/nominee']);
+  onSubmit() {
+    if (this.addressForm.valid) {
+      this.customerDataService.setSection('addressDetails', this.addressForm.value);
+    } else {
+      this.addressForm.markAllAsTouched();
+    }
     this.nextStepToDocDetail.emit();
   }
 

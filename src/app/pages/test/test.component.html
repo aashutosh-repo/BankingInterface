@@ -1,82 +1,28 @@
-<div class="container">
-  <mat-card class="payment-wrapper">
-    <h2 mat-card-title>Payment Gateway</h2>
 
-    <div class="accepted-cards">
-      <p>We accept:</p>
-      <div class="card-logos">
-        <img src="/cardlogo/visa.png" alt="VISA" />
-        <img src="/cardlogo/mastercard.png" alt="Mastercard" />
-        <img src="/cardlogo/amex.png" alt="American Express" />
-        <img src="/cardlogo/rupay.png" alt="rupay-card" />
-      </div>
-    </div>
+<mat-card class="container">
+  <h2>List of Students</h2>
+  <mat-table [dataSource]="dataSource" mat-table class="mat-elevation-z8">
 
-    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Payment Method</mat-label>
-        <mat-select formControlName="paymentMethod">
-          <mat-option value="card">Credit/Debit Card</mat-option>
-          <mat-option value="upi">UPI</mat-option>
-        </mat-select>
-      </mat-form-field>
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+      <mat-cell *matCellDef="let students">{{students.firstName}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="lastName">
+      <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+      <mat-cell *matCellDef="let students">{{students.lastName}}</mat-cell>
 
-      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === 'card'">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Card Holder Name</mat-label>
-          <input matInput type="text" formControlName="cardHolderName" placeholder="John Doe" />
-        </mat-form-field>
+    </ng-container>
+    <ng-container matColumnDef="age">
+      <mat-header-cell *matHeaderCellDef>Age</mat-header-cell>
+      <mat-cell *matCellDef="let students">{{students.age}}</mat-cell>
+    </ng-container>
 
-        <mat-form-field appearance="outline" class="full-width card-input-wrapper">
-          <mat-label>Card Number</mat-label>
-          <input matInput type="text" 
-                 formControlName="cardNumber" 
-                 placeholder="1234 5678 9123 4567"
-                 (input)="detectCardType(paymentForm.get('cardNumber')?.value)" />
-          <img *ngIf="cardType" 
-               [src]="'/cardlogo/' + cardType + '.png'" 
-               [alt]="cardType" 
-               class="card-icon" />
-        </mat-form-field>
+    <ng-container matColumnDef="rollNum">
+      <mat-header-cell *matHeaderCellDef>Roll Number</mat-header-cell>
+      <mat-cell *matCellDef="let students">{{students.rollNum}}</mat-cell>
+    </ng-container>
 
-        <div class="expiry-cvv-row">
-          <!-- Month Dropdown -->
-          <mat-form-field appearance="outline">
-            <mat-label>Month</mat-label>
-            <mat-select formControlName="expiryMonth">
-              <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- Year Dropdown -->
-          <mat-form-field appearance="outline">
-            <mat-label>Year</mat-label>
-            <mat-select formControlName="expiryYear">
-              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- CVV Field -->
-          <mat-form-field appearance="outline">
-            <mat-label>CVV</mat-label>
-            <input matInput type="text" formControlName="cvv" placeholder="CVV" />
-          </mat-form-field>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === 'upi'">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>UPI ID</mat-label>
-          <input matInput type="text" formControlName="upiId" placeholder="example@upi" />
-        </mat-form-field>
-      </ng-container>
-
-      <button mat-raised-button 
-              color="primary" 
-              type="submit" 
-              [disabled]="paymentForm.invalid">
-        Pay Now
-      </button>
-    </form>
-  </mat-card>
-</div>
+    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayColumns"></mat-row>
+  </mat-table>
+</mat-card>

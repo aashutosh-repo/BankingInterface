@@ -13,6 +13,7 @@ import { CUSTOMER_ADDRESS_LABEL_MAPPING } from '../../../constants/levels/Custom
 import { DOCUMENT_LABEL_MAPPING } from '../../../constants/levels/customer-document-labels';
 import { NOMINEE_LABEL_MAPPING } from '../../../constants/levels/nomineeDetails-label';
 import { CustomerOperationService } from '../../../services/customer/customer-operation.service';
+import { CustomerDataService } from '../../../services/customer/customer-data.service';
 
 @Component({
   selector: 'app-preview-customer-details',
@@ -30,27 +31,44 @@ export class PreviewCustomerDetailsComponent implements OnInit{
   customerAddress: any;
   docDto: any;  
   nomineeDetails: any;
-  constructor( private customerService: CustomerOperationService) {}
+  constructor( private customerService: CustomerOperationService,
+    private customerDataService: CustomerDataService
+
+  ) {}
+  
   ngOnInit(): void {
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      this.docDto = JSON.parse(sessionStorage.getItem('docDto') || '{}');
-      this.customerDto = JSON.parse(sessionStorage.getItem('customerDto') || '{}');
-      this.customerAddress = JSON.parse(sessionStorage.getItem('customerAddress') || '{}');
-      const nomineeData = JSON.parse(sessionStorage.getItem('nomineeDetails') || '[]');
-      //Nominee details can be an array or an object, so we need to convert it to an array
-      this.nomineeDetails = Array.isArray(nomineeData) ? nomineeData : [nomineeData];
-      console.log('customerDto:', this.customerDto);
-      console.log('customerAddress:', this.customerAddress);
-      console.log('docDto:', this.docDto);
-      console.log('nomineeDetails:', this.nomineeDetails);
-    }
+    setTimeout(() => {
+    const data = this.customerDataService.getAllData();
+    this.customerDto = data.customerDetails;
+    this.customerAddress = data.addressDetails;
+    this.docDto = data.documentDetails;
+    // this.nomineeDetails = data.nomineeDetails;
+    const nominee = data.nomineeDetails;
+
+    this.nomineeDetails = Array.isArray(nominee) ? nominee : [nominee];
+
+
+    console.log('Previewing customerDto:', this.customerDto);
+    console.log('Previewing customerAddress:', this.customerAddress);
+    console.log('Previewing docDto:', this.docDto);
+    console.log('Previewing nomineeDetails:', this.nomineeDetails);
+  }, 1000);
+
   }
 
 
-  submitCustomerData() {
-    this.customerService.sendRequestToBackend()?.subscribe({
+  submitCustomerData(): void {
+    const requestData = {
+      customerDto: this.customerDto,
+      customerAddress: this.customerAddress,
+      docDto: this.docDto,
+      nomineeDetails: this.nomineeDetails
+    };
+
+    this.customerService.sendRequestToBackend(requestData).subscribe({
       next: (response) => {
         console.log('Data successfully sent to backend:', response);
+        this.customerDataService.resetAll();
       },
       error: (error) => {
         console.error('Error sending data:', error);

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CustomerDto } from '../../../model/interfaces/customerDTO.model';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,12 +11,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { DOCUMENTS_TYPES, RATING_AGENCIES } from '../../../constants/dropdowns/CommonDropDowns';
 import { MatSelectModule } from '@angular/material/select';
+import { CustomerDataService } from '../../../services/customer/customer-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-basic-details',
   standalone: true,
   imports: [FormsModule,CommonModule,
-    MatInputModule,
+    MatInputModule, ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatGridListModule,
@@ -28,8 +30,10 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './customer-basic-details.component.html',
   styleUrls: ['./customer-basic-details.component.scss']
 })
-export class CustomerBasicDetailsComponent {
+export class CustomerBasicDetailsComponent implements OnInit {
 
+
+  customerForm!: FormGroup;
   customerDto: CustomerDto = {} as CustomerDto;
   // @ViewChild('stepper') stepper!: MatStepper;  // Reference to the stepper
   @Output() nextStepTest = new EventEmitter<void>();
@@ -37,6 +41,24 @@ export class CustomerBasicDetailsComponent {
   ratingAgencies = RATING_AGENCIES;
   riskProfileOptions = ['High', 'Medium', 'Low'];
   customerStatusOptions = ['Active', 'Inactive', 'Pending', 'Closed'];
+
+  constructor(private fb: FormBuilder, private customerDataService: CustomerDataService, private router: Router) {}
+  ngOnInit(): void {
+    this.customerForm = this.fb.group({
+      firstName: ['Aashu', Validators.required],
+      lastName: ['Kumar'],
+      fatherName: ['Arvind Nath Verma'],
+      motherName: ['Puspa devi'],
+      mail: ['aashu@gmail.com', [Validators.email]],
+      mobileNumber: ['123456789'],
+      status: ['1'],
+      dateOfBirth: [''],
+      onboardingDate: [''],
+      custClsngDt: ['2024-12-31'],
+      riskProfile: [''],
+      ratingAgency: ['']
+    });  }
+
 
   customerDtoTest: CustomerDto=
   {
@@ -54,15 +76,15 @@ export class CustomerBasicDetailsComponent {
     "riskProfile": 3,
     "ratingAgency": "CRISIL"
   }
-  
-  constructor() {}
-
 
   nextStep() {
-    // Save data to session storage
-    sessionStorage.setItem('customerDto', JSON.stringify(this.customerDtoTest));
-    // this.router.navigate(['/customer/document']);
-    this.nextStepTest.emit();
+    if (this.customerForm.valid) {
+      this.customerDataService.setSection('customerDetails', this.customerForm.value);
+      this.nextStepTest.emit();
+      // sessionStorage.setItem('customerDto', JSON.stringify(this.customerDtoTest));
+    } else {
+      this.customerForm.markAllAsTouched(); // Show validation messages if any
+    }
   }
 
 
