@@ -26,3 +26,16 @@
     <mat-row *matRowDef="let row; columns: displayColumns"></mat-row>
   </mat-table>
 </mat-card>
+
+
+<mat-card>
+  <mat-card-title>Select Language</mat-card-title>
+  <mat-radio-group [(ngModel)]="selectedLanguage" aria-label="Select language">
+    <mat-radio-button value="english">English</mat-radio-button>
+    <mat-radio-button value="hindi">Hindi</mat-radio-button>
+  </mat-radio-group>
+
+  <div class="language-output">
+    <p>{{ displayText }}</p>
+  </div>
+</mat-card>

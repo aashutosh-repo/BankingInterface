@@ -1,7 +1,10 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IUserDTO } from '../../model/interfaces/UserDetails.model';
+import { IUserDTO, UserResponse } from '../../model/interfaces/UserDetails.model';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
 
 
 @Component({
@@ -13,10 +16,13 @@ import { IUserDTO } from '../../model/interfaces/UserDetails.model';
 })
 export class TilesComponent implements OnInit{
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router,
+    private dialog: MatDialog,
+  ) {}
 
   showUserDetails: boolean = false; // To toggle user details visibility
-  userDetails: IUserDTO | null = null;
+  userDetails: UserResponse | null = null;
   userDTO : IUserDTO ={
     errorId:'',
     message:'',
@@ -35,28 +41,30 @@ export class TilesComponent implements OnInit{
     { title: 'Instruments', description: 'Loan EMI | Currency Conversion | SIP Calculator ', image: 'bankingInstruments.png', link: '#' },
     { title: 'Cash Deposit', description: 'Cash Transaction', image: 'cash-Deposite.png', link: '#' },
     { title: 'Account Transfer ', description: 'Account to Account transfer ', image: 'a2aMoneytransfer.png', link: '#' }  ];
-
+    
+    
+    
     showuserDetail() {
-      if (isPlatformBrowser(this.platformId)) {
-        const myUser = sessionStorage.getItem('userDetails');
-        if (myUser) {
-          this.userDetails = JSON.parse(myUser) as IUserDTO;
-          if (Array.isArray(this.userDetails?.lastLogin)) {
-            this.userDetails.lastLogin = new Date(
-              this.userDetails.lastLogin[0],  // Year
-              this.userDetails.lastLogin[1] - 1, // Month (convert 1-based to 0-based)
-              this.userDetails.lastLogin[2],  // Day
-              this.userDetails.lastLogin[3],  // Hours
-              this.userDetails.lastLogin[4],  // Minutes
-              this.userDetails.lastLogin[5],  // Seconds
-              this.userDetails.lastLogin[6] / 1e6 // Convert nanoseconds to milliseconds
-            );
-          }
-          console.log(this.userDetails); // For debugging
-        } else {
-          console.log('No user details found.');
-        }
-      }
+      // if (isPlatformBrowser(this.platformId)) {
+        // const myUser = sessionStorage.getItem('userDetails');
+        // if (myUser) {
+        //   this.userDetails = JSON.parse(myUser) as IUserDTO;
+        //   if (Array.isArray(this.userDetails?.lastLogin)) {
+        //     this.userDetails.lastLogin = new Date(
+        //       this.userDetails.lastLogin[0],  // Year
+        //       this.userDetails.lastLogin[1] - 1, // Month (convert 1-based to 0-based)
+        //       this.userDetails.lastLogin[2],  // Day
+        //       this.userDetails.lastLogin[3],  // Hours
+        //       this.userDetails.lastLogin[4],  // Minutes
+        //       this.userDetails.lastLogin[5],  // Seconds
+        //       this.userDetails.lastLogin[6] / 1e6 // Convert nanoseconds to milliseconds
+        //     );
+        //   }
+          // console.log(this.userDetails); // For debugging
+        // } else {
+        //   console.log('No user details found.');
+        // }
+      // }
     }
   
     // Toggle visibility of user details
@@ -66,5 +74,23 @@ export class TilesComponent implements OnInit{
   
     ngOnInit(): void {
       this.showuserDetail(); // Fetch user details when the component initializes
+    }
+
+    userDetail?: UserResponse;
+
+    openLoginDialog(): void {
+      const dialogRef= this.dialog.open(LoginComponent, {
+        width: '400px',
+        height: '520px',
+        disableClose: true
+
+      });
+      dialogRef.afterClosed().subscribe((userRes: UserResponse) => {
+        if (userRes) {
+          this.userDetails = userRes;
+          console.log('User details from dialog:', this.userDetails);
+        }
+      });
+
     }
   }

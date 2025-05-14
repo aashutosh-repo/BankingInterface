@@ -3,13 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [ FormsModule, CommonModule, MatCardModule,MatTableModule,MatFormFieldModule
+  imports: [ FormsModule, CommonModule, MatCardModule,MatTableModule,MatFormFieldModule,
+    MatRadioModule
   ],
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css']
@@ -39,6 +41,14 @@ export class TestComponent implements OnInit{
     'age',
     'rollNum'
   ]
+
+  selectedLanguage: string = 'english';
+
+  get displayText(): string {
+    return this.selectedLanguage === 'english'
+      ? 'My name is Aashutosh'
+      : 'मेरा नाम आशुतोष है';
+  }
 
   
   dataSource = new MatTableDataSource<Students>([]);

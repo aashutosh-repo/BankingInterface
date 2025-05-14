@@ -1,35 +1,30 @@
-import { AfterViewChecked, AfterViewInit, Component, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { CustomerDto } from '../../../model/interfaces/customerDTO.model';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { CustomerOperationService } from '../../../services/customer/customer-operation.service';
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
+import { Component, inject, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { CUSTOMER_STATUS, CUSTOMER_TYPE_OPTIONS } from '../../../constants/dropdowns/CommonDropDowns';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDividerModule } from '@angular/material/divider';
-import { CoreServicesService } from '../../../services/core/core-services.service';
-import { CustomerSearchRequestDto } from '../../../model/interfaces/customer/customerRequestDTO.model';
-import { CUSTOMER_STATUS_OPTIONS } from '../../../constants/dropdowns/customer-dropdowns.constants';
-import { CUSTOMER_LABEL_MAPPING } from '../../../constants/levels/customer-details-labels';
-import { LabelMapperService } from '../../../services/utility/label-mapper.service';
-import { EncryptionService } from '../../../services/encryption/encryption.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomerOperationService } from '../../../../services/customer/customer-operation.service';
+import { CUSTOMER_STATUS_OPTIONS, CUSTOMER_TYPE_OPTIONS } from '../../../../constants/dropdowns/CommonDropDowns';
+import { CustomerSearchRequestDto } from '../../../../model/interfaces/customer/customerRequestDTO.model';
+import { CoreServicesService } from '../../../../services/core/core-services.service';
+import { LabelMapperService } from '../../../../services/utility/label-mapper.service';
+import { CustomerDto } from '../../../../model/interfaces/customerDTO.model';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialog } from '@angular/material/dialog';
-
 
 @Component({
-  selector: 'app-customer-search',
-  standalone: true,
+  selector: 'app-customer-search-dialog',
   imports: [CommonModule,
     FormsModule,
     MatCardModule,
@@ -46,11 +41,12 @@ import { MatDialog } from '@angular/material/dialog';
     MatIconModule,
     RouterModule, MatMenuModule, MatToolbarModule
   ],
-  
-  templateUrl: './customer-search.component.html',
-  styleUrls: ['./customer-search.component.css']
+  templateUrl: './customer-search-dialog.component.html',
+  styleUrls: ['./customer-search-dialog.component.css'],
 })
-export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
+export class CustomerSearchDialogComponent {
+
+
   sortAttached = false;
   ngAfterViewChecked(): void {
     // Ensure the table is updated after view changes
@@ -80,8 +76,6 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
 
   private customerService = inject(CustomerOperationService);
   constructor(
-    private dialog: MatDialog,
-    private encryptionService: EncryptionService
   ) {}
   
 
@@ -192,16 +186,6 @@ holidayFilter = (date: Date | null): boolean => {
       holiday.getMonth() === d.getMonth() &&
       holiday.getFullYear() === d.getFullYear()
   );
-};
-
-
-openCustomerSearchDialog(): void {
-  this.dialog.open(CustomerSearchComponent, {
-    width: '600px',
-    maxHeight: '80vh',
-    autoFocus: true,
-    disableClose: true,
-    panelClass: 'customer-search-dialog'
-  });
 }
 }
+

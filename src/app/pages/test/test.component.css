@@ -12,3 +12,8 @@ mat-table {
 mat-header-cell {
   font-weight: bold;
 }
+.language-output {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}

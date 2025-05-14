@@ -4,6 +4,7 @@
     <div class="welcome-message">
       <span>Welcome Back !! {{ userDetails?.firstName | uppercase }} {{ userDetails?.lastName | uppercase }}</span>
     </div>
+    <button class="login-button"  *ngIf="!userDetails" (click)="openLoginDialog()">Login</button>
     <div class="username-container" (click)="toggleUserDetails()">
       <span class="username"> {{ userDetails?.userName | uppercase }}</span>
       <img class="user-icon" src="usericon/user.png" alt="User Icon" />
