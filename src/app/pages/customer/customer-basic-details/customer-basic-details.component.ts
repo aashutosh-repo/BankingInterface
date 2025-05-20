@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CustomerDto } from '../../../model/interfaces/customerDTO.model';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,16 +18,7 @@ import { currentOrFutureDateValidator, mailValidator, phoneNumberValidator } fro
 @Component({
   selector: 'app-customer-basic-details',
   standalone: true,
-  imports: [FormsModule,CommonModule,
-    MatInputModule, ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatIconModule
-  ],
+  imports: [FormsModule, MatInputModule, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatIconModule],
   templateUrl: './customer-basic-details.component.html',
   styleUrls: ['./customer-basic-details.component.scss']
 })
@@ -71,24 +62,7 @@ export class CustomerBasicDetailsComponent implements OnInit {
       custClsngDt: ['2024-12-31'],
       riskProfile: [''],
       ratingAgency: ['']
-    });  }
-
-
-  customerDtoTest: CustomerDto=
-  {
-    customerCategory: "Individual",
-    "firstName": "John",
-    "lastName": "Doe",
-    "fatherName": "Robert Doe",
-    "motherName": "Mary Doe",
-    "mail": "john.doe@example.com",
-    "mobileNumber": "9876543210",
-    "status": 1,
-    "dateOfBirth": "1990-05-15",
-    "onboardingDate": "2024-03-10",
-    "custClsngDt": "2030-12-31",
-    "riskProfile": 3,
-    "ratingAgency": "CRISIL"
+    });  
   }
 
   nextStep() {

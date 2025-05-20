@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Flight } from '../../../model/interfaces/flight.interface';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,8 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-flight-search-result',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatDatepickerModule,
-    MatOptionModule, MatAutocompleteModule, MatToolbarModule, ReactiveFormsModule,MatNativeDateModule, MatInputModule],
+  imports: [FormsModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatDatepickerModule, MatOptionModule, MatAutocompleteModule, MatToolbarModule, ReactiveFormsModule, MatNativeDateModule, MatInputModule],
   templateUrl: './flight-search-result.component.html',
   styleUrls: ['./flight-search-result.component.css']
 })

@@ -1,65 +1,69 @@
 
 <mat-card class="search-card">
-    <mat-card-title class="card-title">🔍 Customer Search</mat-card-title>
-    <!-- <mat-divider></mat-divider> -->
-    <mat-card-content>
-      <form (ngSubmit)="search()" class="mat-grid-form" #form="ngForm">
-        <div class="form-row">
+  <mat-card-title class="card-title">🔍 Customer Search</mat-card-title>
+  <!-- <mat-divider></mat-divider> -->
+  <mat-card-content>
+    <form (ngSubmit)="search()" class="mat-grid-form" #form="ngForm">
+      <div class="form-row">
 
-          <!-- Customer Type Dropdown -->
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Customer Type</mat-label>
-            <mat-select [(ngModel)]="customerSearchRequestDto.customerType" name="customerType" aria-label="Customer Type" required>
-              <mat-option *ngFor="let option of customerTypeOptions" [value]="option.value">
+        <!-- Customer Type Dropdown -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Customer Type</mat-label>
+          <mat-select [(ngModel)]="customerSearchRequestDto.customerType" name="customerType" aria-label="Customer Type" required>
+            @for (option of customerTypeOptions; track option) {
+              <mat-option [value]="option.value">
                 {{ option.label }}
               </mat-option>
-            </mat-select>
-          </mat-form-field>
-    
-          <!-- Start Date -->
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Onboarding Start Date</mat-label>
-            <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" name="startDate" aria-label="Start Date"/>
-            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-            <mat-datepicker #startPicker></mat-datepicker>
-          </mat-form-field>
-    
-          <!-- End Date -->
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Onboarding End Date</mat-label>
-            <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" [max]="todayDate" name="endDate" [matDatepickerFilter]="holidayFilter" aria-label="End Date"/>
-            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #endDatePicker [dateClass]="dateClass"></mat-datepicker>
-          </mat-form-field>
+            }
+          </mat-select>
+        </mat-form-field>
 
-        </div>
-        <div class="form-row">
-          <!-- You can update these labels/fields as needed -->
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Customer Name</mat-label>
-            <input matInput [(ngModel)]="customerSearchRequestDto.name" name="name" aria-label="Customer Name"/>
-          </mat-form-field>
-        
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Customer ID</mat-label>
-            <input matInput [(ngModel)]="customerSearchRequestDto.customerId" name="customerId" aria-label="Customer Id"/>
-          </mat-form-field>
-        
-          <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Customer status</mat-label>
-            <mat-select [(ngModel)]="customerSearchRequestDto.status" name="status" aria-label="Customer Status">
-              <mat-option *ngFor="let option of customerStatusOptions" [value]="option.value">
+        <!-- Start Date -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Onboarding Start Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" name="startDate" aria-label="Start Date"/>
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- End Date -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Onboarding End Date</mat-label>
+          <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="endDate" [max]="todayDate" name="endDate" [matDatepickerFilter]="holidayFilter" aria-label="End Date"/>
+          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatePicker [dateClass]="dateClass"></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+      <div class="form-row">
+        <!-- You can update these labels/fields as needed -->
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Customer Name</mat-label>
+          <input matInput [(ngModel)]="customerSearchRequestDto.name" name="name" aria-label="Customer Name"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Customer ID</mat-label>
+          <input matInput [(ngModel)]="customerSearchRequestDto.customerId" name="customerId" aria-label="Customer Id"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Customer status</mat-label>
+          <mat-select [(ngModel)]="customerSearchRequestDto.status" name="status" aria-label="Customer Status">
+            @for (option of customerStatusOptions; track option) {
+              <mat-option [value]="option.value">
                 {{ option.label }}
-              </mat-option> 
-            </mat-select>
-          </mat-form-field>
-        </div>
-    
-        <!-- Search Button -->
-        <div class="button-group">
-          <button mat-raised-button color="primary" type="submit" aria-label="Search for customers">Search</button>
-        </div>
-      </form>
-    </mat-card-content>
-    
-  </mat-card>
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Search Button -->
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit" aria-label="Search for customers">Search</button>
+      </div>
+    </form>
+  </mat-card-content>
+
+</mat-card>

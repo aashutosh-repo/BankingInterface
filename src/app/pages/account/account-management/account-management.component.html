@@ -1,223 +1,226 @@
 <div class="container">
   <h2 class="mb-4 text-center nominee-header">
-    <mat-icon class="header-icon">account_balance</mat-icon> 
+    <mat-icon class="header-icon">account_balance</mat-icon>
     {{ isEditMode ? 'Edit Account' : 'Create Account' }}
   </h2>
-  
-    <form (ngSubmit)="saveAccount()" #accountForm="ngForm">
-      <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
-        <!-- Owner Name -->
-        <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Account Owner Name</mat-label>
-              <input matInput type="text" [(ngModel)]="accountDetails.owner_name" name="owner_name" required/>
-            </mat-form-field>
-          </mat-grid-tile>  
 
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Mobile Number</mat-label>
-              <input matInput type="text" [(ngModel)]="mobileNumber" name="mobileNumber" required/>
-            </mat-form-field>
-          </mat-grid-tile>  
-          
-          <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Customer ID</mat-label>
-              <input matInput type="text" [(ngModel)]="accountDetails.cust_id" name="cust_id" disabled />
-            </mat-form-field>
-          </mat-grid-tile>
-        <!-- Account ID -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Account Number</mat-label>
-            <input matInput type="text" [(ngModel)]="accountDetails.account_number" name="accountId" disabled />
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- Internal Account Number -->
-        <!-- <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Internal Account Number</mat-label>
-            <input matInput type="text" [(ngModel)]="accountDetails.internalAcntNumber" name="internalAcntNumber" />
-          </mat-form-field>
-        </mat-grid-tile> -->
-  
-        <!-- Account Status -->
+  <form (ngSubmit)="saveAccount()" #accountForm="ngForm">
+    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
+      <!-- Owner Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Account Owner Name</mat-label>
+          <input matInput type="text" [(ngModel)]="accountDetails.owner_name" name="owner_name" required/>
+        </mat-form-field>
+      </mat-grid-tile>
 
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Account Status</mat-label>
-            <mat-select [(ngModel)]="accountDetails.account_status" name="account_status">
-              <mat-option [value]="1">Active</mat-option>
-              <mat-option [value]="0">Inactive</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- Account Number -->
-        <!-- <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Account Number</mat-label>
-            <input matInput type="text" [(ngModel)]="accountDetails.account_number" name="account_number" />
-          </mat-form-field>
-        </mat-grid-tile> -->
-  
-        <!-- Account Open Date -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Account Open Date</mat-label>
-            <input 
-              matInput 
-              [matDatepicker]="picker" 
-              [(ngModel)]="accountDetails.account_open_dt"
-              name="account_open_dt"
-              required
-            />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </mat-grid-tile>
-        
-  
-        <!-- Currency -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Currency</mat-label>
-            <mat-select [(ngModel)]="accountDetails.currency" name="npa_status">
-                <mat-option [value]="1">INR</mat-option>
-                <mat-option [value]="0">USD</mat-option>
-              </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- Customer ID -->
-        <!-- <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Customer ID</mat-label>
-            <input matInput type="number" [(ngModel)]="accountDetails.cust_id" name="cust_id" />
-          </mat-form-field>
-        </mat-grid-tile> -->
-  
-        <!-- Customer Type -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Customer Type</mat-label>
-            <mat-select [(ngModel)]="accountDetails.cus_type" name="cus_type" (ngModelChange)="updateMinBalance($event)">
-              <mat-option [value]="1">Individual</mat-option>
-              <mat-option [value]="2">Business</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- NPA Status -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>NPA Status</mat-label>
-            <mat-select [(ngModel)]="accountDetails.npa_status" name="npa_status">
-              <mat-option [value]="1">Yes</mat-option>
-              <mat-option [value]="0">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- Minimum Balance -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Minimum Balance</mat-label>
-            <input matInput type="number" [(ngModel)]="accountDetails.min_bal" name="min_bal" readonly />
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- Last Withdrawal Date -->
-        <!-- <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Last Withdrawal Date</mat-label>
-            <input matInput type="date" [(ngModel)]="accountDetails.last_withdrawal_dt" name="last_withdrawal_dt" />
-          </mat-form-field>
-        </mat-grid-tile> -->
-  
-        <!-- Available Balance -->
-        <!-- <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Available Balance</mat-label>
-            <input matInput type="number" [(ngModel)]="accountDetails.available_balance" name="available_balance" />
-          </mat-form-field>
-        </mat-grid-tile> -->
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput type="text" [(ngModel)]="mobileNumber" name="mobileNumber" required/>
+        </mat-form-field>
+      </mat-grid-tile>
 
-  
-        <!-- ATM Request Flag -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>ATM Requested</mat-label>
-            <mat-select [(ngModel)]="accountDetails.atm_req_flag" name="atm_req_flag">
-              <mat-option [value]="1">Yes</mat-option>
-              <mat-option [value]="0">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- Cheque Book Request Flag -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Cheque Book Requested</mat-label>
-            <mat-select [(ngModel)]="accountDetails.cheq_req_flag" name="cheq_req_flag">
-              <mat-option [value]="1">Yes</mat-option>
-              <mat-option [value]="0">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- SMS Request Flag -->
-        <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>SMS Alert Requested</mat-label>
-            <mat-select [(ngModel)]="accountDetails.sms_req_flag" name="sms_req_flag">
-              <mat-option [value]="1">Yes</mat-option>
-              <mat-option [value]="0">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-grid-tile>
-  
-        <!-- Account Closure Date -->
-        <!-- <mat-grid-tile>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Account Closure Date</mat-label>
-            <input matInput type="date" [(ngModel)]="accountDetails.clsr_dt" name="clsr_dt" />
-          </mat-form-field>
-        </mat-grid-tile> -->
-  
-        <!-- Closure Reason -->
-          <!-- <mat-grid-tile>
-            <mat-form-field appearance="outline" class="full-width closure-reason">
-              <mat-label>Closure Reason</mat-label>
-              <textarea matInput
-                        cdkTextareaAutosize
-                        cdkAutosizeMinRows="1"
-                        cdkAutosizeMaxRows="5"
-                        [(ngModel)]="accountDetails.clsr_reason"
-                        name="clsr_reason">
-              </textarea>
-            </mat-form-field>
-          </mat-grid-tile> -->
-  
-      </mat-grid-list>
-  
-      <!-- Submit Button -->
-      <div class="text-center mt-4">
-        <button *ngIf="!isEditMode" mat-raised-button color="primary" type="submit">
-          Create Account
-        </button>
-        
-        <button *ngIf="isEditMode" mat-raised-button color="accent" type="submit">
-          Update Account
-        </button>
-    
-        <!-- <button *ngIf="isEditMode" mat-raised-button color="warn" (click)="deleteAccount(accountDetails)">
-          Delete Account
-        </button> -->
-      </div>
-    </form>
-  </div>
-  
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Customer ID</mat-label>
+          <input matInput type="text" [(ngModel)]="accountDetails.cust_id" name="cust_id" disabled />
+        </mat-form-field>
+      </mat-grid-tile>
+      <!-- Account ID -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Account Number</mat-label>
+          <input matInput type="text" [(ngModel)]="accountDetails.account_number" name="accountId" disabled />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <!-- Internal Account Number -->
+      <!-- <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Internal Account Number</mat-label>
+        <input matInput type="text" [(ngModel)]="accountDetails.internalAcntNumber" name="internalAcntNumber" />
+      </mat-form-field>
+    </mat-grid-tile> -->
+
+    <!-- Account Status -->
+
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Account Status</mat-label>
+        <mat-select [(ngModel)]="accountDetails.account_status" name="account_status">
+          <mat-option [value]="1">Active</mat-option>
+          <mat-option [value]="0">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!-- Account Number -->
+    <!-- <mat-grid-tile>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Account Number</mat-label>
+      <input matInput type="text" [(ngModel)]="accountDetails.account_number" name="account_number" />
+    </mat-form-field>
+  </mat-grid-tile> -->
+
+  <!-- Account Open Date -->
+  <mat-grid-tile>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Account Open Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="accountDetails.account_open_dt"
+        name="account_open_dt"
+        required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-grid-tile>
+
+
+    <!-- Currency -->
+    <mat-grid-tile>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Currency</mat-label>
+        <mat-select [(ngModel)]="accountDetails.currency" name="npa_status">
+          <mat-option [value]="1">INR</mat-option>
+          <mat-option [value]="0">USD</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <!-- Customer ID -->
+    <!-- <mat-grid-tile>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Customer ID</mat-label>
+      <input matInput type="number" [(ngModel)]="accountDetails.cust_id" name="cust_id" />
+    </mat-form-field>
+  </mat-grid-tile> -->
+
+  <!-- Customer Type -->
+  <mat-grid-tile>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Customer Type</mat-label>
+      <mat-select [(ngModel)]="accountDetails.cus_type" name="cus_type" (ngModelChange)="updateMinBalance($event)">
+        <mat-option [value]="1">Individual</mat-option>
+        <mat-option [value]="2">Business</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <!-- NPA Status -->
+  <mat-grid-tile>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>NPA Status</mat-label>
+      <mat-select [(ngModel)]="accountDetails.npa_status" name="npa_status">
+        <mat-option [value]="1">Yes</mat-option>
+        <mat-option [value]="0">No</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <!-- Minimum Balance -->
+  <mat-grid-tile>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Minimum Balance</mat-label>
+      <input matInput type="number" [(ngModel)]="accountDetails.min_bal" name="min_bal" readonly />
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <!-- Last Withdrawal Date -->
+  <!-- <mat-grid-tile>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Last Withdrawal Date</mat-label>
+    <input matInput type="date" [(ngModel)]="accountDetails.last_withdrawal_dt" name="last_withdrawal_dt" />
+  </mat-form-field>
+</mat-grid-tile> -->
+
+<!-- Available Balance -->
+<!-- <mat-grid-tile>
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Available Balance</mat-label>
+  <input matInput type="number" [(ngModel)]="accountDetails.available_balance" name="available_balance" />
+</mat-form-field>
+</mat-grid-tile> -->
+
+
+
+<!-- ATM Request Flag -->
+<mat-grid-tile>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>ATM Requested</mat-label>
+    <mat-select [(ngModel)]="accountDetails.atm_req_flag" name="atm_req_flag">
+      <mat-option [value]="1">Yes</mat-option>
+      <mat-option [value]="0">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-grid-tile>
+
+<!-- Cheque Book Request Flag -->
+<mat-grid-tile>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cheque Book Requested</mat-label>
+    <mat-select [(ngModel)]="accountDetails.cheq_req_flag" name="cheq_req_flag">
+      <mat-option [value]="1">Yes</mat-option>
+      <mat-option [value]="0">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-grid-tile>
+
+<!-- SMS Request Flag -->
+<mat-grid-tile>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>SMS Alert Requested</mat-label>
+    <mat-select [(ngModel)]="accountDetails.sms_req_flag" name="sms_req_flag">
+      <mat-option [value]="1">Yes</mat-option>
+      <mat-option [value]="0">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-grid-tile>
+
+<!-- Account Closure Date -->
+<!-- <mat-grid-tile>
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Account Closure Date</mat-label>
+  <input matInput type="date" [(ngModel)]="accountDetails.clsr_dt" name="clsr_dt" />
+</mat-form-field>
+</mat-grid-tile> -->
+
+<!-- Closure Reason -->
+<!-- <mat-grid-tile>
+<mat-form-field appearance="outline" class="full-width closure-reason">
+  <mat-label>Closure Reason</mat-label>
+  <textarea matInput
+    cdkTextareaAutosize
+    cdkAutosizeMinRows="1"
+    cdkAutosizeMaxRows="5"
+    [(ngModel)]="accountDetails.clsr_reason"
+    name="clsr_reason">
+  </textarea>
+</mat-form-field>
+</mat-grid-tile> -->
+
+</mat-grid-list>
+
+<!-- Submit Button -->
+<div class="text-center mt-4">
+  @if (!isEditMode) {
+    <button mat-raised-button color="primary" type="submit">
+      Create Account
+    </button>
+  }
+
+  @if (isEditMode) {
+    <button mat-raised-button color="accent" type="submit">
+      Update Account
+    </button>
+  }
+
+  <!-- <button *ngIf="isEditMode" mat-raised-button color="warn" (click)="deleteAccount(accountDetails)">
+  Delete Account
+</button> -->
+</div>
+</form>
+</div>

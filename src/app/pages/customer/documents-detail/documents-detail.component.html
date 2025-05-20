@@ -35,9 +35,11 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Document Type</mat-label>
           <mat-select formControlName="docType">
-            <mat-option *ngFor="let type of documentType" [value]="type">
-              {{ type }}
-            </mat-option>
+            @for (type of documentType; track type) {
+              <mat-option [value]="type">
+                {{ type }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>

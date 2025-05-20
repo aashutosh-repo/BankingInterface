@@ -4,32 +4,38 @@
     <div class="welcome-message">
       <span>Welcome Back !! {{ userDetails?.firstName | uppercase }} {{ userDetails?.lastName | uppercase }}</span>
     </div>
-    <button class="login-button"  *ngIf="!userDetails" (click)="openLoginDialog()">Login</button>
+    @if (!userDetails) {
+      <button class="login-button"  (click)="openLoginDialog()">Login</button>
+    }
     <div class="username-container" (click)="toggleUserDetails()">
       <span class="username"> {{ userDetails?.userName | uppercase }}</span>
       <img class="user-icon" src="usericon/user.png" alt="User Icon" />
     </div>
   </div>
 
-  <div *ngIf="showUserDetails" class="user-details-dropdown">
-    <p><strong>Username:</strong> {{ userDetails?.userName }}</p>
-    <p><strong>Name:</strong> {{ userDetails?.firstName }} {{ userDetails?.lastName }}</p>
-    <p><strong>Last Login:</strong> {{ userDetails?.lastLogin | date: 'short' }}</p>
-  </div>
+  @if (showUserDetails) {
+    <div class="user-details-dropdown">
+      <p><strong>UserName:</strong> {{ userDetails?.userName }}</p>
+      <p><strong>Name:</strong> {{ userDetails?.firstName }} {{ userDetails?.lastName }}</p>
+      <p><strong>Last Login:</strong> {{ userDetails?.lastLogin | date: 'short' }}</p>
+    </div>
+  }
 </div>
 
 <!-- Cards Section -->
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-4 col-sm-6 mb-4" *ngFor="let card of cards">
-      <div class="card h-100 shadow-lg">
-        <img [src]="card.image" class="card-img-top" alt="Card Image">
-        <div class="card-body text-center">
-          <h5 class="card-title">{{ card.title }}</h5>
-          <p class="card-text">{{ card.description }}</p>
-          <a href="{{ card.link }}" class="btn btn-primary">Learn More</a>
+    @for (card of cards; track card) {
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 shadow-lg">
+          <img [src]="card.image" class="card-img-top" alt="Card Image">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ card.title }}</h5>
+            <p class="card-text">{{ card.description }}</p>
+            <a href="{{ card.link }}" class="btn btn-primary">Learn More</a>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>

@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CustomerAddress } from '../../../model/interfaces/customerAddress.model';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,16 +18,7 @@ import { ADDRESS_TYPE } from '../../../constants/dropdowns/CommonDropDowns';
 @Component({
   selector: 'app-address-detail',
   standalone:true,
-  imports: [FormsModule,CommonModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatIconModule, ReactiveFormsModule
-  ],
+  imports: [FormsModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './address-detail.component.html',
   styleUrls: ['./address-detail.component.scss']
 })

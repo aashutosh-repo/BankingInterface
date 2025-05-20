@@ -1,19 +1,7 @@
-
-.container {
-  max-width: 90%;
-  margin: auto;
-  padding: 20px;
-}
-
-mat-table {
+.full-width {
   width: 100%;
 }
-
-mat-header-cell {
-  font-weight: bold;
-}
-.language-output {
+.qr-container {
   margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
+  text-align: center;
 }

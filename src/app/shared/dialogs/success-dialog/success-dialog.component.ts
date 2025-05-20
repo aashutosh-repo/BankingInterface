@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-success-dialog',
   standalone:true,
-  imports: [CommonModule,MatIconModule,MatButtonModule],
+  imports: [MatIconModule, MatButtonModule],
   templateUrl: './success-dialog.component.html',
   styleUrl: './success-dialog.component.css'
 })

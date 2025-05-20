@@ -1,7 +1,11 @@
 <mat-dialog-content class="error-dialog">
   <div class="icon-container">
-    <mat-icon *ngIf="data.type === 'Error'" class="error-icon">error</mat-icon>
-    <mat-icon *ngIf="data.type === 'Warning'" class="warning-icon">warning</mat-icon>
+    @if (data.type === 'Error') {
+      <mat-icon class="error-icon">error</mat-icon>
+    }
+    @if (data.type === 'Warning') {
+      <mat-icon class="warning-icon">warning</mat-icon>
+    }
   </div>
 
   <h2 class="dialog-header">{{ data.type }}</h2>

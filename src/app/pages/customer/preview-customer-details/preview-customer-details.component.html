@@ -1,61 +1,67 @@
 <div class="container">
-    <h2 class="mb-4 text-center nominee-header">
-      <mat-icon class="header-icon">person</mat-icon> Customer Information Preview
-    </h2>
-  
-    <form (ngSubmit)="submitCustomerData()" #customerForm="ngForm">
-      <!-- Customer Details -->
-      <mat-card class="section-card">
-        <mat-card-title class="title">Customer Basic Details</mat-card-title>
-        <mat-divider></mat-divider>
-        <mat-card-content>
-          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px" class="scard">
-            <mat-grid-tile *ngFor="let field of customerDto | keyvalue">
+  <h2 class="mb-4 text-center nominee-header">
+    <mat-icon class="header-icon">person</mat-icon> Customer Information Preview
+  </h2>
+
+  <form (ngSubmit)="submitCustomerData()" #customerForm="ngForm">
+    <!-- Customer Details -->
+    <mat-card class="section-card">
+      <mat-card-title class="title">Customer Basic Details</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px" class="scard">
+          @for (field of customerDto | keyvalue; track field) {
+            <mat-grid-tile>
               <div class="data-item">
                 <span class="key">{{ getCustomerLabel(field.key) }}:</span>
                 <span class="value">{{ field.value || 'N/A' }}</span>
               </div>
             </mat-grid-tile>
-          </mat-grid-list>
-        </mat-card-content>
-      </mat-card>
-  
-      <!-- Address Details -->
-      <mat-card class="section-card">
-        <mat-card-title class="title">Customer Address Details</mat-card-title>
-        <mat-divider></mat-divider>
-        <mat-card-content>
-          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
-            <mat-grid-tile *ngFor="let field of customerAddress | keyvalue">
+          }
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Address Details -->
+    <mat-card class="section-card">
+      <mat-card-title class="title">Customer Address Details</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
+          @for (field of customerAddress | keyvalue; track field) {
+            <mat-grid-tile>
               <div class="data-item">
                 <span class="key">{{ getCustomerAddressLabel(field.key) }}:</span>
                 <span class="value">{{ field.value || 'N/A' }}</span>
               </div>
             </mat-grid-tile>
-          </mat-grid-list>
-        </mat-card-content>
-      </mat-card>
-  
-      <!-- Document Details -->
-      <mat-card class="section-card">
-        <mat-card-title class="title">Document Details</mat-card-title>
-        <mat-divider></mat-divider>
-        <mat-card-content>
-          <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
-            <mat-grid-tile *ngFor="let field of docDto | keyvalue">
+          }
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Document Details -->
+    <mat-card class="section-card">
+      <mat-card-title class="title">Document Details</mat-card-title>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-grid-list cols="2" rowHeight="30px" gutterSize="16px">
+          @for (field of docDto | keyvalue; track field) {
+            <mat-grid-tile>
               <div class="data-item">
                 <span class="key">{{ getCustomerDocumentsLabel(field.key) }}:</span>
                 <span class="value">{{ field.value || 'N/A' }}</span>
               </div>
             </mat-grid-tile>
-          </mat-grid-list>
-        </mat-card-content>
-      </mat-card>
+          }
+        </mat-grid-list>
+      </mat-card-content>
+    </mat-card>
 
-      <mat-card class="section-card">
-        <mat-card-title class="title">Nominee Details</mat-card-title>
-        <mat-divider></mat-divider>
-      
+    <mat-card class="section-card">
+      <mat-card-title class="title">Nominee Details</mat-card-title>
+      <mat-divider></mat-divider>
+
       <table mat-table [dataSource]="nomineeDetails" class="mat-elevation-z8 nomineetable" >
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -63,33 +69,32 @@
             {{ nominee.nomineeFirstName }} {{ nominee.nomineeMiddleName }} {{ nominee.nomineeLastName }}
           </td>
         </ng-container>
-      
+
         <ng-container matColumnDef="dob">
           <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
           <td mat-cell *matCellDef="let nominee">{{ nominee.dateOfBirth }}</td>
         </ng-container>
-      
+
         <ng-container matColumnDef="share">
           <th mat-header-cell *matHeaderCellDef>Nominee Share</th>
           <td mat-cell *matCellDef="let nominee">{{ nominee.nomShare }}%</td>
         </ng-container>
-      
+
         <ng-container matColumnDef="docId">
           <th mat-header-cell *matHeaderCellDef>Document ID</th>
           <td mat-cell *matCellDef="let nominee">{{ nominee.nomDocId }}</td>
         </ng-container>
-      
+
         <tr mat-header-row *matHeaderRowDef="['name', 'dob', 'share', 'docId']"></tr>
         <tr mat-row *matRowDef="let row; columns: ['name', 'dob', 'share', 'docId'];"></tr>
       </table>
-      </mat-card>
+    </mat-card>
 
-      
-      
-      <!-- Submit Button -->
-      <div class="text-center mt-4">
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </div>
-    </form>
-  </div>
-  
+
+
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>

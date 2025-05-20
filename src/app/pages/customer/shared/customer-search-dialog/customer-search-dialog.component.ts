@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -22,25 +22,11 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CustomerData } from '../../../../model/interfaces/customer.model';
 
 @Component({
   selector: 'app-customer-search-dialog',
-  imports: [CommonModule,
-    FormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatDividerModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTableModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatNativeDateModule,
-    MatSortModule,
-    MatOptionModule,
-    MatIconModule,
-    RouterModule, MatMenuModule, MatToolbarModule
-  ],
+  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatDividerModule, MatInputModule, MatButtonModule, MatTableModule, MatDatepickerModule, MatSelectModule, MatNativeDateModule, MatSortModule, MatOptionModule, MatIconModule, RouterModule, MatMenuModule, MatToolbarModule],
   templateUrl: './customer-search-dialog.component.html',
   styleUrls: ['./customer-search-dialog.component.css'],
 })
@@ -59,7 +45,7 @@ export class CustomerSearchDialogComponent {
   coreService = inject(CoreServicesService);
   private labelMapper = inject(LabelMapperService);
   
-  dataSource = new MatTableDataSource<CustomerDto>([]);
+  dataSource = new MatTableDataSource<CustomerData>([]);
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
   
   ngOnInit(): void {

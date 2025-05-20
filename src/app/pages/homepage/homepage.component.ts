@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CustomerDetails } from '../../model/interfaces/customer.model';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import {RouterModule } from '@angular/router';
 import { CustomerOperationService } from '../../services/customer/customer-operation.service';
@@ -9,7 +9,7 @@ import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-homepage',
-  imports: [CommonModule,FormsModule,RouterModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })

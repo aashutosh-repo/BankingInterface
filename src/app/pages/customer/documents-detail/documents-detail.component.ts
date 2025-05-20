@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {DocumentDTO } from '../../../model/interfaces/DocumentDTO.model';
-import { CommonModule } from '@angular/common';
+
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
@@ -17,16 +17,7 @@ import { CustomerDataService } from '../../../services/customer/customer-data.se
 @Component({
   selector: 'app-documents-detail',
   standalone:true,
-  imports: [CommonModule,FormsModule,
-    MatInputModule, ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-  MatIconModule
-  ],
+  imports: [FormsModule, MatInputModule, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatIconModule],
   templateUrl: './documents-detail.component.html',
   styleUrls: ['./documents-detail.component.scss']
 })

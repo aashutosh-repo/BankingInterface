@@ -17,7 +17,6 @@ export class Oauth2Service {
 
   login(user: UserRequest) {
     console.log('Login method called with user:', user);
-    debugger;
     if (!user.username || !user.password) {
       console.error('Username or password is empty');
       return;

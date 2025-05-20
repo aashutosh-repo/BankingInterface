@@ -19,63 +19,73 @@
         <mat-select formControlName="paymentMethod">
           <mat-option value="card">Credit/Debit Card</mat-option>
           <mat-option value="upi">UPI</mat-option>
+          <mat-option value="netbanking" aria-disabled="">Net Banking</mat-option>
+          <mat-option value="wallet" aria-disabled="">Wallet</mat-option>
+          <mat-option value="qr">Pay with QR</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === 'card'">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Card Holder Name</mat-label>
-          <input matInput type="text" formControlName="cardHolderName" placeholder="Aashutosh Kumar" />
+      @if (paymentForm.get('paymentMethod')?.value === 'card') {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Card Holder Name</mat-label>
+        <input matInput type="text" formControlName="cardHolderName" placeholder="Aashutosh Kumar" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width card-input-wrapper">
+        <mat-label>Card Number</mat-label>
+        <input matInput type="text" formControlName="cardNumber" placeholder="1234 5678 9123 4567"
+          (input)="detectCardType(paymentForm.get('cardNumber')?.value)" />
+        @if (cardType) {
+        <img [src]="'/cardlogo/' + cardType + '.png'" [alt]="cardType" class="card-icon" />
+        }
+      </mat-form-field>
+      <div class="expiry-cvv-row">
+        <!-- Month Dropdown -->
+        <mat-form-field appearance="outline">
+          <mat-label>Month</mat-label>
+          <mat-select formControlName="expiryMonth">
+            @for (month of months; track month) {
+            <mat-option [value]="month">{{ month }}</mat-option>
+            }
+          </mat-select>
         </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width card-input-wrapper">
-          <mat-label>Card Number</mat-label>
-          <input matInput type="text" 
-                 formControlName="cardNumber" 
-                 placeholder="1234 5678 9123 4567"
-                 (input)="detectCardType(paymentForm.get('cardNumber')?.value)" />
-          <img *ngIf="cardType" 
-               [src]="'/cardlogo/' + cardType + '.png'" 
-               [alt]="cardType" 
-               class="card-icon" />
+        <!-- Year Dropdown -->
+        <mat-form-field appearance="outline">
+          <mat-label>Year</mat-label>
+          <mat-select formControlName="expiryYear">
+            @for (year of years; track year) {
+            <mat-option [value]="year">{{ year }}</mat-option>
+            }
+          </mat-select>
         </mat-form-field>
+        <!-- CVV Field -->
+        <mat-form-field appearance="outline">
+          <mat-label>CVV</mat-label>
+          <input matInput type="text" formControlName="cvv" placeholder="123" />
+        </mat-form-field>
+      </div>
+      }
 
-        <div class="expiry-cvv-row">
-          <!-- Month Dropdown -->
-          <mat-form-field appearance="outline">
-            <mat-label>Month</mat-label>
-            <mat-select formControlName="expiryMonth">
-              <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- Year Dropdown -->
-          <mat-form-field appearance="outline">
-            <mat-label>Year</mat-label>
-            <mat-select formControlName="expiryYear">
-              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <!-- CVV Field -->
-          <mat-form-field appearance="outline">
-            <mat-label>CVV</mat-label>
-            <input matInput type="text" formControlName="cvv" placeholder="123" />
-          </mat-form-field>
+      @if (paymentForm.get('paymentMethod')?.value === 'upi') {
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>UPI ID</mat-label>
+        <input matInput type="text" formControlName="upiId" placeholder="example@upi" />
+      </mat-form-field>
+      }
+      @if (paymentForm.get('paymentMethod')?.value === 'qr') {
+      <div class="qr-section">
+        <button mat-raised-button color="primary" (click)="generateQR()">
+          Generate QR
+        </button>
+        <div *ngIf="qrData" class="qr-container">
+          <qrcode [qrdata]="qrData" [width]="200" errorCorrectionLevel="M"></qrcode>
+          <p><strong>Scan to pay:</strong> {{ qrData }}</p>
         </div>
-      </ng-container>
+        <mat-progress-bar *ngIf="qrInProgress" mode="indeterminate"></mat-progress-bar>
+        <p *ngIf="qrSuccess" class="success-msg">✅ Payment Successful via QR!</p>
+      </div>
+      }
 
-      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === 'upi'">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>UPI ID</mat-label>
-          <input matInput type="text" formControlName="upiId" placeholder="example@upi" />
-        </mat-form-field>
-      </ng-container>
-
-      <button mat-raised-button 
-              color="primary" 
-              type="submit" 
-              [disabled]="paymentForm.invalid">
+      <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid">
         Pay Now
       </button>
     </form>

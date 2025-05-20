@@ -1,7 +1,7 @@
 import { Component, inject, Optional } from '@angular/core';
 import { LoginServicesService } from '../../services/login-services.service';
 import { IUserDTO, UserRequest, UserResponse } from '../../model/interfaces/UserDetails.model';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../services/error/error.service';
@@ -11,7 +11,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

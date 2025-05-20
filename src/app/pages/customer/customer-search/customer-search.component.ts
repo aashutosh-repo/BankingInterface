@@ -3,7 +3,7 @@ import { CustomerDto } from '../../../model/interfaces/customerDTO.model';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CustomerOperationService } from '../../../services/customer/customer-operation.service';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -25,27 +25,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialog } from '@angular/material/dialog';
+import { CustomerDataService } from '../../../services/customer/customer-data.service';
+import { CustomerData, CustomerDetails } from '../../../model/interfaces/customer.model';
 
 
 @Component({
   selector: 'app-customer-search',
   standalone: true,
-  imports: [CommonModule,
-    FormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatDividerModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTableModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatNativeDateModule,
-    MatSortModule,
-    MatOptionModule,
-    MatIconModule,
-    RouterModule, MatMenuModule, MatToolbarModule
-  ],
+  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatDividerModule, MatInputModule, MatButtonModule, MatTableModule, MatDatepickerModule, MatSelectModule, MatNativeDateModule, MatSortModule, MatOptionModule, MatIconModule, RouterModule, MatMenuModule, MatToolbarModule],
   
   templateUrl: './customer-search.component.html',
   styleUrls: ['./customer-search.component.css']
@@ -63,7 +50,7 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
   coreService = inject(CoreServicesService);
   private labelMapper = inject(LabelMapperService);
   
-  dataSource = new MatTableDataSource<CustomerDto>([]);
+  dataSource = new MatTableDataSource<CustomerDetails>([]);
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
   
   ngOnInit(): void {
@@ -81,7 +68,8 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
   private customerService = inject(CustomerOperationService);
   constructor(
     private dialog: MatDialog,
-    private encryptionService: EncryptionService
+    private encryptionService: EncryptionService,
+    private customerDataService: CustomerDataService
   ) {}
   
 
@@ -103,6 +91,7 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
   }
 
   displayedColumns: string[] = [
+    'customerId',
     'customerCategory',
     'firstName',
     'lastName',
@@ -130,27 +119,35 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
 
 
 
-  search() {
-    this.customerSearchRequestDto.startDate = this.formatDate(this.startDate);
-    this.customerSearchRequestDto.endDate = this.formatDate(this.endDate);
-    console.log(this.customerSearchRequestDto);
-    const requestPayload = JSON.stringify(this.customerSearchRequestDto);
+    search() {
+      this.customerSearchRequestDto.startDate = this.formatDate(this.startDate);
+      this.customerSearchRequestDto.endDate = this.formatDate(this.endDate);
+      const requestPayload = JSON.stringify(this.customerSearchRequestDto);
 
-    this.customerService
-      .searchcustomerDetails(this.customerSearchRequestDto)
-      .subscribe({
-        // next: (data) => this.customers.set(data),
-        next: (data) => {
-          this.dataSource.data = data;
-          this.showTable = data.length > 0;
-          this.sortAttached = false; // Let AfterViewChecked reattach the sort
-        },
-        error: (err) => console.error('Error fetching customers:', err)
-      });
-  }
-  // customers() {
-  //   return this.dataSource;
-  // }
+      this.customerService
+        .searchcustomerDetails(this.customerSearchRequestDto)
+        .subscribe({
+          next: (data) => {
+            console.log('Raw API data:', data); // Debug: log the raw API response
+
+            // Map to extract customerDto and filter out nulls
+            this.dataSource.data = data
+              .map((item: any) => item.customerDetails)
+              .filter((details: CustomerDetails | null): details is CustomerDetails => !!details);
+
+            this.showTable = this.dataSource.data.length > 0;
+            console.log('Data:', this.dataSource.data);
+
+            //Pass data to customerDataService pool 
+            if (data && data.length > 0) {
+              data.forEach(item => {
+                this.customerDataService.addCustomerData(item);
+              });
+            }            this.sortAttached = false; // Let AfterViewChecked reattach the sort
+          },
+          error: (err) => console.error('Error fetching customers:', err)
+        });
+    }
 
   formatDate(date: Date): string {
     if (!date) return '';

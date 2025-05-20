@@ -1,5 +1,7 @@
 export interface CustomerDto {
-  customerCategory:string
+    customerId: string
+    customerType: string
+    customerCategory:string
     firstName: string
     lastName: string
     fatherName: string
@@ -12,4 +14,4 @@ export interface CustomerDto {
     custClsngDt: string
     riskProfile: number
     ratingAgency: string
-  }
+}

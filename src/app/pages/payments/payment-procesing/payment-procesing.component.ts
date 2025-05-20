@@ -1,8 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-// import { PaymentSuccessDialogComponent } from '../payment-success-dialog/payment-success-dialog.component';
 import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -14,13 +12,15 @@ import { EncryptionService } from '../../../services/encryption/encryption.servi
 import { LoadingComponent } from '../../../shared/dialogs/loading/loading.component';
 import { CoreServicesService } from '../../../services/core/core-services.service';
 import { PaymentService } from '../../../services/payments/payment.service';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-payment-procesing',
-  imports: [FormsModule, CommonModule,
-    MatCardModule,MatFormFieldModule, 
-    MatInputModule,MatSelectModule,
-    MatButtonModule,ReactiveFormsModule, LoadingComponent],
+  imports: [FormsModule, CommonModule, MatCardModule, MatFormFieldModule, 
+    MatInputModule, MatSelectModule, MatButtonModule, 
+    ReactiveFormsModule, LoadingComponent, QRCodeComponent , MatProgressBarModule],
   templateUrl: './payment-procesing.component.html',
   styleUrls: ['./payment-procesing.component.scss']
 })
@@ -160,6 +160,27 @@ const response = await this.paymentService.initiatePayment(encryptedPayload);
     } finally {
       this.isLoading = false;
     }
+  }
+
+
+  qrData: string = '';
+  qrInProgress = false;
+  qrSuccess = false;
+  generateQR() {
+    this.qrSuccess = false;
+    const upiId = 'aashutoshkumar6729@ybl';
+    const name = encodeURIComponent('Aashutosh Kumar');
+    const currency = 'INR';
+    const amount1 = 1.00; // Amount in INR
+    this.qrData = `upi://pay?pa=${upiId}&pn=${name}&am=${amount1}&cu=${currency}`;    this.qrInProgress = true;
+
+    // const { customerName, amount } = this.paymentForm.value;
+    // this.qrData = JSON.stringify({ customerName, amount });
+
+    setTimeout(() => {
+      this.qrInProgress = false;
+      this.qrSuccess = true;
+    }, 10000);
   }
 
 }

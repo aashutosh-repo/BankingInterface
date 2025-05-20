@@ -5,19 +5,13 @@ import { DocumentsDetailComponent } from '../documents-detail/documents-detail.c
 import { AddressDetailComponent } from '../address-detail/address-detail.component';
 import { CustomerBasicDetailsComponent } from '../customer-basic-details/customer-basic-details.component';
 import { PreviewCustomerDetailsComponent } from '../preview-customer-details/preview-customer-details.component';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-customer-details-view',
-  imports: [CommonModule,FormsModule,NomineeDetailComponent,
-    DocumentsDetailComponent,
-    AddressDetailComponent,
-    CustomerBasicDetailsComponent,
-    PreviewCustomerDetailsComponent,
-    MatStepperModule 
-  ],
+  imports: [FormsModule, NomineeDetailComponent, DocumentsDetailComponent, AddressDetailComponent, CustomerBasicDetailsComponent, PreviewCustomerDetailsComponent, MatStepperModule],
   templateUrl: './customer-details-view.component.html',
   styleUrls: ['./customer-details-view.component.css']
 })

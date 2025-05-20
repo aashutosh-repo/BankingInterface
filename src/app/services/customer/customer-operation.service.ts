@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CustomerDetails } from '../../model/interfaces/customer.model';
+import { CustomerData, CustomerDetails } from '../../model/interfaces/customer.model';
 import { catchError, Observable } from 'rxjs';
 import { CustomerDto } from '../../model/interfaces/customerDTO.model';
 import { CustomerSearchRequestDto } from '../../model/interfaces/customer/customerRequestDTO.model';
@@ -30,27 +30,20 @@ export class CustomerOperationService {
     .pipe(catchError(this.handleException) );
   }
 
+    getCustomerById(customerId: string, customerType: string): Observable<CustomerData> {
+    const params = new HttpParams()
+      .set('customerId', customerId)
+      .set('customerType', customerType);
 
-  searchcustomerDetails(customerSearchRequest: CustomerSearchRequestDto): Observable<CustomerDto[]> {
+    return this.http.get<CustomerData>(`${this.baseUrl}/findCustomerById`, { params });
+  }
+
+
+  searchcustomerDetails(customerSearchRequest: CustomerSearchRequestDto): Observable<CustomerData[]> {
 
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-
-    // const formattedStart = this.formatDate(customerSearchRequest.startDate);
-    // const formattedEnd = this.formatDate(customerSearchRequest.endDate);
-      // const params = new HttpParams()
-      //   .set('customerType', customerSearchRequest.customerType)
-      //   .set('startDate', formattedStart)
-      //   .set('endDate', formattedEnd);
-
-      // console.log("Start Date:", formattedStart);
-      // console.log("End Date:", formattedEnd);
-
-      console.log(customerSearchRequest);
-
       // return this.http.get<CustomerDto[]>(this.baseUrl, { params });
-      return this.http.post<CustomerDto[]>(
-        `${this.baseUrl}/customerSearch`,
-        customerSearchRequest,
+      return this.http.post<CustomerData[]>(`${this.baseUrl}/customerSearch`, customerSearchRequest,
         { headers }
       );
   }

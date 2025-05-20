@@ -1,41 +1,25 @@
-
-<mat-card class="container">
-  <h2>List of Students</h2>
-  <mat-table [dataSource]="dataSource" mat-table class="mat-elevation-z8">
-
-    <ng-container matColumnDef="firstName">
-      <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
-      <mat-cell *matCellDef="let students">{{students.firstName}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="lastName">
-      <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
-      <mat-cell *matCellDef="let students">{{students.lastName}}</mat-cell>
-
-    </ng-container>
-    <ng-container matColumnDef="age">
-      <mat-header-cell *matHeaderCellDef>Age</mat-header-cell>
-      <mat-cell *matCellDef="let students">{{students.age}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="rollNum">
-      <mat-header-cell *matHeaderCellDef>Roll Number</mat-header-cell>
-      <mat-cell *matCellDef="let students">{{students.rollNum}}</mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayColumns"></mat-row>
-  </mat-table>
-</mat-card>
-
-
 <mat-card>
-  <mat-card-title>Select Language</mat-card-title>
-  <mat-radio-group [(ngModel)]="selectedLanguage" aria-label="Select language">
-    <mat-radio-button value="english">English</mat-radio-button>
-    <mat-radio-button value="hindi">Hindi</mat-radio-button>
-  </mat-radio-group>
+  <mat-card-title>Generate Payment QR</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="paymentForm" (ngSubmit)="generateQR()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Customer Name</mat-label>
+        <input matInput formControlName="customerName" required>
+      </mat-form-field>
 
-  <div class="language-output">
-    <p>{{ displayText }}</p>
-  </div>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="amount" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">
+        Generate QR
+      </button>
+    </form>
+
+    <div *ngIf="showQR" class="qr-container">
+      <qrcode [qrdata]="qrData" [width]="200" errorCorrectionLevel="M"></qrcode>
+      <p><strong>QR Content:</strong> {{ qrData }}</p>
+    </div>
+  </mat-card-content>
 </mat-card>

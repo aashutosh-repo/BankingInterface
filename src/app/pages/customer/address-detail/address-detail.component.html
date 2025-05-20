@@ -17,9 +17,11 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Address Type</mat-label>
           <mat-select formControlName="addressType">
-            <mat-option *ngFor="let addressType of addressTypes" [value]="addressType.value">
-              {{ addressType.label }}
-            </mat-option>
+            @for (addressType of addressTypes; track addressType) {
+              <mat-option [value]="addressType.value">
+                {{ addressType.label }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>
@@ -63,9 +65,11 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>State</mat-label>
           <mat-select formControlName="state">
-            <mat-option *ngFor="let allstate of statesOptions" [value]="allstate">
-              {{ allstate }}
-            </mat-option>
+            @for (allstate of statesOptions; track allstate) {
+              <mat-option [value]="allstate">
+                {{ allstate }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>
@@ -74,12 +78,16 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Pin Code</mat-label>
           <input matInput formControlName="pinCode" />
-          <mat-error *ngIf="addressForm.get('pinCode')?.hasError('required') && addressForm.get('pinCode')?.touched">
-            Pin Code is required
-          </mat-error>
-          <mat-error *ngIf="addressForm.get('pinCode')?.hasError('pattern') && addressForm.get('pinCode')?.touched">
-            Pin Code must be 6 digits
-          </mat-error>
+          @if (addressForm.get('pinCode')?.hasError('required') && addressForm.get('pinCode')?.touched) {
+            <mat-error>
+              Pin Code is required
+            </mat-error>
+          }
+          @if (addressForm.get('pinCode')?.hasError('pattern') && addressForm.get('pinCode')?.touched) {
+            <mat-error>
+              Pin Code must be 6 digits
+            </mat-error>
+          }
         </mat-form-field>
       </mat-grid-tile>
 

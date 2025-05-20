@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
@@ -18,14 +18,7 @@ import { CUSTOMER_ELIGIBILITY_TYPES } from '../../../constants/dropdowns/CommonD
 @Component({
   selector: 'app-nominee-detail',
   standalone:true,
-  imports: [FormsModule,CommonModule,
-    MatInputModule, ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatIconModule, MatSelectModule],
+  imports: [FormsModule, MatInputModule, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatSelectModule],
   templateUrl: './nominee-detail.component.html',
   styleUrls: ['./nominee-detail.component.scss']
 })

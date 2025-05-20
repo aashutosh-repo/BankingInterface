@@ -1,144 +1,158 @@
 <div class="container">
   <h2 class="mb-4 text-center nominee-header">
     <mat-icon class="header-icon">person</mat-icon> Customer Basic Details
-  </h2> 
+  </h2>
 
-<form [formGroup]="customerForm" (ngSubmit)="nextStep()">
-  <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
+  <form [formGroup]="customerForm" (ngSubmit)="nextStep()">
+    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
 
-    <!-- First Name -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>First Name</mat-label>
-        <input matInput type="text" formControlName="firstName" />
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- First Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" formControlName="firstName" />
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Last Name -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Last Name</mat-label>
-        <input matInput type="text" formControlName="lastName" />
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Last Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" formControlName="lastName" />
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Father's Name -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Father's Name</mat-label>
-        <input matInput type="text" formControlName="fatherName" />
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Father's Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Father's Name</mat-label>
+          <input matInput type="text" formControlName="fatherName" />
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Mother's Name -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Mother's Name</mat-label>
-        <input matInput type="text" formControlName="motherName" />
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Mother's Name -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mother's Name</mat-label>
+          <input matInput type="text" formControlName="motherName" />
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Email -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="mail" />
-        <mat-error *ngIf="customerForm.get('mail')?.hasError('invalidEmail') && customerForm.get('mail')?.touched">
-          Invalid email format. Example: user123&#64;domain.com
-        </mat-error>
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Email -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="mail" />
+          @if (customerForm.get('mail')?.hasError('invalidEmail') && customerForm.get('mail')?.touched) {
+            <mat-error>
+              Invalid email format. Example: user123&#64;domain.com
+            </mat-error>
+          }
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Mobile Number -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Mobile Number</mat-label>
-        <input matInput type="text" formControlName="mobileNumber"/>
-        <mat-error *ngIf="customerForm.get('mobileNumber')?.hasError('required') && customerForm.get('mobileNumber')?.touched">
-          Mobile number is required.
-        </mat-error>
-        
-        <mat-error *ngIf="customerForm.get('mobileNumber')?.hasError('invalidPhone') && customerForm.get('mobileNumber')?.touched">
-          Invalid mobile number (should be 10 digits and first 2 digits > 60).
-        </mat-error>
-        
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Mobile Number -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput type="text" formControlName="mobileNumber"/>
+          @if (customerForm.get('mobileNumber')?.hasError('required') && customerForm.get('mobileNumber')?.touched) {
+            <mat-error>
+              Mobile number is required.
+            </mat-error>
+          }
 
-    <!-- Status -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="status">
-          <mat-option *ngFor="let status of customerStatusOptions" [value]="status.value">
-            {{ status.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-grid-tile>
+          @if (customerForm.get('mobileNumber')?.hasError('invalidPhone') && customerForm.get('mobileNumber')?.touched) {
+            <mat-error>
+              Invalid mobile number (should be 10 digits and first 2 digits > 60).
+            </mat-error>
+          }
 
-    <!-- Date of Birth -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Date of Birth</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </mat-grid-tile>
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Onboarding Date -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Onboarding Date</mat-label>
-        <input matInput [matDatepicker]="onboardingPicker" formControlName="onboardingDate" />
-        <mat-datepicker-toggle matSuffix [for]="onboardingPicker"></mat-datepicker-toggle>
-        <mat-datepicker #onboardingPicker></mat-datepicker>
-        <mat-error *ngIf="customerForm.get('onboardingDate')?.hasError('pastDate') && customerForm.get('onboardingDate')?.touched">
-          Date must be today or in the future.
-        </mat-error>
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Status -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            @for (status of customerStatusOptions; track status) {
+              <mat-option [value]="status.value">
+                {{ status.label }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Customer Closing Date -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Customer Closing Date</mat-label>
-        <input matInput [matDatepicker]="closingPicker" formControlName="custClsngDt" />
-        <mat-datepicker-toggle matSuffix [for]="closingPicker"></mat-datepicker-toggle>
-        <mat-datepicker #closingPicker></mat-datepicker>
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Date of Birth -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Risk Profile -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Risk Profile</mat-label>
-        <mat-select formControlName="riskProfile">
-          <mat-option *ngFor="let profile of riskProfileOptions" [value]="profile.value">
-            {{ profile.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Onboarding Date -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Onboarding Date</mat-label>
+          <input matInput [matDatepicker]="onboardingPicker" formControlName="onboardingDate" />
+          <mat-datepicker-toggle matSuffix [for]="onboardingPicker"></mat-datepicker-toggle>
+          <mat-datepicker #onboardingPicker></mat-datepicker>
+          @if (customerForm.get('onboardingDate')?.hasError('pastDate') && customerForm.get('onboardingDate')?.touched) {
+            <mat-error>
+              Date must be today or in the future.
+            </mat-error>
+          }
+        </mat-form-field>
+      </mat-grid-tile>
 
-    <!-- Rating Agency -->
-    <mat-grid-tile>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Rating Agency</mat-label>
-        <mat-select formControlName="ratingAgency">
-          <mat-option *ngFor="let agency of ratingAgencies" [value]="agency">
-            {{ agency }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-grid-tile>
+      <!-- Customer Closing Date -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Customer Closing Date</mat-label>
+          <input matInput [matDatepicker]="closingPicker" formControlName="custClsngDt" />
+          <mat-datepicker-toggle matSuffix [for]="closingPicker"></mat-datepicker-toggle>
+          <mat-datepicker #closingPicker></mat-datepicker>
+        </mat-form-field>
+      </mat-grid-tile>
 
-  </mat-grid-list>
+      <!-- Risk Profile -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Risk Profile</mat-label>
+          <mat-select formControlName="riskProfile">
+            @for (profile of riskProfileOptions; track profile) {
+              <mat-option [value]="profile.value">
+                {{ profile.label }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
 
-  <!-- Submit Button -->
-  <div class="text-center mt-4">
-    <button mat-raised-button color="primary" type="submit">Submit</button>
-  </div>
-</form>
+      <!-- Rating Agency -->
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Rating Agency</mat-label>
+          <mat-select formControlName="ratingAgency">
+            @for (agency of ratingAgencies; track agency) {
+              <mat-option [value]="agency">
+                {{ agency }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <!-- Submit Button -->
+    <div class="text-center mt-4">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
 </div>

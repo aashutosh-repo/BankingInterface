@@ -31,9 +31,11 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nominee Type</mat-label>
           <mat-select formControlName="nomType">
-            <mat-option *ngFor="let type of nomineeTypes" [value]="type.value">
-              {{ type.label }}
-            </mat-option>
+            @for (type of nomineeTypes; track type) {
+              <mat-option [value]="type.value">
+                {{ type.label }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>
@@ -56,7 +58,9 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Relationship Type</mat-label>
           <mat-select formControlName="relationshipType">
-            <mat-option *ngFor="let type of nomineeRelations" [value]="type">{{ type }}</mat-option>
+            @for (type of nomineeRelations; track type) {
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </mat-grid-tile>

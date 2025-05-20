@@ -1,88 +1,95 @@
 <div class="container mt-4">
-    <h2>{{ mode === 'create' ? 'Create New Account' : 'Modify Account' }}</h2>
+  <h2>{{ mode === 'create' ? 'Create New Account' : 'Modify Account' }}</h2>
 
-  
-    <!-- Toggle Mode Buttons -->
-    <div class="text-center mb-3">
-        <button class="btn btn-primary">
-            {{ mode === 'create' ? 'Create Account' : 'Update Account' }}
-          </button>
-    </div>
-    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label class="form-label">Account Type</label>
-                <select class="form-select" formControlName="accType">
-                  <option *ngFor="let type of accountTypes" [value]="type.value" [selected]="type.value === 1">
-                    {{ type.label }}
-                  </option>
-                </select>
-            </div>
-  
+
+  <!-- Toggle Mode Buttons -->
+  <div class="text-center mb-3">
+    <button class="btn btn-primary">
+      {{ mode === 'create' ? 'Create Account' : 'Update Account' }}
+    </button>
+  </div>
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label">Account Type</label>
+          <select class="form-select" formControlName="accType">
+            @for (type of accountTypes; track type) {
+              <option [value]="type.value" [selected]="type.value === 1">
+                {{ type.label }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Account Status</label>
+          <input type="number" class="form-control" formControlName="account_status">
+        </div>
+
+        <!-- Account Number: Hidden in Create Mode -->
+        @if (mode === 'edit') {
           <div class="mb-3">
-            <label class="form-label">Account Status</label>
-            <input type="number" class="form-control" formControlName="account_status">
-          </div>
-  
-          <!-- Account Number: Hidden in Create Mode -->
-          <div class="mb-3" *ngIf="mode === 'edit'">
             <label class="form-label">Account Number</label>
             <input type="text" class="form-control" formControlName="account_number" readonly>
           </div>
-  
-          <div class="mb-3">
-            <label class="form-label">Account Open Date</label>
-            <input type="date" class="form-control" formControlName="account_open_dt">
-          </div>
-  
-          <div class="mb-3">
-            <label class="form-label">Currency</label>
-            <select class="form-select" formControlName="currency">
-              <option *ngFor="let type of currency" [value]="type.value" [selected]="type.value === 1">
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Account Open Date</label>
+          <input type="date" class="form-control" formControlName="account_open_dt">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Currency</label>
+          <select class="form-select" formControlName="currency">
+            @for (type of currency; track type) {
+              <option [value]="type.value" [selected]="type.value === 1">
                 {{ type.label }}
               </option>
-            </select>
+            }
+          </select>
         </div>
-  
-          <div class="mb-3">
-            <label class="form-label">Customer ID</label>
-            <input type="number" class="form-control" formControlName="cust_id">
-          </div>
+
+        <div class="mb-3">
+          <label class="form-label">Customer ID</label>
+          <input type="number" class="form-control" formControlName="cust_id">
         </div>
-  
-        <div class="col-md-6">
+      </div>
+
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label">NPA Status</label>
+          <input type="number" class="form-control" formControlName="npa_status">
+        </div>
+
+        <!-- Minimum Balance: Hidden in Create Mode -->
+        @if (mode === 'edit') {
           <div class="mb-3">
-            <label class="form-label">NPA Status</label>
-            <input type="number" class="form-control" formControlName="npa_status">
-          </div>
-  
-          <!-- Minimum Balance: Hidden in Create Mode -->
-          <div class="mb-3" *ngIf="mode === 'edit'">
             <label class="form-label">Minimum Balance</label>
             <input type="number" class="form-control" formControlName="min_bal">
           </div>
-  
-          <div class="mb-3">
-            <label class="form-label">Last Withdrawal Date</label>
-            <input type="date" class="form-control" formControlName="last_withdrawal_dt">
-          </div>
-  
-          <div class="mb-3">
-            <label class="form-label">Available Balance</label>
-            <input type="number" class="form-control" formControlName="available_balance">
-          </div>
-  
-          <div class="mb-3">
-            <label class="form-label">Owner Name</label>
-            <input type="text" class="form-control" formControlName="owner_name">
-          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label">Last Withdrawal Date</label>
+          <input type="date" class="form-control" formControlName="last_withdrawal_dt">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Available Balance</label>
+          <input type="number" class="form-control" formControlName="available_balance">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Owner Name</label>
+          <input type="text" class="form-control" formControlName="owner_name">
         </div>
       </div>
-  
-      <button type="submit" class="btn btn-primary w-100">
-        {{ mode === 'create' ? 'Create Account' : 'Update Account' }}
-      </button>
-    </form>
-  </div>
-  
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">
+      {{ mode === 'create' ? 'Create Account' : 'Update Account' }}
+    </button>
+  </form>
+</div>

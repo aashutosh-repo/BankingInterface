@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FlightService } from '../../../services/flight/flight.service';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,9 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-flight-ticket',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatDatepickerModule,
-    MatOptionModule, MatAutocompleteModule, MatToolbarModule, ReactiveFormsModule,MatNativeDateModule, MatInputModule
-  ],
+  imports: [FormsModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatDatepickerModule, MatOptionModule, MatAutocompleteModule, MatToolbarModule, ReactiveFormsModule, MatNativeDateModule, MatInputModule],
   templateUrl: './flight-ticket.component.html',
   styleUrls: ['./flight-ticket.component.css']
 })

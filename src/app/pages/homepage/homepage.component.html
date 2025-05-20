@@ -38,7 +38,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
         <li><a class="dropdown-item" [routerLink]="['/customer/onboarding']">
-            Customer Onboarding </a></li>
+        Customer Onboarding </a></li>
         <li><a class="dropdown-item" href="#">Delete Customers</a></li>
         <li><a class="dropdown-item" href="#">Add Instruments</a></li>
       </ul>
@@ -65,20 +65,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let customer of customers" class="default">
-        <td>{{ customer.firstName }}</td>
-        <td>{{ customer.lastName }}</td>
-        <td>{{ customer.fatherName }}</td>
-        <td>{{ customer.motherName }}</td>
-        <td>{{ customer.mail }}</td>
-        <td>{{ customer.mobileNumber }}</td>
-        <td>{{ customer.status }}</td>
-        <td>{{ customer.dateOfBirth }}</td>
-        <td>{{ customer.onboardingDate }}</td>
-        <td>{{ customer.custClsngDt }}</td>
-        <td>{{ customer.riskProfile }}</td>
-        <td>{{ customer.ratingAgency }}</td>
-      </tr>
+      @for (customer of customers; track customer) {
+        <tr class="default">
+          <td>{{ customer.firstName }}</td>
+          <td>{{ customer.lastName }}</td>
+          <td>{{ customer.fatherName }}</td>
+          <td>{{ customer.motherName }}</td>
+          <td>{{ customer.mail }}</td>
+          <td>{{ customer.mobileNumber }}</td>
+          <td>{{ customer.status }}</td>
+          <td>{{ customer.dateOfBirth }}</td>
+          <td>{{ customer.onboardingDate }}</td>
+          <td>{{ customer.custClsngDt }}</td>
+          <td>{{ customer.riskProfile }}</td>
+          <td>{{ customer.ratingAgency }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

@@ -2,30 +2,46 @@
   <!-- Toolbar -->
   <mat-toolbar color="primary" class="mat-elevation-z4">
     <!-- <button mat-icon-button (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
-    </button> -->
-    <span class="ms-2">Infinity Bank</span>
+    <mat-icon>menu</mat-icon>
+  </button> -->
+  <span class="ms-2">Infinity Bank</span>
 
-    <span class="spacer"></span>
+  <span class="spacer"></span>
 
-    <a mat-button>Home</a>
-    <a mat-button>Customer</a>
-    <a mat-button>Acounts</a>
-    <a mat-button>About</a>
-  </mat-toolbar>
+  <a mat-button>Home</a>
+  <a mat-button>Documentation</a>
+  <a mat-button>Shortcut</a>
+  <a mat-button>About Us</a>
+  @if (!userDetails) {
+    <button class="login-button" (click)="openLoginDialog()">Login</button>
+  }
+  <div class="username-container" (click)="toggleUserDetails()" >
+    <span class="username"></span>
+    <img class="user-icon" src="usericon/user.png" alt="User Icon" />
+  </div>
+  @if (showUserDetails) {
+    <div class="user-details-dropdown">
+      <p><strong>USERID:</strong> {{ userDetails?.userName }}</p>
+      <p><strong>NAME:</strong> {{ userDetails?.firstName }} {{ userDetails?.lastName }}</p>
+      <p><strong>LAST LOGIN:</strong> {{ userDetails?.lastLogin | date: 'short' }}</p>
+    </div>
+  }
+</mat-toolbar>
 
-  <!-- Navigation Panel (for smaller screens) -->
-  <nav *ngIf="isExpanded" class="mobile-nav">
+<!-- Navigation Panel (for smaller screens) -->
+@if (isExpanded) {
+  <nav class="mobile-nav">
     <a mat-button (click)="toggleMenu()">Home</a>
     <a mat-button (click)="toggleMenu()">Customer</a>
     <a mat-button (click)="toggleMenu()">Acounts</a>
     <a mat-button (click)="toggleMenu()">About</a>
   </nav>
+}
 
-  <!-- Jumbotron Replacement -->
-  <!-- <div class="jumbotron">
-    <h1>Heading</h1>
-    <h4>Subheading</h4>
-    <button mat-raised-button color="accent">Call to action</button>
-  </div> -->
+<!-- Jumbotron Replacement -->
+<!-- <div class="jumbotron">
+<h1>Heading</h1>
+<h4>Subheading</h4>
+<button mat-raised-button color="accent">Call to action</button>
+</div> -->
 </header>

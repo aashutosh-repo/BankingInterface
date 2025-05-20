@@ -7,7 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
-import { CommonModule,Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { ACCOUNT_LABEL_MAPPING } from '../../../constants/levels/account-label';
 import { Account } from '../../../model/interfaces/account.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,22 +21,7 @@ import { SessionStorageService } from '../../../services/session/session-storage
 @Component({
   selector: 'app-account-management',
   standalone: true,
-  imports: [FormsModule, CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatGridListModule,
-    MatTableModule, 
-    MatCardModule, 
-    MatGridListModule,
-    MatIconModule, 
-    MatButtonModule, 
-    MatDividerModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatGridListModule,
-    MatSelectModule ,
-    MatOptionModule
-    ],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatGridListModule, MatTableModule, MatCardModule, MatGridListModule, MatIconModule, MatButtonModule, MatDividerModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatSelectModule, MatOptionModule],
   templateUrl: './account-management.component.html',
   styleUrls: ['./account-management.component.css']
 })
