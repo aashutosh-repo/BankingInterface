@@ -1,8 +1,7 @@
-import { AfterViewChecked, AfterViewInit, Component, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { CustomerDto } from '../../../model/interfaces/customerDTO.model';
+import { AfterViewChecked, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CustomerOperationService } from '../../../services/customer/customer-operation.service';
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,31 +10,27 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { CUSTOMER_STATUS, CUSTOMER_TYPE_OPTIONS } from '../../../constants/dropdowns/CommonDropDowns';
+import { CUSTOMER_TYPE_OPTIONS } from '../../../constants/dropdowns/CommonDropDowns';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { CoreServicesService } from '../../../services/core/core-services.service';
 import { CustomerSearchRequestDto } from '../../../model/interfaces/customer/customerRequestDTO.model';
 import { CUSTOMER_STATUS_OPTIONS } from '../../../constants/dropdowns/customer-dropdowns.constants';
-import { CUSTOMER_LABEL_MAPPING } from '../../../constants/levels/customer-details-labels';
 import { LabelMapperService } from '../../../services/utility/label-mapper.service';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
-<<<<<<< HEAD
-import { MatDialog } from '@angular/material/dialog';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
-import { CustomerData, CustomerDetails } from '../../../model/interfaces/customer.model';
-=======
->>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
+import { CustomerDetails } from '../../../model/interfaces/customer.model';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-customer-search',
   standalone: true,
-  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatDividerModule, MatInputModule, MatButtonModule, MatTableModule, MatDatepickerModule, MatSelectModule, MatNativeDateModule, MatSortModule, MatOptionModule, MatIconModule, RouterModule, MatMenuModule, MatToolbarModule],
+  imports: [FormsModule, CommonModule, MatCardModule, MatFormFieldModule, MatDividerModule, MatInputModule, MatButtonModule, MatTableModule, MatDatepickerModule, MatSelectModule, MatNativeDateModule, MatSortModule, MatOptionModule, MatIconModule, RouterModule, MatMenuModule, MatToolbarModule],
   
   templateUrl: './customer-search.component.html',
   styleUrls: ['./customer-search.component.css']
@@ -70,13 +65,8 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
 
   private customerService = inject(CustomerOperationService);
   constructor(
-<<<<<<< HEAD
-    private dialog: MatDialog,
-    private encryptionService: EncryptionService,
-    private customerDataService: CustomerDataService
-=======
+    private customerDataService: CustomerDataService,
     private encryptionService: EncryptionService
->>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
   ) {}
   
 
@@ -129,7 +119,6 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
     search() {
       this.customerSearchRequestDto.startDate = this.formatDate(this.startDate);
       this.customerSearchRequestDto.endDate = this.formatDate(this.endDate);
-      const requestPayload = JSON.stringify(this.customerSearchRequestDto);
 
       this.customerService
         .searchcustomerDetails(this.customerSearchRequestDto)

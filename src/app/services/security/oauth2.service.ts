@@ -16,10 +16,7 @@ export class Oauth2Service {
 
 
   login(user: UserRequest) {
-<<<<<<< HEAD
     console.log('Login method called with user:', user);
-=======
->>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
     if (!user.username || !user.password) {
       console.error('Username or password is empty');
       return;
