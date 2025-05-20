@@ -4,10 +4,6 @@ export interface UserRequest{
 }
 export interface UserResponse {
     token: string;
-    userName: string;
-    firstName: string;
-    lastName: string;
-    lastLogin: string;
 }
 
 export interface IUserDTO{

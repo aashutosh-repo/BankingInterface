@@ -4,9 +4,12 @@
     <div class="welcome-message">
       <span>Welcome Back !! {{ userDetails?.firstName | uppercase }} {{ userDetails?.lastName | uppercase }}</span>
     </div>
+<<<<<<< HEAD
     @if (!userDetails) {
       <button class="login-button"  (click)="openLoginDialog()">Login</button>
     }
+=======
+>>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
     <div class="username-container" (click)="toggleUserDetails()">
       <span class="username"> {{ userDetails?.userName | uppercase }}</span>
       <img class="user-icon" src="usericon/user.png" alt="User Icon" />

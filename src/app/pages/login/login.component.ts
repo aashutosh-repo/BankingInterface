@@ -1,4 +1,4 @@
-import { Component, inject, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LoginServicesService } from '../../services/login-services.service';
 import { IUserDTO, UserRequest, UserResponse } from '../../model/interfaces/UserDetails.model';
 
@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../services/error/error.service';
 import { Oauth2Service } from '../../services/security/oauth2.service';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -26,19 +25,17 @@ export class LoginComponent {
     password: ''
   }
 
-  constructor(private Oauth2Service: Oauth2Service,
-    @Optional() private dialogRef: MatDialogRef<LoginComponent>
-    //Note : MatDialogRef is optional because this component may be used in different contexts
-  ) {}
+  constructor(private Oauth2Service: Oauth2Service) {}
 
 
 
   verifyUser(): void {
+
     this.Oauth2Service.login(this.user)?.subscribe(
       (response) => {
-        console.log('Login successful, Response :', response);
+        console.log('Login successful, Token:', response.token);
         this.Oauth2Service.saveToken(response.token);
-        this.dialogRef.close(response)
+        window.location.href = '/homepage'; // Redirect after login
       },
       (error) => {
         console.error('Login failed:', error);

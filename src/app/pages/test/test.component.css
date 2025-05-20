@@ -1,7 +1,14 @@
 .full-width {
   width: 100%;
 }
+<<<<<<< HEAD
 .qr-container {
   margin-top: 20px;
   text-align: center;
 }
+=======
+
+mat-header-cell {
+  font-weight: bold;
+}
+>>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)

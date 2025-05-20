@@ -1,0 +1,50 @@
+Title: UPI Payment via QR Code with Backend Polling
+
+Requirement: As a customer,
+  I want to scan a QR code to pay via UPI
+  and be automatically redirected when the payment is completed,
+  so that I don’t need to manually refresh or confirm the payment.
+
+Acceptance Criteria
+    A unique transaction ID is generated when QR is created.
+    A UPI QR code is generated with UPI URI and txn ID.
+    The frontend shows the QR and starts polling the backend every few seconds.
+    If the backend returns a successful payment status, the user is redirected to a success page.
+    If the user closes the session or time runs out, polling stops.
+
+UI (Angular) Requirements
+    1. Create a QR code with a unique transaction ID.
+        -> sample - const txnId = 'TXN' + Date.now();
+
+    2. Generate UPI URI with that txnId
+        sample: const upiId = 'aashutosh@ybl';
+                const name = encodeURIComponent('Aashutosh Kumar');
+                const amount = this.paymentForm.get('amount')?.value || 1.00;
+                this.txnId = txnId;
+                this.qrData = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR&txnId=${txnId}`;
+
+    3. Display the QR code on the screen.
+
+    4. Start polling the backend every few seconds to check for payment status.
+        sample : startPolling() {
+                  this.pollingSubscription = interval(5000).pipe(
+                  switchMap(() => this.http.get<{ status: string }>(`/api/payment/status/${this.txnId}`))
+                  ).subscribe(res => {
+                    if (res.status === 'SUCCESS') {
+                  this.pollingSubscription.unsubscribe();
+                  this.router.navigate(['/payment-success']);
+                }
+              });
+              }
+    5. If payment is successful, redirect the user to a success page.
+
+    6. If the user closes the session or time runs out, stop polling.
+
+
+Aspected Backend Return 
+
+@GetMapping("/payment/status/{txnId}")
+public ResponseEntity<Map<String, String>> getPaymentStatus(@PathVariable String txnId) {
+    String status = paymentService.getStatusForTxn(txnId); // e.g., "PENDING", "SUCCESS"
+    return ResponseEntity.ok(Map.of("status", status));
+}

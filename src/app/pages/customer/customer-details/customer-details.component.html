@@ -1,0 +1,113 @@
+<!-- Breadcrumb -->
+<div class="breadcrumbs">
+  <mat-icon>chevron_right</mat-icon>
+  <span>{{ sections[selectedSection].label }}</span>
+</div>
+
+<!-- Main layout container -->
+<div class="layout">
+  <!-- Left side navigation -->
+  <mat-nav-list>
+    @for (section of sections; track section; let i = $index) {
+      <mat-list-item
+        (click)="selectedSection = i"
+        [class.active]="selectedSection === i">
+        <div class="icon-label-wrapper">
+          <mat-icon>{{ section.icon }}</mat-icon>
+          <h4 class="text-center">{{ section.label }}</h4>
+        </div>
+      </mat-list-item>
+    }
+  </mat-nav-list>
+
+  <!-- Right side content -->
+  <div class="content" [@fadeInOut]>
+    @switch (selectedSection) {
+      <!-- Basic Details -->
+      @case (0) {
+        <mat-card>
+          <mat-card-title>Customer Basic Details</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <mat-grid-list cols="2" rowHeight="30px">
+              @for (field of customerDto | keyvalue; track field) {
+                <mat-grid-tile>
+                  <strong>{{ getCustomerLabel(field.key) }}:</strong> {{ field.value || 'N/A' }}
+                </mat-grid-tile>
+              }
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card>
+      }
+      <!-- Address -->
+      @case (1) {
+        <mat-card>
+          <mat-card-title>Address Details</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <mat-grid-list cols="2" rowHeight="30px">
+              @for (field of customerAddress | keyvalue; track field) {
+                <mat-grid-tile>
+                  <strong>{{ getCustomerAddressLabel(field.key) }}:</strong> {{ field.value || 'N/A' }}
+                </mat-grid-tile>
+              }
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card>
+      }
+      <!-- Documents -->
+      @case (2) {
+        <mat-card>
+          <mat-card-title>Documents</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <mat-grid-list cols="2" rowHeight="30px">
+              @for (field of docDto | keyvalue; track field) {
+                <mat-grid-tile>
+                  <strong>{{ getCustomerDocumentsLabel(field.key) }}:</strong> {{ field.value || 'N/A' }}
+                </mat-grid-tile>
+              }
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card>
+      }
+      <!-- Nominee -->
+      @case (3) {
+        <mat-card>
+          <mat-card-title>Nominee Details</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <table mat-table [dataSource]="nomineeDetails" class="mat-elevation-z2">
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let n">
+                  {{ n.nomineeFirstName }} {{ n.nomineeMiddleName }} {{ n.nomineeLastName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="dob">
+                <th mat-header-cell *matHeaderCellDef>DOB</th>
+                <td mat-cell *matCellDef="let n">{{ n.dateOfBirth }}</td>
+              </ng-container>
+              <ng-container matColumnDef="share">
+                <th mat-header-cell *matHeaderCellDef>Share</th>
+                <td mat-cell *matCellDef="let n">{{ n.nomShare }}%</td>
+              </ng-container>
+              <ng-container matColumnDef="docId">
+                <th mat-header-cell *matHeaderCellDef>Doc ID</th>
+                <td mat-cell *matCellDef="let n">{{ n.nomDocId }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="['name', 'dob', 'share', 'docId']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['name', 'dob', 'share', 'docId'];"></tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+      }
+      <!-- Submit -->
+      @case (4) {
+        <div class="text-center mt-4">
+          <button mat-raised-button color="primary" (click)="submitCustomerData()">Submit</button>
+        </div>
+      }
+    }
+  </div>
+</div>

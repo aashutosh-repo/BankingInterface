@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { DebugElement, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserRequest,UserResponse } from '../../model/interfaces/UserDetails.model';
 import { catchError, Observable, of, throwError } from 'rxjs';
@@ -16,7 +16,10 @@ export class Oauth2Service {
 
 
   login(user: UserRequest) {
+<<<<<<< HEAD
     console.log('Login method called with user:', user);
+=======
+>>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
     if (!user.username || !user.password) {
       console.error('Username or password is empty');
       return;

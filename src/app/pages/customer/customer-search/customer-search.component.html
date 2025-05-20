@@ -9,6 +9,7 @@
       <mat-icon>menu</mat-icon>
     </button>
 
+<<<<<<< HEAD
     <!-- Dropdown Menu -->
     <mat-menu #menu="matMenu">
       <button mat-menu-item [routerLink]="['/customer/customerOnboarding']">
@@ -40,6 +41,20 @@
             <mat-select [(ngModel)]="customerSearchRequestDto.customerType" name="customerType" aria-label="Customer Type" required>
               @for (option of customerTypeOptions; track option) {
                 <mat-option [value]="option.value">
+=======
+    <mat-card class="search-card">
+      <mat-card-title class="card-title">🔍 Customer Search</mat-card-title>
+      <!-- <mat-divider></mat-divider> -->
+      <mat-card-content>
+        <form (ngSubmit)="search()" class="mat-grid-form" #form="ngForm">
+          <div class="form-row">
+      
+            <!-- Customer Type Dropdown -->
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Customer Type</mat-label>
+              <mat-select [(ngModel)]="customerSearchRequestDto.customerType" name="customerType" aria-label="Customer Type" required>
+                <mat-option *ngFor="let option of customerTypeOptions" [value]="option.value">
+>>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
                   {{ option.label }}
                 </mat-option>
               }

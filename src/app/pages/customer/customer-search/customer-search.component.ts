@@ -24,9 +24,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
+<<<<<<< HEAD
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
 import { CustomerData, CustomerDetails } from '../../../model/interfaces/customer.model';
+=======
+>>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
 
 
 @Component({
@@ -67,9 +70,13 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
 
   private customerService = inject(CustomerOperationService);
   constructor(
+<<<<<<< HEAD
     private dialog: MatDialog,
     private encryptionService: EncryptionService,
     private customerDataService: CustomerDataService
+=======
+    private encryptionService: EncryptionService
+>>>>>>> parent of 0455473 (Error handling Improved and Loging way corrected in UI)
   ) {}
   
 
@@ -192,13 +199,4 @@ holidayFilter = (date: Date | null): boolean => {
 };
 
 
-openCustomerSearchDialog(): void {
-  this.dialog.open(CustomerSearchComponent, {
-    width: '600px',
-    maxHeight: '80vh',
-    autoFocus: true,
-    disableClose: true,
-    panelClass: 'customer-search-dialog'
-  });
-}
 }
