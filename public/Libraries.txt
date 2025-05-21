@@ -1,0 +1,16 @@
+angularx-qrcode -> npm install angularx-qrcode
+@fortawesome/fontawesome-free -> npm install @fortawesome/fontawesome-free
+bootstrap -> npm install bootstrap
+rxjs -> npm install rxjs
+zone.js -> npm install zone.js
+@angular/forms -> npm install @angular/forms
+@angular/common -> npm install @angular/common
+@angular/router -> npm install @angular/router
+@angular/platform-browser -> npm install @angular/platform-browser
+@angular/platform-browser/animations -> npm install @angular/platform-browser/animations
+@angular/material -> npm install @angular/material
+chart.js -> npm install chart.js
+chartjs-plugin-datalabels -> npm install chartjs-plugin-datalabels
+ng2-charts -> npm install ng2-charts
+
+

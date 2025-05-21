@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { DataViewsComponent } from './data-views.component';
+
+describe('DataViewsComponent', () => {
+  let component: DataViewsComponent;
+  let fixture: ComponentFixture<DataViewsComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [DataViewsComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(DataViewsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

@@ -8,6 +8,7 @@ import { accountRoutes } from './routes/account.routes';
 import { customerRoutes } from './routes/customer.routes';
 import { paymentRoutes } from './routes/payment.routes';
 import { toolsRoutes } from './routes/tools.routes';
+import { BarChartComponent } from './pages/data-visualization/bar-chart/bar-chart.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -17,6 +18,7 @@ export const routes: Routes = [
     { path: '', redirectTo: '/allAccountsHome', pathMatch: 'full' },
     { path: 'ticket', component: FlightTicketComponent },
     { path: 'flightresult', component: FlightSearchResultComponent },
+    {path: 'chart', component: BarChartComponent},
     ...accountRoutes,
     ...customerRoutes,
     ...paymentRoutes,
