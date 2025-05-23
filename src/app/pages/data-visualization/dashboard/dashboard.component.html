@@ -1,0 +1,21 @@
+<div class="dashboard-container mat-app-background p-4 max-w-7xl mx-auto">
+
+  <app-summary-cards class="mb-6"></app-summary-cards>
+
+  <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedIndexChange)="onTabChange($event)" class="mb-4">
+
+    <mat-tab label="Overview"></mat-tab>
+    <mat-tab label="Time Trends"></mat-tab>
+    <mat-tab label="Demgrapic View"></mat-tab>
+    <mat-tab label="Success/Failure"></mat-tab>
+
+  </mat-tab-group>
+
+  <div class="chart-area">
+    <app-bar-chart *ngIf="selectedIndex === 0"></app-bar-chart>
+    <app-line-chart *ngIf="selectedIndex === 1"></app-line-chart>
+    <app-geo-chart *ngIf="selectedIndex === 2"></app-geo-chart>
+    <app-success-failure-chart *ngIf="selectedIndex === 3"></app-success-failure-chart>
+  </div>
+
+</div>

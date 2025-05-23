@@ -1,0 +1,30 @@
+<div class="filter-panel">
+  <!-- Date Range Picker -->
+  <div class="filter-group">
+    <label>Start Date:</label>
+    <input type="date" [(ngModel)]="filterCriteria.startDate" (change)="emitFilters()" />
+  </div>
+
+  <div class="filter-group">
+    <label>End Date:</label>
+    <input type="date" [(ngModel)]="filterCriteria.endDate" (change)="emitFilters()" />
+  </div>
+
+  <!-- Transaction Type Dropdown -->
+  <div class="filter-group">
+    <label>Transaction Type:</label>
+    <select [(ngModel)]="filterCriteria.transactionType" (change)="emitFilters()">
+      <option value="">All</option>
+      <option *ngFor="let type of transactionTypes" [value]="type">{{ type }}</option>
+    </select>
+  </div>
+
+  <!-- Region Filter -->
+  <div class="filter-group">
+    <label>Region:</label>
+    <select [(ngModel)]="filterCriteria.region" (change)="emitFilters()">
+      <option value="">All</option>
+      <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+    </select>
+  </div>
+</div>

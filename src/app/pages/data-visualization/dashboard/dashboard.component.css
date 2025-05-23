@@ -1,0 +1,17 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.mat-tab-group {
+  margin-bottom: 16px;
+}
+
+.chart-area {
+  min-height: 400px; /* Make sure charts have enough height */
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+}
