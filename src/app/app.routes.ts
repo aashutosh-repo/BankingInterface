@@ -9,6 +9,8 @@ import { customerRoutes } from './routes/customer.routes';
 import { paymentRoutes } from './routes/payment.routes';
 import { toolsRoutes } from './routes/tools.routes';
 import { BarChartComponent } from './pages/data-visualization/bar-chart/bar-chart.component';
+import { DashboardComponent } from './pages/data-visualization/dashboard/dashboard.component';
+import { dataVisualizationRoutes } from './routes/data-visualization.route';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -23,6 +25,7 @@ export const routes: Routes = [
     ...customerRoutes,
     ...paymentRoutes,
     ...toolsRoutes,
+    ...dataVisualizationRoutes,
     {path : '**', redirectTo: '/login', pathMatch: 'full'},
 
 ];

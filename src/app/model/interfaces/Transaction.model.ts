@@ -5,7 +5,12 @@ export interface Transaction {
   amount: number;
   year: number;
 }
-
+export interface FilterCriteria {
+  startDate?: Date;
+  endDate?: Date;
+  transactionType?: TransactionType;
+  region?: string;
+}
 
 export const TRANSACTION_DATA: Transaction[] = [
   { transaction_type: 'card', amount: 1390, year: 2021 },

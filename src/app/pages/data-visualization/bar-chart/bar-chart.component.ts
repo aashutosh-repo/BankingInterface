@@ -1,17 +1,35 @@
 import { CommonModule,isPlatformBrowser  } from '@angular/common';
 import { Component, inject, PLATFORM_ID } from '@angular/core';
-import { Chart,ChartData, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ChartOptions } from 'chart.js';
+import { Chart,ChartData, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ChartOptions, ArcElement, PieController } from 'chart.js';
 import { NgChartsModule } from 'ng2-charts';
 import { Transaction, TRANSACTION_DATA, TransactionType } from '../../../model/interfaces/Transaction.model';
 import { FormsModule } from '@angular/forms';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
-Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend, DataLabelsPlugin);
-
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+  ArcElement,       // Needed for Pie/Donut charts
+  PieController,    // Needed for Pie charts
+  DataLabelsPlugin
+);
 
 @Component({
   selector: 'app-bar-chart',
-  imports: [CommonModule, FormsModule ,NgChartsModule],
+  imports: [CommonModule, FormsModule ,NgChartsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatSelectModule,
+    MatFormFieldModule
+  ],
   templateUrl: './bar-chart.component.html',
   styleUrl: './bar-chart.component.css'
 })
@@ -123,4 +141,24 @@ export class BarChartComponent {
       ],
     };
   }
+
+  pieChartData: ChartData<'pie'> = {
+  labels: ['Card', 'UPI', 'QR', 'Net Banking'],
+  datasets: [
+    {
+      label: 'Transaction Share',
+      data: [300, 500, 100, 200], // Example data
+      backgroundColor: ['#4285F4', '#EA4335', '#FBBC05', '#34A853'],
+    }
+  ]
+};
+
+pieChartOptions: ChartOptions<'pie'> = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom'
+    }
+  }
+};
 }

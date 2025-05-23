@@ -1,24 +1,15 @@
 <div class="p-4 controls max-w-5xl mx-auto">
   <!-- Filter Controls -->
   <div class="mb-4 flex flex-wrap items-center gap-4 justify-start">
-    <button
-      class="button"
-      [class.active]="selectedView === 'type-vs-amount'"
-      (click)="setView('type-vs-amount')">
+    <button class="button" [class.active]="selectedView === 'type-vs-amount'" (click)="setView('type-vs-amount')">
       All Types vs Amount
     </button>
 
-    <button
-      class="button"
-      [class.active]="selectedView === 'type-vs-year'"
-      (click)="setView('type-vs-year')">
+    <button class="button" [class.active]="selectedView === 'type-vs-year'" (click)="setView('type-vs-year')">
       Type vs Year
     </button>
 
-    <select
-      *ngIf="selectedView === 'type-vs-year'"
-      [(ngModel)]="selectedTxnType"
-      (change)="updateChart()"
+    <select *ngIf="selectedView === 'type-vs-year'" [(ngModel)]="selectedTxnType" (change)="updateChart()"
       class="button">
       <option *ngFor="let type of txnTypes" [value]="type">{{ type }}</option>
     </select>
@@ -26,13 +17,15 @@
 
   <!-- Chart Container -->
   <div class="chart-container">
-    <canvas
-      *ngIf="isBrowser"
-      baseChart
-      [data]="barChartData"
-      [options]="barChartOptions"
-      [type]="'bar'"
-      [plugins]="[DataLabelsPlugin]">
-    </canvas>
+    <div class="chart-container-1">
+      <canvas *ngIf="isBrowser" baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"
+        [plugins]="[DataLabelsPlugin]">
+      </canvas>
+    </div>
+    <p class="pie-desc">Pie Chart of above Bar Chart </p>
+    <div class="chart-container-2">
+      <canvas *ngIf="isBrowser" baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'pie'">
+      </canvas>
+    </div>
   </div>
 </div>
