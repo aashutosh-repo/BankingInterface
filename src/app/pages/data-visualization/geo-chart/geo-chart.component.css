@@ -1,0 +1,105 @@
+button {
+  margin-right: 1rem;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+button.active {
+  background-color: #d1d4d8;
+  color: white;
+  border: none;
+}
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+.chart-container-2 {
+  width: 100%;
+  max-width: 400px;        /* slightly bigger width */
+  padding: 60px 40px;      /* more padding around edges for labels */
+  margin: 30px auto 50px;  /* center horizontally and some vertical spacing */
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;      /* in case you want absolute children positioning */
+  box-sizing: border-box;  /* include padding in width */
+}
+.chart-desc{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 20px;
+  color: #05164d;
+  font-weight: 500;
+
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+  padding-bottom: 10px; /* space for labels */
+}
+.chart-container-2 canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto !important;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.controls select,
+.controls button {
+  padding: 0.5rem 1rem;
+  color: #05164d;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: #374151; 
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: #f3f4f6; 
+  }
+
+  &.active {
+    background-color: #3b82f6; 
+    color: white;
+  }
+}
+
+.controls button:hover {
+  background-color: #05164d;
+  color: white;
+}

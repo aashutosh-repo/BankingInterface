@@ -1,5 +1,7 @@
 <div class="dashboard-container mat-app-background p-4 max-w-7xl mx-auto">
 
+  <app-filter-panel (filtersChanged)="onFiltersChanged($event)" class="mb-6"></app-filter-panel>
+
   <app-summary-cards class="mb-6"></app-summary-cards>
 
   <mat-tab-group [(selectedIndex)]="selectedIndex" (selectedIndexChange)="onTabChange($event)" class="mb-4">

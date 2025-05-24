@@ -1,4 +1,4 @@
-export type TransactionType = 'card' | 'UPI' | 'QR' | 'Net_banking';
+export type TransactionType = 'card' | 'UPI' | 'QR' | 'Net_banking' | 'Wallet' | 'EMI';
 
 export interface Transaction {
   transaction_type: TransactionType;
@@ -99,5 +99,19 @@ export const TRANSACTION_DATA: Transaction[] = [
   { transaction_type: 'UPI', amount: 2160, year: 2021 },
   { transaction_type: 'QR', amount: 900, year: 2023 },
   { transaction_type: 'Net_banking', amount: 2620, year: 2022 },
-  { transaction_type: 'card', amount: 1190, year: 2024 }
+  { transaction_type: 'card', amount: 1190, year: 2024 },
+
+  { transaction_type: 'Wallet', amount: 2670, year: 2023 },
+  { transaction_type: 'Wallet', amount: 1220, year: 2021 },
+  { transaction_type: 'Wallet', amount: 1900, year: 2023 },
+  { transaction_type: 'Wallet', amount: 740, year: 2022 },
+  { transaction_type: 'Wallet', amount: 2810, year: 2024 },
+  { transaction_type: 'EMI', amount: 1360, year: 2022 },
+  { transaction_type: 'EMI', amount: 2160, year: 2021 },
+  { transaction_type: 'EMI', amount: 900, year: 2023 },
+  { transaction_type: 'EMI', amount: 2620, year: 2022 },
+  { transaction_type: 'EMI', amount: 1190, year: 2022 },
+  { transaction_type: 'EMI', amount: 1190, year: 2022 },
+  { transaction_type: 'EMI', amount: 1190, year: 2022 },
+  { transaction_type: 'EMI', amount: 1190, year: 2024 }
 ]

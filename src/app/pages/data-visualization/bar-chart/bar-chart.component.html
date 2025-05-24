@@ -17,15 +17,23 @@
 
   <!-- Chart Container -->
   <div class="chart-container">
+    <p class="chart-desc">Bar Chart of {{ selectedView === 'type-vs-amount' ? 'All Transactions Types vs Amount' : selectedTxnType + ' vs Year' }}</p>
     <div class="chart-container-1">
       <canvas *ngIf="isBrowser" baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'"
         [plugins]="[DataLabelsPlugin]">
       </canvas>
     </div>
-    <p class="pie-desc">Pie Chart of above Bar Chart </p>
+    <p class="chart-desc">Pie Chart of above Bar Chart </p>
     <div class="chart-container-2">
-      <canvas *ngIf="isBrowser" baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="'pie'">
-      </canvas>
+  <canvas
+    *ngIf="isBrowser"
+    baseChart
+    [data]="pieChartData"
+    [options]="pieChartOptions"
+    [type]="'pie'"
+    width="350"
+    height="350"
+  ></canvas>
     </div>
   </div>
 </div>
