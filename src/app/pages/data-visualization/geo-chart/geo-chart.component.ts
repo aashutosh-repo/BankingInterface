@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Subscribable, Subscription } from 'rxjs';
 import { DataFilterService } from '../../../services/data-visualization/filter.service';
+import { PaymentService } from '../../../services/payments/payment.service';
+import { TransactionResponse } from '../../../model/interfaces/payments/Transaction.model';
 
 
 Chart.register(
@@ -40,7 +42,9 @@ export class GeoChartComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }  
 
-  constructor(private filterService: DataFilterService){}
+  constructor(private filterService: DataFilterService,
+    private paymentService: PaymentService
+  ){}
   private sub!: Subscription;;
   public readonly DataLabelsPlugin = DataLabelsPlugin;
   private platformId = inject(PLATFORM_ID);
@@ -48,10 +52,10 @@ export class GeoChartComponent implements OnInit, OnDestroy {
   txnTypes: TransactionType[] = ['card', 'UPI', 'QR', 'Net_banking', 'Wallet', 'EMI'];
   selectedTxnType: TransactionType = 'UPI';
   selectedView: 'type-vs-amount' | 'type-vs-year' = 'type-vs-amount';
-
+  transactionList!: TransactionResponse[];
   transactions: Transaction[] = [];
 
-  barChartOptions: ChartOptions<'bar'> = {};
+  barChartOptions: ChartOptions<'bar' | 'line'> = {};
 
 
   getBarChartOptions(title: string, yAxisMax: number): ChartOptions<'bar'> {
@@ -68,8 +72,8 @@ export class GeoChartComponent implements OnInit, OnDestroy {
         display: false,
       },
       datalabels: {
-        anchor: 'end',
-        align: 'end',
+        anchor: 'center',
+        align: 'center',
         color: '#444',
         font: {
           weight: 'bold',
@@ -97,7 +101,7 @@ export class GeoChartComponent implements OnInit, OnDestroy {
 
 
 
-  barChartData: ChartData<'bar'> = {
+  barChartData: ChartData<'bar' | 'line'> = {
     labels: [],
     datasets: [],
   };
@@ -118,6 +122,12 @@ export class GeoChartComponent implements OnInit, OnDestroy {
     if (this.isBrowser) {
       this.updateChart();
     }  
+    this.paymentService.getTransctionDetails().subscribe((transactions) => {
+      this.transactionList = transactions;
+      console.log('Transactions loaded:', this.transactionList);
+      this.updateChart();
+    });
+
   }
 
   loadChartData(criteria: FilterCriteria) : Transaction[]{
@@ -161,16 +171,43 @@ export class GeoChartComponent implements OnInit, OnDestroy {
     const maxTotal = Math.max(...Object.values(totals));
     const yAxisMax = Math.ceil((maxTotal * 1.2) / 10000) * 10000;
 
-    this.barChartData = {
-      labels: Object.keys(totals),
-      datasets: [
-        {
-          label: 'Total Amount by Type',
-          data: this.txnTypes.map(type => totals[type]),
-          backgroundColor: ['#4285F4', '#EA4335', '#FBBC05', '#34A853'],
+this.barChartData = {
+  labels: Object.keys(totals),
+  datasets: [
+    {
+      type: 'bar',
+      label: 'Total Amount by Type',
+      data: this.txnTypes.map(type => totals[type]),
+      backgroundColor: ['#4285F4', '#EA4335', '#FBBC05', '#34A853', '#9C27B0', '#00BCD4'],
+      order: 2
+    },
+    {
+      type: 'line',
+      label: 'Trend Line',
+      data: this.txnTypes.map(type => totals[type]),
+      borderColor: '#000',
+      borderWidth: 2,
+      fill: false,
+      tension: 0.4, // curved line; use 0 for sharp corners
+      pointBackgroundColor: '#000',
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      order: 1,
+      datalabels: {
+        align: 'top',
+        anchor: 'end',
+        offset: 10, // pushes it 10px above the point
+        color: '#000',
+        font: {
+          weight: 'bold',
+          size: 12,
         },
-      ],
-    };
+        formatter: (value: number) => value
+      }
+    }
+  ]
+};
+
 
     this.barChartOptions = this.getBarChartOptions(``, yAxisMax);
 
