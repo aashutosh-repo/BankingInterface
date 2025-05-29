@@ -79,7 +79,7 @@ export class GeoChartComponent implements OnInit, OnDestroy {
           weight: 'bold',
           size: 12,
         },
-        formatter: (value: number) => value,
+        formatter: (value: number) => `${value}$`,
       },
     },
     scales: {
