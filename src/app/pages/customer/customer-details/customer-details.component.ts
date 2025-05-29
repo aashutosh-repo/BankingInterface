@@ -4,6 +4,7 @@ import { SharedMaterialModules } from '../../../shared/material-imports/shared-m
 import { ActivatedRoute } from '@angular/router';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
 import { CustomerOperationService } from '../../../services/customer/customer-operation.service';
+import { CustomerDetails } from '../../../model/interfaces/customer.model';
 
 @Component({
   selector: 'app-customer-details',
@@ -44,24 +45,36 @@ export class CustomerDetailsComponent implements OnInit {
 
 
       if (this.customerId && this.customerType) {
-      const customerData = this.customerDataService.getAllCustomerData();
-      let results: any[] = [];
-      if (Array.isArray(customerData) && customerData.length > 0) {
-        results = customerData.filter(
-          (item) =>
-            item.customerDetails?.customerId === this.customerId.toString() &&
-            item.customerDetails?.customerType === this.customerType.toString()
-        );
-        return;
+        const customerData = this.customerDataService.getAllCustomerData();
+        let results: any[] = [];
+        if (Array.isArray(customerData) && customerData.length > 0) {
+          results = customerData.filter(
+            (item) =>
+              item.customerDetails?.customerId === this.customerId.toString() &&
+              item.customerDetails?.customerType ===
+                this.customerType.toString()
+          );
+          this.customerDto= results.map(
+            (item) => item.customerDetails);
+          return;
+        }
+
+        this.customerService
+          .getCustomerById(
+            this.customerId.toString(),
+            this.customerType.toString()
+          )
+          .subscribe((data) => {
+            console.log('Customer data from API:', data);
+            this.customerDataService.addCustomerData(data);
+
+            if (data && data.customerDetails) {
+              this.customerDto = [data.customerDetails];
+            } else {
+              console.error('No customer details found in the response');
+            }
+          });
       }
-
-      this.customerService
-        .getCustomerById(this.customerId.toString(), this.customerType.toString())
-        .subscribe((data) => {
-          console.log('Customer data from API:', data);
-        });
-
-    }
     });
   }
 
@@ -75,11 +88,7 @@ export class CustomerDetailsComponent implements OnInit {
     { label: 'Submit', icon: 'check_circle' },
   ];
 
-  customerDto = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-  };
+  customerDto: CustomerDetails[] = [];
 
   customerAddress = {
     street: '123 Main St',
@@ -90,6 +99,8 @@ export class CustomerDetailsComponent implements OnInit {
   docDto = {
     aadhaar: '1234-5678-9012',
     pan: 'ABCDE1234F',
+    Pasport: '1234-5678-9012',
+    DrivingL: 'ABCDE1234F',
   };
 
   nomineeDetails = [

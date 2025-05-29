@@ -26,55 +26,58 @@
       <!-- Basic Details -->
       @case (0) {
         <mat-card>
-          <mat-card-title>Customer Basic Details</mat-card-title>
+          <mat-card-title class="title">Customer Basic Details</mat-card-title>
           <mat-divider></mat-divider>
           <mat-card-content>
-            <mat-grid-list cols="2" rowHeight="30px">
+            <div class="details-grid">
               @for (field of customerDto | keyvalue; track field) {
-                <mat-grid-tile>
-                  <strong>{{ getCustomerLabel(field.key) }}:</strong> {{ field.value || 'N/A' }}
-                </mat-grid-tile>
+                <div class="details-item">
+                  <strong>{{ getCustomerLabel(field.key) }}:</strong>
+                  <span>{{ field.value || 'N/A' }}</span>
+                </div>
               }
-            </mat-grid-list>
+            </div>
           </mat-card-content>
         </mat-card>
       }
       <!-- Address -->
       @case (1) {
         <mat-card>
-          <mat-card-title>Address Details</mat-card-title>
+          <mat-card-title class="title">Address Details</mat-card-title>
           <mat-divider></mat-divider>
           <mat-card-content>
-            <mat-grid-list cols="2" rowHeight="30px">
+            <div class="details-grid">
               @for (field of customerAddress | keyvalue; track field) {
-                <mat-grid-tile>
-                  <strong>{{ getCustomerAddressLabel(field.key) }}:</strong> {{ field.value || 'N/A' }}
-                </mat-grid-tile>
+                <div class="details-item">
+                  <strong>{{ getCustomerAddressLabel(field.key) }}:</strong> 
+                  {{ field.value || 'N/A' }}
+                </div>
               }
-            </mat-grid-list>
+            </div>
           </mat-card-content>
         </mat-card>
       }
       <!-- Documents -->
       @case (2) {
         <mat-card>
-          <mat-card-title>Documents</mat-card-title>
+          <mat-card-title class="title">Documents</mat-card-title>
           <mat-divider></mat-divider>
           <mat-card-content>
-            <mat-grid-list cols="2" rowHeight="30px">
+            <div class="details-grid">
               @for (field of docDto | keyvalue; track field) {
-                <mat-grid-tile>
-                  <strong>{{ getCustomerDocumentsLabel(field.key) }}:</strong> {{ field.value || 'N/A' }}
-                </mat-grid-tile>
+                <div class="details-item">
+                  <strong>{{ getCustomerDocumentsLabel(field.key) }}:</strong> 
+                  {{ field.value || 'N/A' }}
+                </div>
               }
-            </mat-grid-list>
+            </div>
           </mat-card-content>
         </mat-card>
       }
       <!-- Nominee -->
       @case (3) {
         <mat-card>
-          <mat-card-title>Nominee Details</mat-card-title>
+          <mat-card-title class="title">Nominee Details</mat-card-title>
           <mat-divider></mat-divider>
           <mat-card-content>
             <table mat-table [dataSource]="nomineeDetails" class="mat-elevation-z2">

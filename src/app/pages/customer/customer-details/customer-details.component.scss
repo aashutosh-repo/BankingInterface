@@ -1,4 +1,9 @@
+$title-color: #f1f1f1;
+$title-background: #05164d;
+$title-font-size: 24px;
+
 /* Overall container: split nav and content horizontally */
+
 .layout {
   display: flex;
   height: 100vh;
@@ -63,8 +68,19 @@ mat-icon[matListIcon] {
 .content {
   flex-grow: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 0px 16px;
   box-sizing: border-box;
+}
+.title{
+  font-size: 24px;
+  background-color: $title-background;
+  color: $title-color;
+  padding: 16px;
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Breadcrumb styling */
@@ -80,3 +96,32 @@ mat-icon[matListIcon] {
     margin-right: 4px;
   }
 }
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+  padding: 16px;
+  // margin-left: 15px;
+  align-items: start;
+}
+
+.details-item {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  color: #05164d;
+  gap: 8px;
+  line-height: 1.4;
+  flex-wrap: wrap;
+}
+
+.details-item strong {
+  font-weight: 590;
+  letter-spacing: 1.1px;
+  color: #333;
+  margin-bottom: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
