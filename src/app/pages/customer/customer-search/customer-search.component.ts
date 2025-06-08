@@ -99,7 +99,6 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
     'status'
   ];
   
-
   startDate: Date = new Date('');
   endDate: Date = new Date('');
   customerSearchRequestDto: CustomerSearchRequestDto= 

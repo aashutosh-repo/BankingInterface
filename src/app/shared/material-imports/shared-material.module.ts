@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const SharedMaterialModules = [
@@ -19,5 +20,6 @@ export const SharedMaterialModules = [
   MatButtonModule,
   MatDividerModule,
   MatTableModule,
-  MatListModule
+  MatListModule,
+  MatSliderModule
 ];

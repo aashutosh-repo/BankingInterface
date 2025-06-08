@@ -32,8 +32,8 @@
             <div class="details-grid">
               @for (field of customerDto | keyvalue; track field) {
                 <div class="details-item">
-                  <strong>{{ getCustomerLabel(field.key) }}:</strong>
-                  <span>{{ field.value || 'N/A' }}</span>
+                  <strong>{{ getCustomerLabel(field.key) }} :</strong>
+                  <span>{{getLabelsForFields(field.key,field.value)}}</span>
                 </div>
               }
             </div>
@@ -110,6 +110,13 @@
         <div class="text-center mt-4">
           <button mat-raised-button color="primary" (click)="submitCustomerData()">Submit</button>
         </div>
+        <div class="text-center mt-4">
+          <button mat-raised-button color="primary" (click)="backToSearch()">Back to Search</button>
+        </div>
+        
+        
+        
+
       }
     }
   </div>

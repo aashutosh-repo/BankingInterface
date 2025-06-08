@@ -1,3 +1,5 @@
+import { DropDownTemplete } from "./Templetes";
+
 export const DOCUMENTS_TYPES: string[] = [
 'Aadhaar Card',
 'Passport',
@@ -42,18 +44,22 @@ export const CUSTOMER_ELIGIBILITY_TYPES =[
   
   export const CUSTOMER_STATUS: string[] = ['Active', 'Inactive', 'Pending', 'Closed'];
 
-export interface CustomerTypeOption {
-    label: string;
-    value: string;
-  }
-export const CUSTOMER_TYPE_OPTIONS: CustomerTypeOption[] = [
+
+export const CUSTOMER_TYPE_OPTIONS: DropDownTemplete[] = [
     { label: 'Individual', value: '1' },
     { label: 'MSME', value: '2' },
     { label: 'Corporate', value: '3' },
     { label: 'Others', value: '4' },
   ];
 
-  export const CUSTOMER_STATUS_OPTIONS: CustomerTypeOption[] = [
+  export const CUSTOMER_CATEGORY_OPTIONS: DropDownTemplete[] = [
+    { label: 'Silver', value: '1' },
+    { label: 'Gold', value: '2' },
+    { label: 'Platinum', value: '3' },
+    { label: 'Diamond', value: '4' },
+  ];
+
+  export const CUSTOMER_STATUS_OPTIONS: DropDownTemplete[] = [
     { label: 'Active', value: '1' },
     { label: 'Closed', value: '2' },
     { label: 'Pending approval', value: '3' },

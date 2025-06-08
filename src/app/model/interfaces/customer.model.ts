@@ -34,7 +34,7 @@ export interface CustomerAddress {
     dateOfCapture: string
   }
 
-  export interface DocumentDTO {
+  export interface documentDetails {
     custId: number
     docDescription: string
     docIdentificationNumber: string
@@ -66,6 +66,6 @@ export interface CustomerAddress {
 export interface CustomerData {
   customerDetails: CustomerDetails | null;
   addressDetails: CustomerAddress | null;
-  documentDetails: DocumentDTO | null;
+  documentDetails: documentDetails | null;
   nomineeDetails: NomineeDetails[] | null;
 }

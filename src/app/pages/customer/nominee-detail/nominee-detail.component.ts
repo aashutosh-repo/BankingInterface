@@ -38,7 +38,7 @@ export class NomineeDetailComponent implements OnInit {
         ownerId: ['123', Validators.required],
         ownerType: ['123'],
         nomShare: ['100'],
-        nomType: ['Major'],
+        nomType: ['' , Validators.required],
         nomineeFirstName: ['Aashu'],
         nomineeLastName: ['Kumar'],
         relationshipType: [''],
@@ -59,48 +59,6 @@ export class NomineeDetailComponent implements OnInit {
 
   @Output() finalSubmit = new EventEmitter<void>(); 
 
-
-
-  nomineeDetailTest: NomineeDetails[] =
-  [
-    {
-      "ownerId": 1001,
-      "nomineeRefNum": 5001,
-      "ownerType": 1,
-      "seqNum": 1,
-      "nomShare": 50,
-      "nomType": 1,
-      "nomTypeCode": 101,
-      "nomineeFirstName": "Jane",
-      "nomineeMiddleName": "Elizabeth",
-      "nomineeLastName": "Doe",
-      "rtlnType": 2,
-      "rtlnTypeCode": 201,
-      "dateOfBirth": "1995-08-10",
-      "nomAddId": 3001,
-      "nomDocId": "NDOC123456",
-      "ver": 1
-    },
-    {
-      "ownerId": 1001,
-      "nomineeRefNum": 5002,
-      "ownerType": 1,
-      "seqNum": 2,
-      "nomShare": 50,
-      "nomType": 2,
-      "nomTypeCode": 102,
-      "nomineeFirstName": "Michael",
-      "nomineeMiddleName": "Andrew",
-      "nomineeLastName": "Smith",
-      "rtlnType": 3,
-      "rtlnTypeCode": 202,
-      "dateOfBirth": "2000-12-05",
-      "nomAddId": 3002,
-      "nomDocId": "NDOC654321",
-      "ver": 1
-    }
-  ]
-  
   moveToPreview() {
     if (this.nomineeForm.valid) {
       this.customerDataService.setSection('nomineeDetails', this.nomineeForm.value);
@@ -115,10 +73,8 @@ export class NomineeDetailComponent implements OnInit {
     
   }
 
-
-
   onSubmit() {
-    sessionStorage.setItem('nomineeDetails', JSON.stringify(this.nomineeDetailTest));
+    sessionStorage.setItem('nomineeDetails', JSON.stringify(this.nomineeDetail));
     this.customerService.sendRequestToBackend()?.subscribe({
       next: (response) => {
         console.log('Data successfully sent to backend:', response);

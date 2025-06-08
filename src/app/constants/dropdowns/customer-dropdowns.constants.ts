@@ -1,5 +1,7 @@
 // src/app/shared/constants/customer-status.constants.ts
 
+import { DropDownTemplete } from "./Templetes";
+
 export enum CustomerStatusCode {
     ACTIVE = 1,
     INACTIVE = 2,
@@ -8,14 +10,10 @@ export enum CustomerStatusCode {
     REJECTED = 5
   }
   
-  export const CUSTOMER_STATUS_OPTIONS: DropdownOption[] = [
+  export const CUSTOMER_STATUS_OPTIONS: DropDownTemplete[] = [
     { label: 'Active', value: '1' },
     { label: 'InActive', value: '2' },
     { label: 'In Progress', value: '3' },
     { label: 'Pendig Auth', value: '4' },
     { label: 'Rejected', value: '5' },
   ];
-  export interface DropdownOption {
-    label: string;
-    value: string;
-  }

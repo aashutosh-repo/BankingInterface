@@ -1,0 +1,153 @@
+<div>
+    <h1 class="page-title">SIP Calculator</h1>
+    <p class="page-description">
+        Use this calculator to estimate the future value of your Systematic Investment Plan (SIP) investments.
+        Adjust the parameters below to see how different SIP amounts, step-up percentages, investment periods, and
+        expected returns affect your investment growth.
+    </p>
+</div>
+<div class="sip-container">
+  <!-- Top Section: Form + Summary -->
+  <div class="sip-top-section">
+    <!-- Left: SIP Form -->
+    <div class="sip-form">
+      <mat-card class="card-elevation">
+        <mat-card-header>
+          <mat-card-title>Enter Your Investment Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="calculatorForm" (ngSubmit)="onSubmit()">
+            <!-- Monthly SIP Amount -->
+            <div class="form-field">
+              <div class="slider-header">
+                <label>Monthly SIP Amount</label>
+                <div class="value-display">₹{{ calculatorForm.get('sipAmount')?.value | number:'1.0-0' }}</div>
+              </div>
+              <mat-slider class="custom-slider w-100" min="500" max="100000" step="500" discrete [displayWith]="formatLabel">
+                <input matSliderThumb formControlName="sipAmount">
+              </mat-slider>
+              <div class="range-labels"><span>₹500</span><span>₹100,000</span></div>
+            </div>
+
+            <!-- Step-Up Percentage -->
+            <div class="form-field">
+              <div class="slider-header">
+                <label>
+                  Annual Step-Up Percentage
+                  <mat-icon matTooltip="The percentage by which your SIP amount will increase every year" class="info-icon">info</mat-icon>
+                </label>
+                <div class="value-display">{{ calculatorForm.get('stepUpPercentage')?.value }}%</div>
+              </div>
+              <mat-slider class="custom-slider w-100" min="0" max="25" step="1" discrete>
+                <input matSliderThumb formControlName="stepUpPercentage">
+              </mat-slider>
+              <div class="range-labels"><span>0%</span><span>25%</span></div>
+            </div>
+
+            <!-- Investment Period -->
+            <div class="form-field">
+              <div class="slider-header">
+                <label>Investment Period (Years)</label>
+                <div class="value-display">{{ calculatorForm.get('investmentPeriod')?.value }} years</div>
+              </div>
+              <mat-slider class="custom-slider w-100" min="1" max="30" step="1" discrete>
+                <input matSliderThumb formControlName="investmentPeriod">
+              </mat-slider>
+              <div class="range-labels"><span>1 year</span><span>30 years</span></div>
+            </div>
+
+            <!-- Expected Return -->
+            <div class="form-field">
+              <div class="slider-header">
+                <label>
+                  Expected Annual Return (%)
+                  <mat-icon matTooltip="The expected annual rate of return on your investment" class="info-icon">info</mat-icon>
+                </label>
+                <div class="value-display">{{ calculatorForm.get('expectedReturnRate')?.value }}%</div>
+              </div>
+              <mat-slider class="custom-slider w-100" min="5" max="20" step="0.5" discrete>
+                <input matSliderThumb formControlName="expectedReturnRate">
+              </mat-slider>
+              <div class="range-labels"><span>5%</span><span>20%</span></div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="action-buttons">
+              <button mat-raised-button color="primary" type="submit" [disabled]="calculatorForm.invalid">Calculate</button>
+              <button mat-button type="button" (click)="resetForm()">Reset</button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Right: Summary and Chart -->
+    <div class="sip-summary">
+      <div class="summary-metrics">
+        <div class="metric">
+          <div class="metric-label">Total Investment</div>
+          <div class="metric-value">₹ {{ totalInvestment | number:'1.0-0' }}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Returns</div>
+          <div class="metric-value">₹ {{ returns | number:'1.0-0' }}</div>
+        </div>
+      </div>
+
+      <div class="pie-chart" *ngIf="isBrowser">
+        <canvas 
+            baseChart 
+            [data]="pieChartData" 
+            [type]="pieChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Border line -->
+  <div class="sip-border-line"></div>
+
+  <div class="sip-bar-summary-container">
+  <!-- Left: Bar Chart -->
+  <div class="bar-chart-container" *ngIf="isBrowser">
+    <h3 class="section-header">Yearly Return Graph</h3>
+    <canvas
+      baseChart
+      [data]="barChartData"
+      [options]="barChartOptions"
+      [type]="'bar'">
+    </canvas>
+  </div>
+
+  <!-- Right: Summary Table -->
+  <div class="yearly-summary-container">
+    <h3 class="section-header">Yearly Return Summary</h3>
+    <div class="summary-table-wrapper">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Total Investment</th>
+            <th>Return</th>
+            <th>Maturity Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of yearlyData">
+            <td>{{ row.year }}</td>
+            <td>₹{{ row.investment | number:'1.0-0' }}</td>
+            <td>₹{{ row.return | number:'1.0-0' }}</td>
+            <td>₹{{ row.maturity | number:'1.0-0' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Bottom Section -->
+  <div class="sip-bottom-section">
+    <button mat-raised-button color="primary" class="download-button">Download Report</button>
+  </div>
+</div>
