@@ -4,11 +4,13 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
 import { NgChartsModule } from 'ng2-charts';
 import { isPlatformBrowser } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
+
 
 @Component({
   selector: 'app-sip-calculator',
-  imports: [...SharedMaterialModules, ReactiveFormsModule, NgChartsModule],
+  imports: [...SharedMaterialModules, ReactiveFormsModule, NgChartsModule,MatTooltipModule],
   templateUrl: './sip-calculator.component.html',
   styleUrls: ['./sip-calculator.component.css']
 })
