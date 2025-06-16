@@ -1,71 +1,104 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Inject, Input, Output,PLATFORM_ID  } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
 import { NgChartsModule } from 'ng2-charts';
 import { isPlatformBrowser } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
-
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-sip-calculator',
-  imports: [...SharedMaterialModules, ReactiveFormsModule, NgChartsModule,MatTooltipModule],
+  imports: [
+    ...SharedMaterialModules,
+    ReactiveFormsModule,
+    NgChartsModule,
+    MatTooltipModule,
+  ],
   templateUrl: './sip-calculator.component.html',
-  styleUrls: ['./sip-calculator.component.css']
+  styleUrls: ['./sip-calculator.component.css'],
 })
-export class SipCalculatorComponent {
-@Input() initialValues: any = {
+export class SipCalculatorComponent implements OnInit {
+  @Input() initialValues: any = {
     sipAmount: 5000,
     stepUpPercentage: 10,
     investmentPeriod: 10,
-    expectedReturnRate: 12
+    expectedReturnRate: 12,
   };
-    isBrowser = false;
+  isBrowser = false;
   @Output() formSubmitted = new EventEmitter<any>();
-  
+
   calculatorForm!: FormGroup;
-  
-  constructor(private fb: FormBuilder,
+  totalReturn:number=0;
+
+  constructor(
+    private fb: FormBuilder,
     @Inject(PLATFORM_ID) platformId: object
   ) {
-        this.isBrowser = isPlatformBrowser(platformId);
-
+    this.isBrowser = isPlatformBrowser(platformId);
   }
-  
+
   ngOnInit(): void {
     this.initForm();
   }
-  
+
   initForm(): void {
     this.calculatorForm = this.fb.group({
-      sipAmount: [this.initialValues.sipAmount, [Validators.required, Validators.min(500), Validators.max(100000)]],
-      stepUpPercentage: [this.initialValues.stepUpPercentage, [Validators.required, Validators.min(0), Validators.max(25)]],
-      investmentPeriod: [this.initialValues.investmentPeriod, [Validators.required, Validators.min(1), Validators.max(30)]],
-      expectedReturnRate: [this.initialValues.expectedReturnRate, [Validators.required, Validators.min(5), Validators.max(20)]]
+      sipAmount: [
+        this.initialValues.sipAmount,
+        [Validators.required, Validators.min(500), Validators.max(100000)],
+      ],
+      stepUpPercentage: [
+        this.initialValues.stepUpPercentage,
+        [Validators.required, Validators.min(0), Validators.max(25)],
+      ],
+      investmentPeriod: [
+        this.initialValues.investmentPeriod,
+        [Validators.required, Validators.min(1), Validators.max(30)],
+      ],
+      expectedReturnRate: [
+        this.initialValues.expectedReturnRate,
+        [Validators.required, Validators.min(5), Validators.max(20)],
+      ],
     });
-    
+
     // Real-time calculation as values change
-    this.calculatorForm.valueChanges.subscribe(values => {
+    this.calculatorForm.valueChanges.subscribe((values) => {
       if (this.calculatorForm.valid) {
         this.formSubmitted.emit(values);
       }
     });
   }
-  
+
   formatLabel(value: number): string {
     if (value >= 1000) {
       return Math.round(value / 1000) + 'k';
     }
     return `${value}`;
   }
-  
+
   onSubmit(): void {
     if (this.calculatorForm.valid) {
       this.formSubmitted.emit(this.calculatorForm.value);
     }
   }
-  
+
   resetForm(): void {
     this.calculatorForm.reset(this.initialValues);
     this.formSubmitted.emit(this.initialValues);
@@ -78,81 +111,173 @@ export class SipCalculatorComponent {
 
   pieChartType: ChartType = 'pie';
 
-pieChartData: ChartData<'pie', number[], string | string[]> = {
-  labels: ['Investment', 'Returns'],
-  datasets: [
-    {
-      data: [5709649, 6125575],
-      backgroundColor: ['#42A5F5', '#66BB6A'],
-    }
-  ]
-};
+  pieChartData: ChartData<'pie', number[], string | string[]> = {
+    labels: ['Investment', 'Returns'],
+    datasets: [
+      {
+        data: [this.totalInvestment, this.returns],
+        backgroundColor: ['#42A5F5', '#66BB6A'],
+      },
+    ],
+  };
+
+  pieChartOptions: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: (tooltipItem) => {
+            const label = tooltipItem.label || '';
+            const value = tooltipItem.raw as number;
+            return `${label}: ₹${value.toLocaleString()}`;
+          },
+        },
+      },
+    },
+    animation: {
+      duration: 0,
+    },
+    hover: {
+      mode: undefined, // ✅ fixed
+    },
+    elements: {
+      arc: {
+        hoverOffset: 0, // no pop on hover
+        borderWidth: 0, // no border increase on hover
+      },
+    },
+  };
 
   barChartOptions: ChartOptions<'bar'> = {
-  responsive: true,
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: 'Year'
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Year',
+        },
+        ticks: {
+          color: '#333',
+        },
       },
-      ticks: {
-        color: '#333'
-      }
-    },
-    y: {
-      beginAtZero: true,
-      title: {
-        display: true,
-        text: 'Amount (in Lakhs)'
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Amount (in Lakhs)',
+        },
+        ticks: {
+          color: '#333',
+        },
       },
-      ticks: {
-        color: '#333'
-      }
-    }
-  },
-  plugins: {
-    legend: {
-      display: false
     },
-    tooltip: {
-      enabled: true
-    }
-  }
-};
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+  };
 
   barChartType: ChartType = 'bar';
   displayedColumns: string[] = ['year', 'investment', 'return', 'maturity'];
 
-yearlyData = [
-  { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  { year: 2026, investment: 126000, return: 10000, maturity: 136000 }
-];
+  yearlyData = [
+    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
+  ];
 
+  barChartData = {
+    labels: this.yearlyData.map((d) => d.year.toString()),
+    datasets: [
+      {
+        label: 'Maturity Value (in Lakhs)',
+        data: this.yearlyData.map((d) => +(d.maturity / 100000).toFixed(2)),
+        backgroundColor: '#42a5f5',
+        borderRadius: 4,
+        barThickness: 24,
+      },
+    ],
+  };
 
-barChartData = {
-  labels: this.yearlyData.map(d => d.year.toString()),
-  datasets: [
-    {
-      label: 'Maturity Value (in Lakhs)',
-      data: this.yearlyData.map(d => +(d.maturity / 100000).toFixed(2)),
-      backgroundColor: '#42a5f5',
-      borderRadius: 4,
-      barThickness: 24
+  onSliderChange(event: any, field: string): void {
+    const sipAmount = this.calculatorForm.get('sipAmount')?.value;
+    const stepUpPercentage = this.calculatorForm.get('stepUpPercentage')?.value;
+    const expectedReturnRate =
+      this.calculatorForm.get('expectedReturnRate')?.value;
+    const investmentPeriod = this.calculatorForm.get('investmentPeriod')?.value;
+    const value = event.target.value;
+    this.calculatorForm.get(field)?.setValue(value);
+    console.log(`Slider released for ${field}, field`, value);
+    // Trigger backend or chart update
+    const sipvalue = this.calculateStepUpSip(
+      sipAmount,
+      stepUpPercentage,
+      investmentPeriod,
+      expectedReturnRate
+    );
+    console.log(sipvalue);
+  }
+
+  calculateStepUpSip(
+    baseMonthlyInvestment: number,
+    annualIncreaseRatePercent: number,
+    totalYears: number,
+    annualReturnRatePercent: number
+  ): number {
+    const months = totalYears * 12;
+    const monthlyRate = annualReturnRatePercent / 12 / 100;
+    const annualIncreaseRate = annualIncreaseRatePercent / 100;
+
+    let futureValue = 0;
+    this.totalInvestment = 0;
+    this.returns = 0;
+
+    for (let month = 1; month <= months; month++) {
+      const yearsPassed = Math.floor((month - 1) / 12);
+      const stepUpAmount =
+        baseMonthlyInvestment * Math.pow(1 + annualIncreaseRate, yearsPassed);
+      const remainingMonths = months - month + 1;
+      const compoundedAmount =
+      stepUpAmount * Math.pow(1 + monthlyRate, remainingMonths);
+      futureValue += compoundedAmount;
+      this.totalInvestment += stepUpAmount;
+      this.returns += (compoundedAmount - stepUpAmount);
+      //add pie chart here
+      this.updatePieChartData(this.totalInvestment, this.returns);
     }
-  ]
-};
+    this.totalReturn = Math.round(this.totalInvestment+ this.returns);
+    return Math.round(futureValue);
+  }
+
+  updatePieChartData(investment: number, returns: number): void {
+    this.pieChartData = {
+      ...this.pieChartData, //... means  spread operator shallow copy of the existing object
+      datasets: [
+        {
+          data: [Math.round(investment), Math.round(returns)],
+          backgroundColor: ['#42A5F5', '#66BB6A'],
+        },
+      ],
+    };
+  }
 }

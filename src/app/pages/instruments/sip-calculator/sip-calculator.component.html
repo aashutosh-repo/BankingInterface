@@ -22,7 +22,7 @@
                 <div class="value-display">₹{{ calculatorForm.get('sipAmount')?.value | number:'1.0-0' }}</div>
               </div>
               <mat-slider class="custom-slider w-100" min="500" max="100000" step="500" discrete
-                [displayWith]="formatLabel">
+                [displayWith]="formatLabel" (change)="onSliderChange($event,'sipAmount')">
                 <input matSliderThumb formControlName="sipAmount">
               </mat-slider>
               <div class="range-labels"><span>₹500</span><span>₹100,000</span></div>
@@ -41,7 +41,8 @@
                 <div class="value-display">{{ calculatorForm.get('stepUpPercentage')?.value }}%</div>
               </div>
               <mat-slider class="custom-slider w-100" min="0" max="25" step="1" discrete>
-                <input matSliderThumb formControlName="stepUpPercentage">
+                <input matSliderThumb formControlName='stepUpPercentage'
+                  (change)="onSliderChange($event,'stepUpPercentage')">
               </mat-slider>
               <div class="range-labels"><span>0%</span><span>25%</span></div>
             </div>
@@ -53,7 +54,8 @@
                 <div class="value-display">{{ calculatorForm.get('investmentPeriod')?.value }} years</div>
               </div>
               <mat-slider class="custom-slider w-100" min="1" max="30" step="1" discrete>
-                <input matSliderThumb formControlName="investmentPeriod">
+                <input matSliderThumb formControlName='investmentPeriod'
+                  (change)="onSliderChange($event,'investmentPeriod')">
               </mat-slider>
               <div class="range-labels"><span>1 year</span><span>30 years</span></div>
             </div>
@@ -71,7 +73,8 @@
                 <div class="value-display">{{ calculatorForm.get('expectedReturnRate')?.value }}%</div>
               </div>
               <mat-slider class="custom-slider w-100" min="5" max="20" step="0.5" discrete>
-                <input matSliderThumb formControlName="expectedReturnRate">
+                <input matSliderThumb formControlName='expectedReturnRate'
+                  (change)="onSliderChange($event,'expectedReturnRate')">
               </mat-slider>
               <div class="range-labels"><span>5%</span><span>20%</span></div>
             </div>
@@ -101,10 +104,16 @@
       </div>
 
       <div class="pie-chart" *ngIf="isBrowser">
-        <canvas baseChart [data]="pieChartData" [type]="pieChartType">
+        <canvas baseChart 
+        [data]="pieChartData" 
+        [labels]="pieChartLabels"
+        [type]="pieChartType"
+        [options]="pieChartOptions">
         </canvas>
       </div>
+      <div class="total-return">Total Return : {{totalReturn}}</div>
     </div>
+
   </div>
 
   <!-- Border line -->
