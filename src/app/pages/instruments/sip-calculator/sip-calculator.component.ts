@@ -45,7 +45,7 @@ export class SipCalculatorComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<any>();
 
   calculatorForm!: FormGroup;
-  totalReturn:number=0;
+  totalReturn: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -177,11 +177,21 @@ export class SipCalculatorComponent implements OnInit {
     },
     plugins: {
       legend: {
-        display: false,
+        display: true,
+        position: 'top',
       },
       tooltip: {
         enabled: true,
       },
+       datalabels: {
+      anchor: 'end',
+      align: 'end',
+      color: '#000',
+      font: {
+        weight: 'normal',
+      },
+      formatter: (value: number) => `${value}L`,
+    },
     },
   };
 
@@ -252,20 +262,58 @@ export class SipCalculatorComponent implements OnInit {
     this.totalInvestment = 0;
     this.returns = 0;
 
+    this.yearlyData = []; // Reset yearly data for new calculation
+    let yearlyInvestment = 0;
+    let yearlyReturn = 0;
+    let yearStart = new Date().getFullYear();
+
     for (let month = 1; month <= months; month++) {
       const yearsPassed = Math.floor((month - 1) / 12);
+      const monthsUntilNow = month;
       const stepUpAmount =
         baseMonthlyInvestment * Math.pow(1 + annualIncreaseRate, yearsPassed);
-      const remainingMonths = months - month + 1;
+      // const remainingMonths = months - month + 1;
       const compoundedAmount =
-      stepUpAmount * Math.pow(1 + monthlyRate, remainingMonths);
+        stepUpAmount * Math.pow(1 + monthlyRate, monthsUntilNow);
       futureValue += compoundedAmount;
       this.totalInvestment += stepUpAmount;
-      this.returns += (compoundedAmount - stepUpAmount);
+      this.returns += compoundedAmount - stepUpAmount;
+
+      yearlyInvestment += stepUpAmount;
+      yearlyReturn += compoundedAmount - stepUpAmount;
       //add pie chart here
       this.updatePieChartData(this.totalInvestment, this.returns);
+      //At the end of each year, push data to yearlyData
+      if (month % 12 === 0) {
+        const year = yearStart + yearsPassed;
+        this.yearlyData.push({
+          year: year,
+          investment: Math.round(this.totalInvestment),
+          return: Math.round(this.returns),
+          maturity: Math.round(this.totalInvestment + this.returns),
+        });
+      }
+    this.barChartData = {
+    labels: this.yearlyData.map((d) => d.year.toString()),
+    datasets: [
+      {
+        label: 'Investment Amount (in Lakhs)',
+        data: this.yearlyData.map((d) => +(d.investment / 100000).toFixed(2)),
+        backgroundColor: '#66bb6a',
+        borderRadius: 4,
+        barThickness: 16,
+      },
+      {
+        label: 'Maturity Value (in Lakhs)',
+        data: this.yearlyData.map((d) => +(d.maturity / 100000).toFixed(2)),
+        backgroundColor: '#42a5f5',
+        borderRadius: 4,  
+        barThickness: 16,
+      },
+    ],
+  };
     }
-    this.totalReturn = Math.round(this.totalInvestment+ this.returns);
+    this.totalReturn = Math.round(this.totalInvestment + this.returns);
     return Math.round(futureValue);
   }
 
