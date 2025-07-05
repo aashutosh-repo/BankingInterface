@@ -21,7 +21,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { MatSliderChange } from '@angular/material/slider';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SIP } from '../../../model/interfaces/instruments/instrument.model';
+import { BarChartOptions, PieChartOptions } from '../../../shared/charts/chart-config';
 
 @Component({
   selector: 'app-sip-calculator',
@@ -30,14 +32,16 @@ import { MatSliderChange } from '@angular/material/slider';
     ReactiveFormsModule,
     NgChartsModule,
     MatTooltipModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './sip-calculator.component.html',
   styleUrls: ['./sip-calculator.component.css'],
 })
 export class SipCalculatorComponent implements OnInit {
   @Input() initialValues: any = {
+    sipType: 'monthly',
     sipAmount: 5000,
-    stepUpPercentage: 10,
+    stepUpPercentage: 0,
     investmentPeriod: 10,
     expectedReturnRate: 12,
   };
@@ -46,6 +50,20 @@ export class SipCalculatorComponent implements OnInit {
 
   calculatorForm!: FormGroup;
   totalReturn: number = 0;
+  barChartOptions = BarChartOptions;
+  pieChartOptions= PieChartOptions;
+  // selectedSipType: 'monthly' | 'stepup' | 'inflation' = 'monthly';
+
+  private getFormValues() {
+  return {
+    sipType: this.calculatorForm.get('sipType')?.value,
+    sipAmount: this.calculatorForm.get('sipAmount')?.value,
+    stepUpPercentage: this.calculatorForm.get('stepUpPercentage')?.value,
+    expectedReturnRate: this.calculatorForm.get('expectedReturnRate')?.value,
+    investmentPeriod: this.calculatorForm.get('investmentPeriod')?.value,
+  };
+}
+
 
   constructor(
     private fb: FormBuilder,
@@ -60,6 +78,7 @@ export class SipCalculatorComponent implements OnInit {
 
   initForm(): void {
     this.calculatorForm = this.fb.group({
+      sipType: ['monthly'],
       sipAmount: [
         this.initialValues.sipAmount,
         [Validators.required, Validators.min(500), Validators.max(100000)],
@@ -83,7 +102,25 @@ export class SipCalculatorComponent implements OnInit {
       if (this.calculatorForm.valid) {
         this.formSubmitted.emit(values);
       }
+
+      const {sipType, sipAmount, stepUpPercentage, investmentPeriod, expectedReturnRate } = this.getFormValues();
+      this.calculateStepUpSip(
+        sipAmount,
+        stepUpPercentage,
+        investmentPeriod,
+        expectedReturnRate
+      );
     });
+    // Debounce for performance
+    this.calculatorForm.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged())
+    const { sipAmount, stepUpPercentage, investmentPeriod, expectedReturnRate } = this.getFormValues();
+    this.calculateStepUpSip(
+      sipAmount,
+      stepUpPercentage,
+      investmentPeriod,
+      expectedReturnRate
+    );
   }
 
   formatLabel(value: number): string {
@@ -121,100 +158,10 @@ export class SipCalculatorComponent implements OnInit {
     ],
   };
 
-  pieChartOptions: ChartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        enabled: true,
-        callbacks: {
-          label: (tooltipItem) => {
-            const label = tooltipItem.label || '';
-            const value = tooltipItem.raw as number;
-            return `${label}: ₹${value.toLocaleString()}`;
-          },
-        },
-      },
-    },
-    animation: {
-      duration: 0,
-    },
-    hover: {
-      mode: undefined, // ✅ fixed
-    },
-    elements: {
-      arc: {
-        hoverOffset: 0, // no pop on hover
-        borderWidth: 0, // no border increase on hover
-      },
-    },
-  };
-
-  barChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Year',
-        },
-        ticks: {
-          color: '#333',
-        },
-      },
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Amount (in Lakhs)',
-        },
-        ticks: {
-          color: '#333',
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-      },
-      tooltip: {
-        enabled: true,
-      },
-       datalabels: {
-      anchor: 'end',
-      align: 'end',
-      color: '#000',
-      font: {
-        weight: 'normal',
-      },
-      formatter: (value: number) => `${value}L`,
-    },
-    },
-  };
-
   barChartType: ChartType = 'bar';
   displayedColumns: string[] = ['year', 'investment', 'return', 'maturity'];
 
-  yearlyData = [
-    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-    { year: 2025, investment: 60000, return: 3000, maturity: 63000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-    { year: 2026, investment: 126000, return: 10000, maturity: 136000 },
-  ];
+  yearlyData: SIP[] = [];
 
   barChartData = {
     labels: this.yearlyData.map((d) => d.year.toString()),
@@ -237,15 +184,24 @@ export class SipCalculatorComponent implements OnInit {
     const investmentPeriod = this.calculatorForm.get('investmentPeriod')?.value;
     const value = event.target.value;
     this.calculatorForm.get(field)?.setValue(value);
+    
     console.log(`Slider released for ${field}, field`, value);
     // Trigger backend or chart update
-    const sipvalue = this.calculateStepUpSip(
-      sipAmount,
-      stepUpPercentage,
-      investmentPeriod,
-      expectedReturnRate
-    );
-    console.log(sipvalue);
+    if (this.calculatorForm.get('sipType')?.value === 'monthly') {
+      this.calculateStepUpSip(
+        sipAmount,
+        0,
+        investmentPeriod,
+        expectedReturnRate
+      );
+    } else if (this.calculatorForm.get('sipType')?.value === 'stepup') {
+      this.calculateStepUpSip(
+        sipAmount,
+        stepUpPercentage,
+        investmentPeriod,
+        expectedReturnRate
+      );
+    }
   }
 
   calculateStepUpSip(
@@ -293,27 +249,31 @@ export class SipCalculatorComponent implements OnInit {
           maturity: Math.round(this.totalInvestment + this.returns),
         });
       }
-    this.barChartData = {
-    labels: this.yearlyData.map((d) => d.year.toString()),
-    datasets: [
-      {
-        label: 'Investment Amount (in Lakhs)',
-        data: this.yearlyData.map((d) => +(d.investment / 100000).toFixed(2)),
-        backgroundColor: '#66bb6a',
-        borderRadius: 4,
-        barThickness: 16,
-      },
-      {
-        label: 'Maturity Value (in Lakhs)',
-        data: this.yearlyData.map((d) => +(d.maturity / 100000).toFixed(2)),
-        backgroundColor: '#42a5f5',
-        borderRadius: 4,  
-        barThickness: 16,
-      },
-    ],
-  };
+      this.barChartData = {
+        labels: this.yearlyData.map((d) => d.year.toString()),
+        datasets: [
+          {
+            label: 'Investment Amount (in Lakhs)',
+            data: this.yearlyData.map(
+              (d) => +(d.investment / 100000).toFixed(2)
+            ),
+            backgroundColor: '#66bb6a',
+            borderRadius: 4,
+            barThickness: 16,
+          },
+          {
+            label: 'Maturity Value (in Lakhs)',
+            data: this.yearlyData.map((d) => +(d.maturity / 100000).toFixed(2)),
+            backgroundColor: '#42a5f5',
+            borderRadius: 4,
+            barThickness: 16,
+          },
+        ],
+      };
     }
     this.totalReturn = Math.round(this.totalInvestment + this.returns);
+    console.log(`Total Investment: ₹${this.totalInvestment}`);
+    console.log(`Total Returns: ₹${this.returns}`);
     return Math.round(futureValue);
   }
 
@@ -327,5 +287,33 @@ export class SipCalculatorComponent implements OnInit {
         },
       ],
     };
+  }
+
+  onSipTypeChange(event: any): void {
+    const type = event.value;
+
+    switch (type) {
+      case 'monthly':
+        this.calculatorForm.patchValue({
+          stepUpPercentage: 0,
+          inflationRate: 0,
+        });
+        break;
+
+      case 'stepup':
+        this.calculatorForm.patchValue({
+          stepUpPercentage: 10,
+          inflationRate: 0,
+        });
+        break;
+
+      case 'inflation':
+        this.calculatorForm.patchValue({
+          stepUpPercentage: 0,
+          inflationRate: 6,
+        });
+        break;
+    }
+    this.onSubmit(); // or your calculation function
   }
 }

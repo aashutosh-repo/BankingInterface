@@ -4,6 +4,21 @@
     Understand the SIP returns with annual investment hikes with step up increment.
   </p>
 </div>
+
+<div class="sip-mode-container" [formGroup]="calculatorForm">
+  <mat-button-toggle-group
+    formControlName="sipType"
+    (change)="onSipTypeChange($event)"
+    appearance="legacy"
+    class="sip-toggle"
+    aria-label="SIP Type Selection"
+  >
+    <mat-button-toggle value="monthly">Monthly SIP</mat-button-toggle>
+    <mat-button-toggle value="stepup">Step-Up SIP</mat-button-toggle>
+    <mat-button-toggle value="inflation">SIP with Inflation</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
+
 <div class="sip-container">
   <!-- Top Section: Form + Summary -->
   <div class="sip-top-section">
@@ -29,7 +44,7 @@
             </div>
 
             <!-- Step-Up Percentage -->
-            <div class="form-field">
+            <div class="form-field" *ngIf="calculatorForm.get('sipType')?.value === 'stepup'">
               <div class="slider-header">
                 <label class="step-up-label">
                   <span class="label-text">Annual Step-Up Percentage</span>

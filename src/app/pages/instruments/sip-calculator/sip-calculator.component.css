@@ -306,3 +306,47 @@ font-size: 15px;
   letter-spacing: 1px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.sip-mode-container {
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+/* Wrapper container for spacing */
+.sip-mode-toggle {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+/* Toggle group styling */
+mat-button-toggle-group.mat-button-toggle-group {
+  display: inline-flex;
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 4px;
+  height: 40px;
+  line-height: 36px;
+  font-size: 13px;
+}
+
+/* Individual toggle buttons */
+mat-button-toggle.mat-button-toggle {
+  font-weight: 500;
+  padding: 0 12px;
+  font-size: 13px;
+  min-height: 32px;
+  height: 32px;
+  line-height: 32px;
+  margin: 0 4px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Selected toggle styling with radial green glow */
+mat-button-toggle.mat-button-toggle-checked {
+  background: radial-gradient(circle at center, #c8facc 30%, #f7f7f7 90%);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+  border: 1px solid #81c784;
+  color: #2e7d32;
+  font-weight: bold;
+}
