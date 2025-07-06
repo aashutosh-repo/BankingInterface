@@ -6,13 +6,8 @@
 </div>
 
 <div class="sip-mode-container" [formGroup]="calculatorForm">
-  <mat-button-toggle-group
-    formControlName="sipType"
-    (change)="onSipTypeChange($event)"
-    appearance="legacy"
-    class="sip-toggle"
-    aria-label="SIP Type Selection"
-  >
+  <mat-button-toggle-group formControlName="sipType" (change)="onSipTypeChange($event)" appearance="legacy"
+    class="sip-toggle" aria-label="SIP Type Selection">
     <mat-button-toggle value="monthly">Monthly SIP</mat-button-toggle>
     <mat-button-toggle value="stepup">Step-Up SIP</mat-button-toggle>
     <mat-button-toggle value="inflation">SIP with Inflation</mat-button-toggle>
@@ -58,6 +53,25 @@
               <mat-slider class="custom-slider w-100" min="0" max="25" step="1" discrete>
                 <input matSliderThumb formControlName='stepUpPercentage'
                   (change)="onSliderChange($event,'stepUpPercentage')">
+              </mat-slider>
+              <div class="range-labels"><span>0%</span><span>25%</span></div>
+            </div>
+
+
+            <!-- Inflation Percentage -->
+            <div class="form-field" *ngIf="calculatorForm.get('sipType')?.value === 'inflation'">
+              <div class="slider-header">
+                <label class="step-up-label">
+                  <span class="label-text">Annual inflation Percentage</span>
+                  <mat-icon matTooltip="The percentage by which inflation eat your saving every year" class="info-icon"
+                    color="primary">
+                    info
+                  </mat-icon>
+                </label>
+                <div class="value-display">{{ calculatorForm.get('inflationRate')?.value }}%</div>
+              </div>
+              <mat-slider class="custom-slider w-100" min="0" max="25" step="0.5" discrete>
+                <input matSliderThumb formControlName='inflationRate' (change)="onSliderChange($event,'inflationRate')">
               </mat-slider>
               <div class="range-labels"><span>0%</span><span>25%</span></div>
             </div>
@@ -116,14 +130,34 @@
           <div class="metric-label">Returns</div>
           <div class="metric-value">₹ {{ returns | number:'1.0-0' }}</div>
         </div>
+        <!-- Maturity Value (Nominal) -->
+        <div class="metric">
+          <div class="metric-label">
+            Maturity Amount
+            <mat-icon
+              matTooltip="Total value you will receive at the end of the investment period, not adjusted for inflation.">
+              info
+            </mat-icon>
+          </div>
+          <div class="metric-value">₹ {{ result?.futureValue | number:'1.0-0' }}</div>
+        </div>
+
+        <!-- Real Value (Adjusted for Inflation) -->
+        <div class="metric" *ngIf="calculatorForm.get('sipType')?.value === 'inflation'">
+          <div class="metric-label">
+             Today’s Value
+            <mat-icon matTooltip="Your maturity value adjusted for inflation. This shows the real purchasing power.">
+              info
+            </mat-icon>
+          </div>
+          <div class="metric-value">₹ {{ result?.futureValueReal | number:'1.0-0' }}</div>
+        </div>
+
       </div>
 
       <div class="pie-chart" *ngIf="isBrowser">
-        <canvas baseChart 
-        [data]="pieChartData" 
-        [labels]="pieChartLabels"
-        [type]="pieChartType"
-        [options]="pieChartOptions">
+        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [type]="pieChartType"
+          [options]="pieChartOptions">
         </canvas>
       </div>
       <div class="total-return">Total Return : {{totalReturn}}</div>

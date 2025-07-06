@@ -156,28 +156,52 @@ font-size: 15px;
   justify-content: center;
 }
 
-/* Metrics Styling */
-.summary-metrics {
+ .summary-metrics {
   display: flex;
-  justify-content: space-around;
-  padding: 16px;
+  flex-wrap: wrap;
+  justify-content: center; /* Centers items horizontally */
+  gap: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #fff;
   margin-bottom: 16px;
 }
 
+/* Each Metric Box */
 .metric {
   text-align: center;
+  background-color: #38e7a4;
+  padding: 4px 2px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: background-color 0.3s ease;
 }
+.metric {
+  flex: 1 1 120px; /* Allow item to shrink/grow with min width */
+  max-width: 220px;
+  text-align: center;
+}
+
+.metric:hover {
+  background-color: #f77e7e;
+}
+
 .metric-label {
   font-weight: 600;
   color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
 }
+
 .metric-value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #2c3e50;
+  margin-top: 4px;
 }
 
 /* Pie Chart Styling */
@@ -218,27 +242,18 @@ font-size: 15px;
   gap: 24px;
   margin-top: 24px;
   height: 400px; /* fixed height for scroll */
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 24px;
+  flex-wrap: wrap;
 }
 
-/* 60% width for chart, 40% for table */
-.bar-chart-container {
-  flex: 0 0 60%;
-  background: #fff;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-}
-
-/* 40% width with scroll */
+.bar-chart-container,
 .yearly-summary-container {
-  flex: 0 0 40%;
-  background: #fff;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex: 1 1 48%;  /* half width with some flexibility */
+}
+.bar-chart-container{
+  border-right: 1px solid #ddd;
 }
 
 .summary-table-wrapper {
@@ -349,4 +364,11 @@ mat-button-toggle.mat-button-toggle-checked {
   border: 1px solid #81c784;
   color: #2e7d32;
   font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .metric {
+    flex: 1 1 100%;       /* Full width on small screens */
+    max-width: 100%;
+  }
 }

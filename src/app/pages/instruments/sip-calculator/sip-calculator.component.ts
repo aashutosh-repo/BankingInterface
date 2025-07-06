@@ -22,8 +22,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { SIP } from '../../../model/interfaces/instruments/instrument.model';
+import { SipCalculationInput, SipYearlyData } from '../../../model/interfaces/instruments/instrument.model';
 import { BarChartOptions, PieChartOptions } from '../../../shared/charts/chart-config';
+import { SipCalculatorService } from '../../../services/data-visualization/SipCalculatorService';
 
 @Component({
   selector: 'app-sip-calculator',
@@ -44,28 +45,35 @@ export class SipCalculatorComponent implements OnInit {
     stepUpPercentage: 0,
     investmentPeriod: 10,
     expectedReturnRate: 12,
+    inflationRate: 6,
   };
   isBrowser = false;
   @Output() formSubmitted = new EventEmitter<any>();
 
   calculatorForm!: FormGroup;
+  input!: SipCalculationInput;
+  totalInvestment: number = 0;
+  returns: number = 0;
   totalReturn: number = 0;
+  result : any ;
   barChartOptions = BarChartOptions;
   pieChartOptions= PieChartOptions;
   // selectedSipType: 'monthly' | 'stepup' | 'inflation' = 'monthly';
 
   private getFormValues() {
-  return {
-    sipType: this.calculatorForm.get('sipType')?.value,
-    sipAmount: this.calculatorForm.get('sipAmount')?.value,
-    stepUpPercentage: this.calculatorForm.get('stepUpPercentage')?.value,
-    expectedReturnRate: this.calculatorForm.get('expectedReturnRate')?.value,
-    investmentPeriod: this.calculatorForm.get('investmentPeriod')?.value,
-  };
-}
+    return {
+      sipType: this.calculatorForm.get('sipType')?.value,
+      sipAmount: this.calculatorForm.get('sipAmount')?.value,
+      stepUpPercentage: this.calculatorForm.get('stepUpPercentage')?.value,
+      expectedReturnRate: this.calculatorForm.get('expectedReturnRate')?.value,
+      investmentPeriod: this.calculatorForm.get('investmentPeriod')?.value,
+      inflationRate: this.calculatorForm.get('inflationRate')?.value,
+    };
+  }
 
 
   constructor(
+    private sipCalculatorService: SipCalculatorService,
     private fb: FormBuilder,
     @Inject(PLATFORM_ID) platformId: object
   ) {
@@ -74,6 +82,7 @@ export class SipCalculatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.runCalculation();
   }
 
   initForm(): void {
@@ -95,6 +104,10 @@ export class SipCalculatorComponent implements OnInit {
         this.initialValues.expectedReturnRate,
         [Validators.required, Validators.min(5), Validators.max(20)],
       ],
+      inflationRate: [
+        this.initialValues.inflationRate,
+        [Validators.required, Validators.min(0), Validators.max(15)],
+      ],
     });
 
     // Real-time calculation as values change
@@ -103,24 +116,13 @@ export class SipCalculatorComponent implements OnInit {
         this.formSubmitted.emit(values);
       }
 
-      const {sipType, sipAmount, stepUpPercentage, investmentPeriod, expectedReturnRate } = this.getFormValues();
-      this.calculateStepUpSip(
-        sipAmount,
-        stepUpPercentage,
-        investmentPeriod,
-        expectedReturnRate
-      );
+      // this.runCalculation();
     });
     // Debounce for performance
     this.calculatorForm.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
-    const { sipAmount, stepUpPercentage, investmentPeriod, expectedReturnRate } = this.getFormValues();
-    this.calculateStepUpSip(
-      sipAmount,
-      stepUpPercentage,
-      investmentPeriod,
-      expectedReturnRate
-    );
+        .subscribe(() => this.runCalculation());
+
   }
 
   formatLabel(value: number): string {
@@ -141,8 +143,6 @@ export class SipCalculatorComponent implements OnInit {
     this.formSubmitted.emit(this.initialValues);
   }
 
-  totalInvestment = 5709649;
-  returns = 6125575;
   pieChartLabels: string[] = ['Investment', 'Returns'];
   // pieChartData: number[] = [this.totalInvestment, this.returns];
 
@@ -161,7 +161,7 @@ export class SipCalculatorComponent implements OnInit {
   barChartType: ChartType = 'bar';
   displayedColumns: string[] = ['year', 'investment', 'return', 'maturity'];
 
-  yearlyData: SIP[] = [];
+  yearlyData: SipYearlyData[] = [];
 
   barChartData = {
     labels: this.yearlyData.map((d) => d.year.toString()),
@@ -177,85 +177,42 @@ export class SipCalculatorComponent implements OnInit {
   };
 
   onSliderChange(event: any, field: string): void {
-    const sipAmount = this.calculatorForm.get('sipAmount')?.value;
-    const stepUpPercentage = this.calculatorForm.get('stepUpPercentage')?.value;
-    const expectedReturnRate =
-      this.calculatorForm.get('expectedReturnRate')?.value;
-    const investmentPeriod = this.calculatorForm.get('investmentPeriod')?.value;
     const value = event.target.value;
     this.calculatorForm.get(field)?.setValue(value);
     
     console.log(`Slider released for ${field}, field`, value);
     // Trigger backend or chart update
+    
     if (this.calculatorForm.get('sipType')?.value === 'monthly') {
-      this.calculateStepUpSip(
-        sipAmount,
-        0,
-        investmentPeriod,
-        expectedReturnRate
-      );
+      // this.runCalculation();
     } else if (this.calculatorForm.get('sipType')?.value === 'stepup') {
-      this.calculateStepUpSip(
-        sipAmount,
-        stepUpPercentage,
-        investmentPeriod,
-        expectedReturnRate
-      );
+      // this.runCalculation
+    }else if (this.calculatorForm.get('sipType')?.value === 'inflation') {
+      this.input = this.getFormValues();
+      // const result = this.sipCalculatorService.calculateSipWithInflation(this.input);
+      // console.log('Inflation SIP result:', result);
     }
   }
 
-  calculateStepUpSip(
-    baseMonthlyInvestment: number,
-    annualIncreaseRatePercent: number,
-    totalYears: number,
-    annualReturnRatePercent: number
-  ): number {
-    const months = totalYears * 12;
-    const monthlyRate = annualReturnRatePercent / 12 / 100;
-    const annualIncreaseRate = annualIncreaseRatePercent / 100;
+    updatePieChartData(): void {
+      this.pieChartData = {
+        datasets: [
+          {
+            data: [Math.round(this.totalInvestment), Math.round(this.returns)],
+            backgroundColor: ['#42A5F5', '#66BB6A'],
+          },
+        ],
+      };
+    }
 
-    let futureValue = 0;
-    this.totalInvestment = 0;
-    this.returns = 0;
-
-    this.yearlyData = []; // Reset yearly data for new calculation
-    let yearlyInvestment = 0;
-    let yearlyReturn = 0;
-    let yearStart = new Date().getFullYear();
-
-    for (let month = 1; month <= months; month++) {
-      const yearsPassed = Math.floor((month - 1) / 12);
-      const monthsUntilNow = month;
-      const stepUpAmount =
-        baseMonthlyInvestment * Math.pow(1 + annualIncreaseRate, yearsPassed);
-      // const remainingMonths = months - month + 1;
-      const compoundedAmount =
-        stepUpAmount * Math.pow(1 + monthlyRate, monthsUntilNow);
-      futureValue += compoundedAmount;
-      this.totalInvestment += stepUpAmount;
-      this.returns += compoundedAmount - stepUpAmount;
-
-      yearlyInvestment += stepUpAmount;
-      yearlyReturn += compoundedAmount - stepUpAmount;
-      //add pie chart here
-      this.updatePieChartData(this.totalInvestment, this.returns);
-      //At the end of each year, push data to yearlyData
-      if (month % 12 === 0) {
-        const year = yearStart + yearsPassed;
-        this.yearlyData.push({
-          year: year,
-          investment: Math.round(this.totalInvestment),
-          return: Math.round(this.returns),
-          maturity: Math.round(this.totalInvestment + this.returns),
-        });
-      }
+    updateBarChartData(): void {
       this.barChartData = {
         labels: this.yearlyData.map((d) => d.year.toString()),
         datasets: [
           {
             label: 'Investment Amount (in Lakhs)',
-            data: this.yearlyData.map(
-              (d) => +(d.investment / 100000).toFixed(2)
+            data: this.yearlyData.map((d) =>
+              +(d.investment / 100000).toFixed(2)
             ),
             backgroundColor: '#66bb6a',
             borderRadius: 4,
@@ -263,7 +220,9 @@ export class SipCalculatorComponent implements OnInit {
           },
           {
             label: 'Maturity Value (in Lakhs)',
-            data: this.yearlyData.map((d) => +(d.maturity / 100000).toFixed(2)),
+            data: this.yearlyData.map((d) =>
+              +(d.maturity / 100000).toFixed(2)
+            ),
             backgroundColor: '#42a5f5',
             borderRadius: 4,
             barThickness: 16,
@@ -271,23 +230,6 @@ export class SipCalculatorComponent implements OnInit {
         ],
       };
     }
-    this.totalReturn = Math.round(this.totalInvestment + this.returns);
-    console.log(`Total Investment: ₹${this.totalInvestment}`);
-    console.log(`Total Returns: ₹${this.returns}`);
-    return Math.round(futureValue);
-  }
-
-  updatePieChartData(investment: number, returns: number): void {
-    this.pieChartData = {
-      ...this.pieChartData, //... means  spread operator shallow copy of the existing object
-      datasets: [
-        {
-          data: [Math.round(investment), Math.round(returns)],
-          backgroundColor: ['#42A5F5', '#66BB6A'],
-        },
-      ],
-    };
-  }
 
   onSipTypeChange(event: any): void {
     const type = event.value;
@@ -305,6 +247,7 @@ export class SipCalculatorComponent implements OnInit {
           stepUpPercentage: 10,
           inflationRate: 0,
         });
+        console.log('Step Up SIP selected');
         break;
 
       case 'inflation':
@@ -315,5 +258,67 @@ export class SipCalculatorComponent implements OnInit {
         break;
     }
     this.onSubmit(); // or your calculation function
+    // this.runCalculation()
   }
+
+
+
+  private runCalculation(): void {
+  const {
+    sipType,
+    sipAmount,
+    stepUpPercentage,
+    investmentPeriod,
+    expectedReturnRate,
+    inflationRate,
+  } = this.getFormValues();
+
+  let actualStepUp = stepUpPercentage;
+  let adjustedReturnRate = expectedReturnRate;
+  // if (sipType === 'monthly') {
+  //   actualStepUp = 0;
+  // } else if (sipType === 'inflation') {
+  //   actualStepUp = 0;
+  //   adjustedReturnRate = expectedReturnRate - inflationRate;
+  // }
+
+  // this.result = this.sipCalculatorService.calculateStepUpSip(
+  //   sipAmount,
+  //   actualStepUp,
+  //   investmentPeriod,
+  //   adjustedReturnRate
+  // );
+  // if(sipType === 'inflation') {
+  //   this.input = this.getFormValues();
+  //   this.result = this.sipCalculatorService.calculateSipWithInflation(this.input);  
+  // }
+
+  if (sipType === 'inflation') {
+  this.input = this.getFormValues();
+  console.log('Input for Inflation SIP:', this.input);
+  this.result = this.sipCalculatorService.calculateSipWithInflation(this.input);
+  console.log('Inflation SIP result:', this.result);
+} else {
+  this.result = this.sipCalculatorService.calculateStepUpSip(
+    sipAmount,
+    actualStepUp,
+    investmentPeriod,
+    adjustedReturnRate
+  );
+}
+
+
+  this.totalInvestment = this.result.totalInvestment;
+  this.returns = this.result.returns;
+  this.totalReturn = this.result.totalReturn;
+  this.yearlyData = this.result.yearlyData;
+  // console.log('sipType:', sipType);
+  console.log('result:', this.result);
+  // console.log('Yearly Data:', this.yearlyData);
+
+
+  this.updatePieChartData();
+  this.updateBarChartData();
+}
+
 }
