@@ -12,9 +12,11 @@ import { BarChartComponent } from './pages/data-visualization/bar-chart/bar-char
 import { DashboardComponent } from './pages/data-visualization/dashboard/dashboard.component';
 import { dataVisualizationRoutes } from './routes/data-visualization.route';
 import { SipCalculatorComponent } from './pages/instruments/sip-calculator/sip-calculator.component';
+import { TestComponent } from './pages/test/test.component';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
+    {path : 'test', component: TestComponent},
     {path : 'login' , component: LoginComponent},
     {path : 'homepage' , component: HomepageComponent},
     {path : 'main', component: TilesComponent},

@@ -1,0 +1,24 @@
+<p>test works!</p>
+<div>
+    <p>Formatted Phone Number: {{ '9876543210' | phoneFormat }}</p>
+    <p>Formatted Card Number: {{ '1234-2222-3333-5555' | cardMask }}</p>
+</div>
+
+<div class="dropdown-container">
+  <label for="state">Select State:</label>
+  <input
+    id="state"
+    type="text"
+    [formControl]="stateControl"
+    (focus)="showdropdown = true"
+    (blur)="onBlur()"
+    placeholder="Type to search..."
+    autocomplete="off"
+  />
+
+  <ul class="dropdown-list" *ngIf="showdropdown && filteredStates.length">
+    <li *ngFor="let state of filteredStates" (click)="selectState(state)">
+      {{ state }}
+    </li>
+  </ul>
+</div>
