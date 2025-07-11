@@ -10,4 +10,13 @@ export class LabelMapperService {
     const matched = options.find(opt => opt.value === valueStr);
     return matched ? matched.label : valueStr;
   }
+
+  getEnumAsArray<T extends object>(enumObj: T): { key: string; value: T[keyof T] }[] {
+    return Object.keys(enumObj)
+      .filter(key => isNaN(Number(key)))
+      .map(key => ({
+        key,
+        value: enumObj[key as keyof T]
+      }));
+  }
 }
