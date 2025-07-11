@@ -134,7 +134,7 @@ this.processPayment(this.paymentData);
 
   async processPayment(paymentData: any) {
     this.isLoading = true;
-// Create a 3-second delay promise
+    // Create a 3-second delay promise
     const delay = new Promise(resolve => setTimeout(resolve, 3000));
   
     try {
@@ -145,9 +145,9 @@ this.processPayment(this.paymentData);
 
       // Initiate payment with the token
       const paymentData = { token, amount: '100',data: this.paymentData };
-   const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
+      const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
 
-const response = await this.paymentService.initiatePayment(encryptedPayload);
+      const response = await this.paymentService.initiatePayment(encryptedPayload);
 
       // Decrypt the response
       const decryptedResponse = await this.encryptionService.decrypt(response.payload);

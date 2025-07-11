@@ -5,6 +5,7 @@ import { CurrencyConvertorComponent } from '../pages/instruments/currency-conver
 import { HolidaysCalenderComponent } from '../pages/instruments/holidays-calender/holidays-calender.component';
 import { SidebarLayoutComponent } from '../shared/layout/sidebar-layout/sidebar-layout.component';
 import { SipCalculatorComponent } from '../pages/instruments/sip-calculator/sip-calculator.component';
+import { InstrumentsHomeComponent } from '../pages/instruments/instruments-home/instruments-home.component';
 
 export const toolsRoutes: Routes = [
   {
@@ -13,8 +14,9 @@ export const toolsRoutes: Routes = [
     children: [
       {
         path: '',
-        component: SidebarLayoutComponent, // includes the sidebar
+        // component: SidebarLayoutComponent, // includes the sidebar
         children: [
+          { path: 'home', component: InstrumentsHomeComponent },
           { path: 'emi-calculator', component: EmiCalculatorComponent },
           { path: 'sip-calc', component: SipCalculatorComponent },
           { path: 'currency-convertor', component: CurrencyConvertorComponent },
