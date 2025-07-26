@@ -15,17 +15,14 @@ import { LoginComponent } from '../login/login.component';
 })
 export class HomepageComponent implements OnInit{
   constructor(private dialog : MatDialog){}
+
+  customers: CustomerDetails[] = [];
+  customerDetails = inject(CustomerOperationService);
+
   ngOnInit(): void {
-    this.dialog.open(LoginComponent, {
-      disableClose: true,
-      width: '400px',
-      height: '600px'
-    });
     this.getCustomerDetails()
   }
-  customers: CustomerDetails[] = [];
 
-  customerDetails = inject(CustomerOperationService);
 
   getCustomerDetails(){
     this.customerDetails.loadCustomerDetails().subscribe(data => {

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../services/error/error.service';
 import { Oauth2Service } from '../../services/security/oauth2.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -16,27 +17,40 @@ import { Oauth2Service } from '../../services/security/oauth2.service';
 })
 export class LoginComponent {
 
+  dialogRef = inject(MatDialogRef<LoginComponent>, { optional: true });
+
   loginservice = inject(LoginServicesService);
   route = inject(Router);
- errorService = inject(ErrorService);
- errorMessage: string = '';
+  errorService = inject(ErrorService);
+  errorMessage: string = '';
   user: UserRequest ={
     username: '',
     password: ''
   }
 
-  constructor(private Oauth2Service: Oauth2Service) {}
-
-
+  constructor(private Oauth2Service: Oauth2Service,
+  ) {}
 
   verifyUser(): void {
-
     this.Oauth2Service.login(this.user)?.subscribe(
       (response) => {
         console.log('Login successful, Token:', response.token);
         this.Oauth2Service.saveToken(response.token);
-        window.location.href = '/homepage'; // Redirect after login
-      },
+
+        const userResponse: UserResponse = {
+          token: response.token,
+          userName: this.user.username,
+          firstName: response.firstName,
+          lastName: response.lastName,
+          lastLogin: response.lastLogin,
+        };
+
+        console.log(response.token)
+        if(this.dialogRef){
+          this.dialogRef.close(userResponse);
+        }
+        this.route.navigate(['/main']); // Redirect after login
+      },  
       (error) => {
         console.error('Login failed:', error);
         this.errorMessage = 'Invalid credentials. Please try again.';
