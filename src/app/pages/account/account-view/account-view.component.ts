@@ -49,7 +49,6 @@ export class AccountViewComponent {
   }
 
   loadAccounts(): void {
-    debugger;
     this.accountService.loadAccountsDetails().subscribe(
       (data) => {this.accounts = data
       this.dataSource.data = data; 

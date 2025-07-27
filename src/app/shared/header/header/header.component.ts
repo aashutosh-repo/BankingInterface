@@ -38,7 +38,6 @@ export class HeaderComponent {
         height: '520px',
         disableClose: false
       });
-      debugger;
       dialogRef.afterClosed().subscribe((userRes: UserResponse) => {
         if (userRes) {
           this.userDetails = userRes;

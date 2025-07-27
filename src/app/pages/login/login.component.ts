@@ -48,8 +48,9 @@ export class LoginComponent {
         console.log(response.token)
         if(this.dialogRef){
           this.dialogRef.close(userResponse);
+        }else{
+          this.route.navigate(['/main']); // Redirect after login
         }
-        this.route.navigate(['/main']); // Redirect after login
       },  
       (error) => {
         console.error('Login failed:', error);

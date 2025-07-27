@@ -23,6 +23,7 @@ import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CustomerData } from '../../../../model/interfaces/customer.model';
+import { Oauth2Service } from '../../../../services/security/oauth2.service';
 
 @Component({
   selector: 'app-customer-search-dialog',
@@ -43,15 +44,24 @@ export class CustomerSearchDialogComponent {
   }
 
   coreService = inject(CoreServicesService);
+  securityServices = inject(Oauth2Service);
   private labelMapper = inject(LabelMapperService);
   
   dataSource = new MatTableDataSource<CustomerData>([]);
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
   
   ngOnInit(): void {
-    this.coreService.getHolidays().subscribe((dates: string[]) => {
-      this.holidays = dates.map(date => new Date(date));
-    });  
+    const token = this.securityServices.getToken();
+    console.log(token);
+    if(token){
+      this.coreService.getHolidays().subscribe((dates: string[]) => {
+        this.holidays = dates.map(date => new Date(date));
+        console.log("User Logged In so API calling ... ")
+
+      });  
+    }else{
+      console.log("User not logged in. Skipping API call...")
+    }
   }
   showTable = false;
   ngAfterViewInit() {
@@ -76,9 +86,6 @@ export class CustomerSearchDialogComponent {
   }
 
   getCategoryLabel(category: string |number): string {
-    // const categoryStr = String(category);
-    // const categoryStrOption = this.customerTypeOptions.find(opt => opt.value === categoryStr);
-    // return categoryStrOption ? categoryStrOption.label : categoryStr;
     return this.labelMapper.getLabel(this.customerTypeOptions, category);
   }
 

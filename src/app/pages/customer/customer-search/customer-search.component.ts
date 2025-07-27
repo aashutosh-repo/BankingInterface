@@ -25,6 +25,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { CustomerDataService } from '../../../services/customer/customer-data.service';
 import { CustomerDetails } from '../../../model/interfaces/customer.model';
 import { CommonModule } from '@angular/common';
+import { Oauth2Service } from '../../../services/security/oauth2.service';
 
 
 @Component({
@@ -46,15 +47,22 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
   }
 
   coreService = inject(CoreServicesService);
+  securityServices = inject(Oauth2Service);
   private labelMapper = inject(LabelMapperService);
   
   dataSource = new MatTableDataSource<CustomerDetails>([]);
   @ViewChild(MatSort,{ static: false }) sort!: MatSort;
   
   ngOnInit(): void {
-    this.coreService.getHolidays().subscribe((dates: string[]) => {
-      this.holidays = dates.map(date => new Date(date));
-    });  
+    const token = this.securityServices.getToken();
+    if(token){
+      this.coreService.getHolidays().subscribe((dates: string[]) => {
+        this.holidays = dates.map(date => new Date(date));
+        console.log("User Logged In so API calling ... ")
+      });
+    } else{
+      console.log("User not logged in. Skipping API call...")
+    }
   }
   showTable = false;
   ngAfterViewInit() {

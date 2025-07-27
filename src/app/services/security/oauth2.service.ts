@@ -21,7 +21,7 @@ export class Oauth2Service {
       console.error('Username or password is empty');
       return;
     }
-  
+    debugger;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post<UserResponse>(this.apiUrl, user, { headers })
     .pipe(catchError(this.handleError));
@@ -40,6 +40,13 @@ export class Oauth2Service {
   // Method to store token after successful login
   saveToken(token: string): void {
     localStorage.setItem('jwtToken', token);
+  }
+
+  getToken(){
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return localStorage.getItem('jwtToken');
+      }
+      return null;
   }
 
   // Method to check if the user is logged in

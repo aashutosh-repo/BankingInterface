@@ -4,6 +4,7 @@ import { CustomerData, CustomerDetails } from '../../model/interfaces/customer.m
 import { catchError, Observable } from 'rxjs';
 import { CustomerDto } from '../../model/interfaces/customerDTO.model';
 import { CustomerSearchRequestDto } from '../../model/interfaces/customer/customerRequestDTO.model';
+import { Oauth2Service } from '../security/oauth2.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class CustomerOperationService {
 
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, 
+    private securityService : Oauth2Service
+  ) {}
 
   sendRequestToBackend(data: any): Observable<any> {
     console.log('Sending request payload:', data);
@@ -40,12 +43,7 @@ export class CustomerOperationService {
 
 
   searchcustomerDetails(customerSearchRequest: CustomerSearchRequestDto): Observable<CustomerData[]> {
-
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-      // return this.http.get<CustomerDto[]>(this.baseUrl, { params });
-      return this.http.post<CustomerData[]>(`${this.baseUrl}/customerSearch`, customerSearchRequest,
-        { headers }
-      );
+      return this.http.post<CustomerData[]>(`${this.baseUrl}/customerSearch`, customerSearchRequest);
   }
   
     private handleException(error: any): Observable<never> {

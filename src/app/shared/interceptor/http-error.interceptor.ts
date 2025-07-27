@@ -33,7 +33,7 @@ export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         userMessage = error.error?.message || 'Bad request. Please verify your input.';
       }
 
-      console.error('[HTTP ERROR]', userMessage);
+      console.error('[HTTP ERROR]', userMessage, error);
 
       // Propagate a user-friendly error
       return throwError(() => new Error(userMessage));

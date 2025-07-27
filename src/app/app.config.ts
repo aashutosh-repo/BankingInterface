@@ -4,15 +4,16 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { HttpErrorInterceptor } from './shared/error-handling/http-error.interceptor';
+import { HttpErrorInterceptor } from './shared/interceptor/http-error.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { authInterceptor } from './shared/interceptor/auth.interceptor';
 
-export const appConfig: ApplicationConfig = {
+export const  appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), 
-  provideRouter(routes), 
-  provideClientHydration(withEventReplay()),
-  provideAnimations(),
-  provideHttpClient(withInterceptors([
-    HttpErrorInterceptor // ✅ Register your interceptor here
-  ]))]
+    provideRouter(routes), 
+    provideClientHydration(withEventReplay()),
+    provideAnimations(),
+    provideHttpClient(withInterceptors([authInterceptor,HttpErrorInterceptor] //** order Matter here */
+    ))
+  ]
 };
