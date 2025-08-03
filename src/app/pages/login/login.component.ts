@@ -18,36 +18,30 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class LoginComponent {
 
   dialogRef = inject(MatDialogRef<LoginComponent>, { optional: true });
-
   loginservice = inject(LoginServicesService);
   route = inject(Router);
   errorService = inject(ErrorService);
   errorMessage: string = '';
-  user: UserRequest ={
+  user: UserRequest = {
     username: '',
     password: ''
   }
 
-  constructor(private Oauth2Service: Oauth2Service,
+  userResponse!: UserResponse;
+
+  constructor(private oauth2Service: Oauth2Service,
   ) {}
 
   verifyUser(): void {
-    this.Oauth2Service.login(this.user)?.subscribe(
+    console.log("Existing Token ",this.oauth2Service.getToken());
+    this.oauth2Service.login(this.user)?.subscribe(
       (response) => {
-        console.log('Login successful, Token:', response.token);
-        this.Oauth2Service.saveToken(response.token);
-
-        const userResponse: UserResponse = {
-          token: response.token,
-          userName: this.user.username,
-          firstName: response.firstName,
-          lastName: response.lastName,
-          lastLogin: response.lastLogin,
-        };
-
-        console.log(response.token)
+        console.log('Login successful...');
+        this.oauth2Service.saveToken(response.token);
+        this.oauth2Service.setExpiryTime(response);
+        this.userResponse= response;
         if(this.dialogRef){
-          this.dialogRef.close(userResponse);
+          this.dialogRef.close(this.userResponse);
         }else{
           this.route.navigate(['/main']); // Redirect after login
         }
@@ -58,46 +52,4 @@ export class LoginComponent {
       }
     );
   }
-
-  // verifyUser() {
-  //   this.Oauth2Service.login(this.user)?.subscribe({
-  //     next: (response) => {
-  //       debugger;
-  //       if (response.token === null) { // ✅ Error object received via Observable
-  //         this.errorService.showError('401','Invalid Credentials');
-  //       } else {
-  //         sessionStorage.setItem('userDetails', JSON.stringify(response));
-  //         this.route.navigate(["/main"]);
-  //       }
-  //       },
-  //       error: (err) => {
-  //         if (err.status === 404) {
-  //           this.errorService.showError("404", "User Not Found");
-  //         } else {
-  //           this.errorService.showError("500", "Something went wrong. Please try again.");
-  //         }
-  //       }
-  //     });
-
-
-
-
-  //   this.loginservice.login(this.user).subscribe({
-  //     next: (response) => {      if (response.errorId === "404") { // ✅ Error object received via Observable
-  //       this.errorService.showError(response.errorId, response.message);
-  //     } else {
-  //       sessionStorage.setItem('userDetails', JSON.stringify(response));
-  //       this.route.navigate(["/main"]);
-  //     }
-  //     },
-  //     error: (err) => {
-  //       if (err.status === 404) {
-  //         this.errorService.showError("404", "User Not Found");
-  //       } else {
-  //         this.errorService.showError("500", "Something went wrong. Please try again.");
-  //       }
-  //     }
-  //   });
-  // }
-
 }

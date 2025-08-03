@@ -14,18 +14,16 @@ export class Oauth2Service {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-
   login(user: UserRequest) {
-    console.log('Login method called with user:', user);
     if (!user.username || !user.password) {
       console.error('Username or password is empty');
       return;
     }
-    debugger;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post<UserResponse>(this.apiUrl, user, { headers })
+    return this.http.post<UserResponse>(this.apiUrl, user, {headers})
     .pipe(catchError(this.handleError));
   }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred!';
     if (error.error instanceof ErrorEvent) {
@@ -47,6 +45,14 @@ export class Oauth2Service {
         return localStorage.getItem('jwtToken');
       }
       return null;
+  }
+
+  setExpiryTime(response: UserResponse){
+    localStorage.setItem('expiresAt', response.expiryTime.toString());
+  }
+
+  getExpiryTime(response: UserResponse): string{
+    return localStorage.getItem('expiresAt') || '';
   }
 
   // Method to check if the user is logged in

@@ -13,6 +13,7 @@ import { DashboardComponent } from './pages/data-visualization/dashboard/dashboa
 import { dataVisualizationRoutes } from './routes/data-visualization.route';
 import { SipCalculatorComponent } from './pages/instruments/sip-calculator/sip-calculator.component';
 import { TestComponent } from './pages/test/test.component';
+// import { AuthGuard } from './services/security/auth-guard.service';
 
 export const routes: Routes = [
     {path : '', component: LoginComponent},
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'ticket', component: FlightTicketComponent },
     { path: 'flightresult', component: FlightSearchResultComponent },
     {path: 'sip', component: SipCalculatorComponent},
+    // {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
     {path: 'chart', component: BarChartComponent},
     ...accountRoutes,
     ...customerRoutes,

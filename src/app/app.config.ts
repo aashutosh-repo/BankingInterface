@@ -4,9 +4,9 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { HttpErrorInterceptor } from './shared/interceptor/http-error.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { authInterceptor } from './shared/interceptor/auth.interceptor';
+import { authInterceptor } from './services/security/auth.interceptor';
+import { HttpErrorInterceptor } from './services/error/http-error.interceptor';
 
 export const  appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), 

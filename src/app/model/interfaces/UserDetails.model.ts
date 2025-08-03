@@ -8,6 +8,7 @@ export interface UserResponse {
     firstName: string;
     lastName: string;
     lastLogin: string;
+    expiryTime: string;
 }
 
 export interface IUserDTO{
