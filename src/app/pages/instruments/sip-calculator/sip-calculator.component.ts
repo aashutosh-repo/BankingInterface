@@ -16,7 +16,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
-import { NgChartsModule } from 'ng2-charts';
+// import { NgChartsModule } from 'ng2-charts';
 import { isPlatformBrowser } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
@@ -31,7 +31,7 @@ import { SipCalculatorService } from '../../../services/data-visualization/SipCa
   imports: [
     ...SharedMaterialModules,
     ReactiveFormsModule,
-    NgChartsModule,
+    // NgChartsModule,
     MatTooltipModule,
     MatButtonToggleModule,
   ],

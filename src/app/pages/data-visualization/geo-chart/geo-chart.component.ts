@@ -1,7 +1,7 @@
 import { CommonModule,isPlatformBrowser  } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { Chart,ChartData, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ChartOptions, ArcElement, PieController } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 import { FilterCriteria, Transaction, TRANSACTION_DATA, TransactionType } from '../../../model/interfaces/Transaction.model';
 import { FormsModule } from '@angular/forms';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
@@ -28,7 +28,7 @@ Chart.register(
 );
 @Component({
   selector: 'app-geo-chart',
-  imports: [CommonModule, FormsModule ,NgChartsModule,
+  imports: [CommonModule, FormsModule ,BaseChartDirective,
     MatButtonModule,
     MatCardModule,
     MatSelectModule,

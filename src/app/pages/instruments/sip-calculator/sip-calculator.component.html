@@ -156,9 +156,9 @@
       </div>
 
       <div class="pie-chart" *ngIf="isBrowser">
-        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [type]="pieChartType"
+        <!-- <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [type]="pieChartType"
           [options]="pieChartOptions">
-        </canvas>
+        </canvas> -->
       </div>
       <div class="total-return">Total Return : {{totalReturn}}</div>
     </div>
@@ -170,11 +170,11 @@
 
   <div class="sip-bar-summary-container">
     <!-- Left: Bar Chart -->
-    <div class="bar-chart-container" *ngIf="isBrowser">
+    <!-- <div class="bar-chart-container" *ngIf="isBrowser">
       <h3 class="section-header">Yearly Return Graph</h3>
       <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'">
       </canvas>
-    </div>
+    </div> -->
 
     <!-- Right: Summary Table -->
     <div class="yearly-summary-container">

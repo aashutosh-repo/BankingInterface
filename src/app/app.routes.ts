@@ -9,7 +9,7 @@ import { customerRoutes } from './routes/customer.routes';
 import { paymentRoutes } from './routes/payment.routes';
 import { toolsRoutes } from './routes/tools.routes';
 import { BarChartComponent } from './pages/data-visualization/bar-chart/bar-chart.component';
-import { DashboardComponent } from './pages/data-visualization/dashboard/dashboard.component';
+// import { DashboardComponent } from './pages/data-visualization/dashboard/dashboard.cosmponent';
 import { dataVisualizationRoutes } from './routes/data-visualization.route';
 import { SipCalculatorComponent } from './pages/instruments/sip-calculator/sip-calculator.component';
 import { TestComponent } from './pages/test/test.component';

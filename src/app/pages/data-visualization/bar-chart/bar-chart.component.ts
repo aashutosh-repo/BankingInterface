@@ -1,7 +1,6 @@
 import { CommonModule,isPlatformBrowser  } from '@angular/common';
-import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { Component, inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { Chart,ChartData, BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ChartOptions, ArcElement, PieController } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
 import { Transaction, TRANSACTION_DATA, TransactionType } from '../../../model/interfaces/Transaction.model';
 import { FormsModule } from '@angular/forms';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
@@ -9,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { BaseChartDirective } from 'ng2-charts';
+
 
 Chart.register(
   BarController,
@@ -24,7 +25,7 @@ Chart.register(
 
 @Component({
   selector: 'app-bar-chart',
-  imports: [CommonModule, FormsModule ,NgChartsModule,
+  imports: [CommonModule, FormsModule ,BaseChartDirective,
     MatButtonModule,
     MatCardModule,
     MatSelectModule,

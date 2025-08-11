@@ -8,29 +8,43 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { EncryptionService } from '../../../services/encryption/encryption.service';
 import { LoadingComponent } from '../../../shared/dialogs/loading/loading.component';
 import { CoreServicesService } from '../../../services/core/core-services.service';
 import { PaymentService } from '../../../services/payments/payment.service';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
+import { EncryptionService } from '../../../services/encryption/encryption.service';
+
+interface PaymentOption {
+  label: string;
+  value: string;
+}
+
+interface PaymentMethod {
+  label: string;
+  value: string;
+  childOptions?: PaymentOption[];
+}
 
 @Component({
   selector: 'app-payment-procesing',
   imports: [FormsModule, CommonModule, MatCardModule, MatFormFieldModule, 
-    MatInputModule, MatSelectModule, MatButtonModule, 
-    ReactiveFormsModule, LoadingComponent, QRCodeComponent , MatProgressBarModule],
+    MatInputModule, MatSelectModule, MatButtonModule, MatIconModule,
+    ReactiveFormsModule, LoadingComponent, MatRadioModule, MatDividerModule,
+     QRCodeComponent , MatProgressBarModule],
   templateUrl: './payment-procesing.component.html',
   styleUrls: ['./payment-procesing.component.scss']
 })
 export class PaymentProcesingComponent {
-  
   paymentForm!: FormGroup;
   cardType: string | null = null;
   http = inject(HttpClient);
   isLoading = false;
-paymentData: any = {}; // Declare at the component level
+  paymentData: any = {}; // Declare at the component level
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, 
     private encryptionService: EncryptionService,
@@ -38,9 +52,40 @@ paymentData: any = {}; // Declare at the component level
     private paymentService: PaymentService
   ) {};
 
+  paymentMethods: PaymentMethod[] = [
+    {
+      label: 'Credit Card',
+      value: 'card',
+      childOptions: [
+        { label: 'Pay full amount', value: 'full' },
+        { label: 'Pay with EMI', value: 'emi' }
+      ]
+    },
+    {
+      label: 'UPI',
+      value: 'upi',
+      childOptions: [
+        { label: 'Normal UPI Payment', value: 'normal' },
+        { label: 'UPI EMI Payment', value: 'emi' },
+        { label: 'UPI Advance Payment', value: 'advance' }
+      ]
+    },
+    { label: 'QR Code', value: 'qr' }
+  ];
+
   ngOnInit(): void {
     this.initializeForm();
     this.onPaymentMethodChange();
+
+    // this.paymentForm = this.fb.group({
+    //   paymentMethod: [''],
+    //   selectedChildOption: ['']
+    // });
+
+    // Reset child selection when switching payment method
+    this.paymentForm.get('paymentMethod')?.valueChanges.subscribe(() => {
+      this.paymentForm.get('selectedChildOption')?.reset();
+    });
   }
 
   months: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -48,6 +93,7 @@ paymentData: any = {}; // Declare at the component level
   initializeForm() {
     this.paymentForm = this.fb.group({
       paymentMethod: ['card', Validators.required],
+      selectedChildOption: [''],
       cardHolderName: [''],
       cardNumber: [''],
       expiryMonth: [''],
@@ -63,8 +109,8 @@ paymentData: any = {}; // Declare at the component level
         // Set validators for card payment method
         this.paymentForm.get('cardHolderName')?.setValidators([Validators.required]);
         this.paymentForm.get('cardNumber')?.setValidators([Validators.required, Validators.pattern(/^\d{16}$/)]);
-        this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]);
-        this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]);
+        this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
+        this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
         this.paymentForm.get('cvv')?.setValidators([Validators.required, Validators.pattern(/^\d{3}$/)]);
         
         // Clear UPI validators as Card method has been selected 
@@ -75,14 +121,14 @@ paymentData: any = {}; // Declare at the component level
         // Clear card validators as UPI method has been selected 
         this.paymentForm.get('cardHolderName')?.clearValidators();
         this.paymentForm.get('cardNumber')?.clearValidators();
-        this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]);
-        this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]);
+        this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
+        this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
         this.paymentForm.get('cvv')?.clearValidators();
       }
       this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
       this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-      this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]);
-      this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]);
+      this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
+      this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
       this.paymentForm.get('cvv')?.updateValueAndValidity();
       this.paymentForm.get('upiId')?.updateValueAndValidity();
     });
@@ -112,14 +158,14 @@ paymentData: any = {}; // Declare at the component level
       if (paymentMethod === 'card') {
         const expiryMonth = this.paymentForm.get('expiryMonth')?.value;
         const expiryYear = this.paymentForm.get('expiryYear')?.value;
-this.paymentData = {
+          this.paymentData = {
           cardHolderName: this.paymentForm.get('cardHolderName')?.value,
           cardNumber: this.paymentForm.get('cardNumber')?.value,
           expiry: `${expiryMonth?.toString().padStart(2, '0')}-${expiryYear}`,
           cvv: this.paymentForm.get('cvv')?.value,
         };
       } else if (paymentMethod === 'upi') {
-this.paymentData = {
+        this.paymentData = {
           upiId: this.paymentForm.get('upiId')?.value,
         };
       }
@@ -183,4 +229,6 @@ this.processPayment(this.paymentData);
     }, 10000);
   }
 
+
+paymentForm1!: FormGroup;
 }

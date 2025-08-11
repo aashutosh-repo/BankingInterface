@@ -1,4 +1,5 @@
 angularx-qrcode -> npm install angularx-qrcode
+npm i crypto-js
 @fortawesome/fontawesome-free -> npm install @fortawesome/fontawesome-free
 bootstrap -> npm install bootstrap
 rxjs -> npm install rxjs
