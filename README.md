@@ -1,4 +1,4 @@
-# 🏦 BankingInterface
+# 🏦 BankingInterface(Banking-App)
 
 A modular Angular-based banking interface demonstrating various banking instruments like customer onboarding, loan management, SIP calculators, data visualizations, and more.
 
