@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,8 +16,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatDivider, MatDividerModule } from '@angular/material/divider';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
+import { BillingAddressComponent } from '../billing-address/billing-address.component';
+import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
 
 interface PaymentOption {
   label: string;
@@ -32,10 +34,9 @@ interface PaymentMethod {
 
 @Component({
   selector: 'app-payment-procesing',
-  imports: [FormsModule, CommonModule, MatCardModule, MatFormFieldModule, 
-    MatInputModule, MatSelectModule, MatButtonModule, MatIconModule,
-    ReactiveFormsModule, LoadingComponent, MatRadioModule, MatDividerModule,
-     QRCodeComponent , MatProgressBarModule],
+  imports: [SharedMaterialModules,
+    ReactiveFormsModule, LoadingComponent, QRCodeComponent , 
+    MatProgressBarModule, BillingAddressComponent],
   templateUrl: './payment-procesing.component.html',
   styleUrls: ['./payment-procesing.component.scss']
 })
@@ -44,12 +45,14 @@ export class PaymentProcesingComponent {
   cardType: string | null = null;
   http = inject(HttpClient);
   isLoading = false;
+  showBillingAddress = false;
   paymentData: any = {}; // Declare at the component level
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, 
     private encryptionService: EncryptionService,
     private coreServices: CoreServicesService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private cdr: ChangeDetectorRef
   ) {};
 
   paymentMethods: PaymentMethod[] = [
@@ -74,15 +77,9 @@ export class PaymentProcesingComponent {
   ];
 
   ngOnInit(): void {
+
     this.initializeForm();
     this.onPaymentMethodChange();
-
-    // this.paymentForm = this.fb.group({
-    //   paymentMethod: [''],
-    //   selectedChildOption: ['']
-    // });
-
-    // Reset child selection when switching payment method
     this.paymentForm.get('paymentMethod')?.valueChanges.subscribe(() => {
       this.paymentForm.get('selectedChildOption')?.reset();
     });
@@ -92,6 +89,13 @@ export class PaymentProcesingComponent {
   years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i);
   initializeForm() {
     this.paymentForm = this.fb.group({
+      billingForm: this.fb.group({
+        payerName: ['', Validators.required],
+        city: ['', Validators.required],
+        fullAddress: ['', Validators.required],
+        country: ['', Validators.required],
+        pincode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
+      }),
       paymentMethod: ['card', Validators.required],
       selectedChildOption: [''],
       cardHolderName: [''],
@@ -101,6 +105,10 @@ export class PaymentProcesingComponent {
       cvv: [''],
       upiId: [''],
     });
+  }
+
+  get billingGroup() {
+    return this.paymentForm.get('billingForm') as FormGroup;
   }
 
   onPaymentMethodChange() {
@@ -171,6 +179,7 @@ export class PaymentProcesingComponent {
       }
 
       console.log('Captured Payment Data:', this.paymentData);
+      console.log('Billing Address: ', this.billingGroup.value)
       // Call your payment API here with the paymentData object
     } else {
       console.log('Invalid Form');
@@ -228,7 +237,4 @@ this.processPayment(this.paymentData);
       this.qrSuccess = true;
     }, 10000);
   }
-
-
-paymentForm1!: FormGroup;
 }

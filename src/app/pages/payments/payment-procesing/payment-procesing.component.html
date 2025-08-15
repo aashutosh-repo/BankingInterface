@@ -43,10 +43,12 @@
           </mat-radio-button>
         </ng-container>
       </mat-radio-group>
+      
 
       <!-- ✅ Card details shown only when current method is 'card' -->
       <div class="card-details">
-      <ng-container *ngIf="method.value === 'card'">
+        <div class="card-details-head">Card Details</div>
+      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.value === 'card'">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Card Holder Name</mat-label>
           <input matInput type="text" formControlName="cardHolderName" placeholder="Aashutosh Kumar" />
@@ -81,6 +83,10 @@
             <input matInput type="text" formControlName="cvv" placeholder="123" />
           </mat-form-field>
         </div>
+        <mat-divider></mat-divider>
+        <div class="billing-address">
+          <app-billing-address [billingForm]="billingGroup"></app-billing-address>
+        </div>
       </ng-container>
     </div>
 
@@ -106,7 +112,9 @@
     </div>
     </div>
   </ng-container>
+  
 </mat-radio-group>
+
 
       <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid">
         Pay Now
