@@ -20,11 +20,11 @@ export class CoreServicesService {
   }
 
   async tokenizeCard(cardNumber: string): Promise<string> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-    const body = `cardNumber=${cardNumber}`;
+   const body = new URLSearchParams({ cardNumber }).toString();
+    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
 
     return await firstValueFrom(
-      this.http.post(this.tokenizeUrl, body, { headers, responseType: 'text' })
+      this.http.post(this.tokenizeUrl, body, {responseType: 'text',headers})
     );
   }
 

@@ -1,10 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Oauth2Service } from './oauth2.service';
-import { Router } from 'express';
 import { tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+    console.log("Interceptor running for:", req.url);
   const securityService = inject(Oauth2Service);
   const token = securityService.getToken();
   if(token){
