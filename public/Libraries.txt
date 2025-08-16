@@ -13,5 +13,6 @@ zone.js -> npm install zone.js
 chart.js -> npm install chart.js
 chartjs-plugin-datalabels -> npm install chartjs-plugin-datalabels
 ng2-charts -> npm install ng2-charts
+npm install xlsx file-saver
 
 

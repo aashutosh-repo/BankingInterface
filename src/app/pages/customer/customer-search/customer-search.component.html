@@ -4,7 +4,7 @@
     <span class="spacer"></span>
 
     <!-- Menu Trigger -->
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Open actions menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Open actions menu" class="menu-icon">
       <mat-icon>menu</mat-icon>
     </button>
 
@@ -92,10 +92,18 @@
 
   <!-- Results Card -->
   <mat-card class="results-card">
-    <mat-card-title class="card-title">📋 Search Results</mat-card-title>
-    <mat-divider></mat-divider>
 
+    <mat-card-title class="card-title">📋 Search Results</mat-card-title>
+
+    <mat-divider></mat-divider>
     <div *ngIf="showTable; else noResults" class="table-container">
+          <button class="excel-download-button" (click)="exportCustomers()">
+              <span class="icon">
+                  <img src="assets/icons/excel.svg" alt="Excel" width="20" height="20" />
+              </span>
+            Export to Excel
+          </button>
+
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
         <ng-container matColumnDef="customerId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer ID</th>

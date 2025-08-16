@@ -5,7 +5,22 @@
 .search-card, .results-card {
   margin-bottom: 24px;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 0px 0px 12px 12px;
+}
+.menu-icon {
+  color: azure;
+}
+
+.excel-download-button {
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background-color: #1D6F42;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  color: azure;
+  margin-left: 85%;
+  width: 15%;
+  height: 32px;
 }
 
 .card-title {
@@ -29,6 +44,7 @@
 }
 
 .table-container {
+  width: 95%;
   overflow-x: auto;
   margin-top: 16px;
 }
@@ -97,6 +113,10 @@ mat-card-title {
   justify-content: space-between;
   padding: 0 1.5rem;
   font-weight: 500;
+  font-size: 22px;
+  background-color: #05164d;
+  color: azure;
+  border-radius: 5px 5px 0px 0px;
 }
 
 .spacer {
@@ -104,5 +124,5 @@ mat-card-title {
 }
 
 .toolbar-title {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }

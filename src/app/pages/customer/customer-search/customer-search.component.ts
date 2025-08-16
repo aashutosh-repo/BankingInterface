@@ -26,6 +26,7 @@ import { CustomerDataService } from '../../../services/customer/customer-data.se
 import { CustomerDetails } from '../../../model/interfaces/customer.model';
 import { CommonModule } from '@angular/common';
 import { Oauth2Service } from '../../../services/security/oauth2.service';
+import { ExcelExportService } from '../../../services/core/excel-export.service';
 
 
 @Component({
@@ -74,7 +75,8 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
   private customerService = inject(CustomerOperationService);
   constructor(
     private customerDataService: CustomerDataService,
-    private encryptionService: EncryptionService
+    private encryptionService: EncryptionService,
+    private excelService: ExcelExportService
   ) {}
   
 
@@ -146,7 +148,8 @@ export class CustomerSearchComponent implements OnInit, AfterViewChecked  {
               data.forEach(item => {
                 this.customerDataService.addCustomerData(item);
               });
-            }            this.sortAttached = false; // Let AfterViewChecked reattach the sort
+            }            
+            this.sortAttached = false; // Let AfterViewChecked reattach the sort
           },
           error: (err) => console.error('Error fetching customers:', err)
         });
@@ -194,5 +197,11 @@ holidayFilter = (date: Date | null): boolean => {
   );
 };
 
-
+  exportCustomers(): void{
+    if(this.customerDataService.getAllCustomerData().length==0){
+      alert('No customer Data Found')
+      return;
+    }
+    this.excelService.exportCustomers(this.customerDataService.getAllCustomerData(), 'CustomerSearchResults')
+  }
 }

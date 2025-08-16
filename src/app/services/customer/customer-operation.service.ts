@@ -40,8 +40,7 @@ export class CustomerOperationService {
 
     return this.http.get<CustomerData>(`${this.baseUrl}/findCustomerById`, { params });
   }
-
-
+  
   searchcustomerDetails(customerSearchRequest: CustomerSearchRequestDto): Observable<CustomerData[]> {
       return this.http.post<CustomerData[]>(`${this.baseUrl}/customerSearch`, customerSearchRequest);
   }

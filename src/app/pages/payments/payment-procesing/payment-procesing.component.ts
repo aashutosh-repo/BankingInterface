@@ -184,7 +184,7 @@ export class PaymentProcesingComponent {
     } else {
       console.log('Invalid Form');
     }
-this.processPayment(this.paymentData);
+    this.processPayment(this.paymentData);
   }
 
   async processPayment(paymentData: any) {
@@ -195,13 +195,15 @@ this.processPayment(this.paymentData);
     try {
       const cardNumber = this.paymentForm.value.cardNumber;
       // Tokenize card number
-      const tokenPromise = this.coreServices.tokenizeCard(cardNumber);
-      const [token] = await Promise.all([tokenPromise, delay]);
+      // const tokenPromise = this.coreServices.tokenizeCard(cardNumber);
+      // const [token] = await Promise.all([tokenPromise, delay]);
 
       // Initiate payment with the token
-      const paymentData = { token, amount: '100',data: this.paymentData };
+      const paymentData = { cardNumber, amount: '100',data: this.paymentData };
       const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
+        // const encryptedPayload = JSON.stringify(paymentData);
 
+      
       const response = await this.paymentService.initiatePayment(encryptedPayload);
 
       // Decrypt the response
