@@ -28,10 +28,10 @@ import { SipCalculatorService } from '../../../services/data-visualization/SipCa
 
 @Component({
   selector: 'app-sip-calculator',
+  standalone: true,
   imports: [
     ...SharedMaterialModules,
     ReactiveFormsModule,
-    // NgChartsModule,
     MatTooltipModule,
     MatButtonToggleModule,
   ],

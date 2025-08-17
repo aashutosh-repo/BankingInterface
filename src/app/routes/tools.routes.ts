@@ -1,10 +1,5 @@
 import { Routes } from '@angular/router';
-import { EmiCalculatorComponent } from '../pages/instruments/emi-calculator/emi-calculator.component';
 import { LayoutComponent } from '../shared/layout/layout/layout.component';
-import { CurrencyConvertorComponent } from '../pages/instruments/currency-convertor/currency-convertor.component';
-import { HolidaysCalenderComponent } from '../pages/instruments/holidays-calender/holidays-calender.component';
-import { SidebarLayoutComponent } from '../shared/layout/sidebar-layout/sidebar-layout.component';
-import { SipCalculatorComponent } from '../pages/instruments/sip-calculator/sip-calculator.component';
 import { InstrumentsHomeComponent } from '../pages/instruments/instruments-home/instruments-home.component';
 
 export const toolsRoutes: Routes = [
@@ -17,11 +12,10 @@ export const toolsRoutes: Routes = [
         // component: SidebarLayoutComponent, // includes the sidebar
         children: [
           { path: 'home', component: InstrumentsHomeComponent },
-          { path: 'emi-calculator', component: EmiCalculatorComponent },
-          { path: 'sip-calc', component: SipCalculatorComponent },
-          { path: 'currency-convertor', component: CurrencyConvertorComponent },
-          { path: 'holiday-calendar', component: HolidaysCalenderComponent },
-          // { path: '', redirectTo: 'sip-calculator', pathMatch: 'full' }
+          { path: 'emi-calculator', loadComponent: () => import('../pages/instruments/emi-calculator/emi-calculator.component').then(m => m.EmiCalculatorComponent) },
+          { path: 'sip-calc', loadComponent: () => import('../pages/instruments/sip-calculator/sip-calculator.component').then(m => m.SipCalculatorComponent) },
+          { path: 'currency-convertor', loadComponent: () => import('../pages/instruments/currency-convertor/currency-convertor.component').then(m => m.CurrencyConvertorComponent) },
+          { path: 'holiday-calendar', loadComponent: () => import('../pages/instruments/holidays-calender/holidays-calender.component').then(m => m.HolidaysCalenderComponent) },
         ]
       }
     ]
