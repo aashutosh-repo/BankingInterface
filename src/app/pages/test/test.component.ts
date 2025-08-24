@@ -51,7 +51,7 @@ export class TestComponent implements OnInit {
 
     console.log('Service call triggered');
 
-    // Make a dummy HTTP call to trigger loader
+    // Make a dummy HTTP calls to trigger loader
     this.http.get('https://jsonplaceholder.typicode.com/posts').subscribe({
       next: (res) => console.log('Response received:', res),
       error: (err) => console.error('Error:', err),

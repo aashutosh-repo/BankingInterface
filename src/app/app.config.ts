@@ -4,7 +4,7 @@ import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } from
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { authInterceptor } from './services/security/auth.interceptor';
+import { authInterceptor } from './services/core/interceptor/auth.interceptor';
 import { loaderInterceptor } from './services/core/interceptor/loader.interceptor';
 
 

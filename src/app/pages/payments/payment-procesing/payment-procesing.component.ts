@@ -1,22 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SuccessDialogComponent } from '../../../shared/dialogs/success-dialog/success-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { LoadingComponent } from '../../../shared/dialogs/loading/loading.component';
 import { CoreServicesService } from '../../../services/core/core-services.service';
 import { PaymentService } from '../../../services/payments/payment.service';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatDivider, MatDividerModule } from '@angular/material/divider';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
 import { BillingAddressComponent } from '../billing-address/billing-address.component';
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
@@ -35,7 +25,7 @@ interface PaymentMethod {
 @Component({
   selector: 'app-payment-procesing',
   imports: [SharedMaterialModules,
-    ReactiveFormsModule, LoadingComponent, QRCodeComponent , 
+    ReactiveFormsModule, QRCodeComponent , 
     MatProgressBarModule, BillingAddressComponent],
   templateUrl: './payment-procesing.component.html',
   styleUrls: ['./payment-procesing.component.scss']

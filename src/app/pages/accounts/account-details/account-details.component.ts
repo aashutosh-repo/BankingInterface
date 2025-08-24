@@ -5,13 +5,11 @@ import { AccountService } from '../../../services/accounts/account.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { SessionStorageService } from '../../../services/session/session-storage.service';
-import { LoadingComponent } from '../../../shared/dialogs/loading/loading.component';
-
 
 @Component({
   selector: 'app-account-details',
   standalone: true,
-  imports: [FormsModule,CommonModule,LoadingComponent],
+  imports: [FormsModule,CommonModule],
   templateUrl: './account-details.component.html',
   styleUrls: ['./account-details.component.css']
 })
