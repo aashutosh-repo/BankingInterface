@@ -1,10 +1,11 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { routes } from './app.routes';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './services/security/auth.interceptor';
+import { loaderInterceptor } from './services/core/interceptor/loader.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
@@ -15,8 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient( 
       withFetch(),
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor,loaderInterceptor])
     ),
-    provideAnimations(),
+    provideAnimations()
   ]
 };

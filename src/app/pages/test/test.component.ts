@@ -3,6 +3,7 @@ import { PhoneFormatPipe } from '../../shared/pipes/phone-format.pipes';
 import { CardMask } from '../../shared/pipes/card-mask.pipe';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-test',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './test.component.css'
 })
 export class TestComponent implements OnInit {
+    constructor(private http: HttpClient) {}
 
   stateControl = new FormControl('');
     allStates: string[] = [
@@ -42,5 +44,18 @@ export class TestComponent implements OnInit {
 
     onBlur() {
     setTimeout(() => this.showdropdown = false, 150);
+  }
+
+  testServiceCall() {
+    setTimeout(() => (this.showdropdown = false), 15000);
+
+    console.log('Service call triggered');
+
+    // Make a dummy HTTP call to trigger loader
+    this.http.get('https://jsonplaceholder.typicode.com/posts').subscribe({
+      next: (res) => console.log('Response received:', res),
+      error: (err) => console.error('Error:', err),
+      complete: () => console.log('Request complete')
+    });
   }
 }

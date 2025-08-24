@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoadingComponent {
 
-  @Input() isLoading: boolean = false;
+  @Input() loading: boolean = false;
 
 
 }
