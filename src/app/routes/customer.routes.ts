@@ -4,6 +4,7 @@ import { PreviewCustomerDetailsComponent } from '../pages/customer/preview-custo
 import { CustomerSearchComponent } from '../pages/customer/customer-search/customer-search.component';
 import { LayoutComponent } from '../shared/layout/layout/layout.component';
 import { CustomerDetailsComponent } from '../pages/customer/customer-details/customer-details.component';
+import { CustomerOnboardingComponent } from '../features/customer/containers/customer-onboarding/customer-onboarding.component';
 
 export const customerRoutes: Routes = [
   {
@@ -14,6 +15,7 @@ export const customerRoutes: Routes = [
       { path: 'preview', component: PreviewCustomerDetailsComponent },
       { path: 'customerSearch', component: CustomerSearchComponent },
       { path: 'customer-details', component: CustomerDetailsComponent },
+      { path: 'customer-onboarding/v1', component: CustomerOnboardingComponent }
     ]
    }
 ];

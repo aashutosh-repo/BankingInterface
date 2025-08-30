@@ -1,0 +1,107 @@
+<div class="container">
+  <h2 class="mb-4 text-center nominee-header">
+    <mat-icon class="header-icon">home</mat-icon>Customer Address Details
+  </h2>
+
+  <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+    <mat-grid-list cols="2" rowHeight="90px" gutterSize="16px">
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Customer ID</mat-label>
+          <input matInput formControlName="customerID" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address Type</mat-label>
+          <mat-select formControlName="addressType">
+            @for (addressType of addressTypes; track addressType) {
+              <mat-option [value]="addressType.value">
+                {{ addressType.label }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address Line-1</mat-label>
+          <input matInput formControlName="addressLn1" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address Line-2</mat-label>
+          <input matInput formControlName="addressLn2" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Village</mat-label>
+          <input matInput formControlName="village" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>District</mat-label>
+          <input matInput formControlName="district" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>State</mat-label>
+          <mat-select formControlName="state">
+            @for (allstate of statesOptions; track allstate) {
+              <mat-option [value]="allstate">
+                {{ allstate }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Pin Code</mat-label>
+          <input matInput formControlName="pinCode" />
+          @if (addressForm.get('pinCode')?.hasError('required') && addressForm.get('pinCode')?.touched) {
+            <mat-error>
+              Pin Code is required
+            </mat-error>
+          }
+          @if (addressForm.get('pinCode')?.hasError('pattern') && addressForm.get('pinCode')?.touched) {
+            <mat-error>
+              Pin Code must be 6 digits
+            </mat-error>
+          }
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Update</mat-label>
+          <input matInput formControlName="lastUpdate" />
+        </mat-form-field>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+
+    <div class="text-center mt-4">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>

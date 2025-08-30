@@ -1,0 +1,112 @@
+.data-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 1;
+  }
+  
+
+  .preview-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .header-icon {
+    font-size: 30px;
+  }
+  
+  .section-card {
+    margin: 8px 0;
+    padding: 0px;
+    border: 1px solid lightblue;
+    background-color: rgb(233, 233, 233);
+  }
+  
+  .key {
+    font-weight: bold;
+    color: #333;
+    flex: none;
+    min-width: 150px;
+
+  }
+  
+  .value {
+    flex: 1; /* Takes up space on the right */
+    text-align: right;
+    color: #555;
+  }
+  
+  .nomineetable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color:rgb(233, 233, 233);
+  }
+
+  .title {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5rem ;
+    font-weight: bold ;
+    color: rgb(12, 4, 4) !important;
+    background: #86b3e1;
+    padding: 12px !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  text-align: center;
+  margin-bottom: 1rem;
+  background-color: #86b3e1;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.header-icon {
+  font-size: 2rem; /* Default size for desktop */
+  color: #3f51b5; /* Material primary color */
+}
+
+/* Desktop view */
+@media (min-width: 768px) {
+  .preview-header {
+    font-size: 1.8rem;
+  }
+  .header-icon {
+    font-size: 2rem;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 767px) {
+  .preview-header {
+    font-size: 0.6rem;
+  }
+  .header-icon {
+    font-size: .8rem;
+  }
+}

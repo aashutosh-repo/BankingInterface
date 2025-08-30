@@ -38,7 +38,7 @@
             ],
             "styles": [
               "src/styles/styles.scss",
-             "@angular/material/prebuilt-themes/azure-blue.css",
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [],
@@ -138,6 +138,9 @@
     }
   },
   "cli": {
-    "analytics": "c0000c8c-91c6-4837-b0b0-b2a840b1f30e"
+    "analytics": "c0000c8c-91c6-4837-b0b0-b2a840b1f30e",
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   }
 }

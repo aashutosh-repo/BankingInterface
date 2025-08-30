@@ -13,6 +13,8 @@ import { BarChartComponent } from './pages/data-visualization/bar-chart/bar-char
 import { dataVisualizationRoutes } from './routes/data-visualization.route';
 import { SipCalculatorComponent } from './pages/instruments/sip-calculator/sip-calculator.component';
 import { TestComponent } from './pages/test/test.component';
+import { ChildComponent } from './pages/parent/child/child.component';
+import { ParentComponent } from './pages/parent/parent.component';
 // import { AuthGuard } from './services/security/auth-guard.service';
 
 export const routes: Routes = [
@@ -25,6 +27,8 @@ export const routes: Routes = [
     { path: 'flightresult', component: FlightSearchResultComponent },
     {path: 'sip', component: SipCalculatorComponent},
     // {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+    {path: 'child', component: ChildComponent},
+    {path: 'parent', component: ParentComponent},
     {path: 'chart', component: BarChartComponent},
     ...accountRoutes,
     ...customerRoutes,

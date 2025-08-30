@@ -1,0 +1,19 @@
+<mat-stepper #stepper  [linear]="true">
+  <mat-step label="Basic Details">
+    <app-customer-details (nextStepTest)="moveToNextStep()"></app-customer-details>
+  </mat-step>
+  <mat-step label="Address">
+    <app-address-detail (nextStepToDocDetail)="moveToNextStep()"></app-address-detail>
+  </mat-step>
+  <mat-step label="Documents">
+    <app-documents-detail (nextStepToNomineeDetails)="moveToNextStep()"></app-documents-detail>
+  </mat-step>
+  <mat-step label="Nominee">
+    <app-nominee-detail (finalSubmit)="moveToNextStep()"></app-nominee-detail>
+  </mat-step>
+  <mat-step label="Preview & Submit">
+    @if (stepper.selectedIndex === 4) {
+      <app-preview-customer></app-preview-customer>
+    }
+  </mat-step>
+</mat-stepper>

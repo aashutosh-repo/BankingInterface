@@ -1,0 +1,28 @@
+@use '../../../../../styles/variables' as customerMixins;
+
+.body {
+  background-color: #ADD8E6; // Light blue background for the body
+  color: #FFFF00; // Yellow text color for the body
+}
+.container {
+  @include customerMixins.container-style(1000px, 30px);
+}
+
+.full-width {
+  @include customerMixins.full-width();
+}
+
+.primary-button {
+  @include customerMixins.button-style(250px);
+}
+.nominee-header {
+  @include customerMixins.nominee-header-style();
+}
+
+.nominee-icon {
+  @include customerMixins.header-icon-style(3rem);
+}
+
+.icon {
+  @include customerMixins.header-icon-style();
+}

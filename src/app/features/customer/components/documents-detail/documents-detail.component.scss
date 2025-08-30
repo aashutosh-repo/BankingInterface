@@ -1,0 +1,22 @@
+@use '../../../../../styles/variables' as customerMixins;
+
+// Example usage:
+.container {
+  @include customerMixins.container-style(1000px, 30px);
+}
+
+.full-width {
+  @include customerMixins.full-width();
+}
+
+.primary-button {
+  @include customerMixins.button-style(250px);
+}
+
+.nominee-header {
+  @include customerMixins.nominee-header-style();
+}
+
+.nominee-icon {
+  @include customerMixins.header-icon-style(3rem);
+}

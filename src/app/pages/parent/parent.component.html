@@ -1,0 +1,8 @@
+<h2>Parent Component</h2>
+<p>Parent User: {{ user.username }} | {{ user.password }}</p>
+<button (click)="updateUser()">Update from Parent</button>
+<div> </div>
+<button (click)="toggleButton()">Toggle Button Flag</button>
+
+<!-- Pass data to child and listen for changes -->
+<app-child [buttonFlag]="buttonFlag" [user]="user" (userChange)="onUserChange($event)"></app-child>     

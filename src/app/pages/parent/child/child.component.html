@@ -1,0 +1,5 @@
+<h3>Child Component</h3>
+<p *ngIf="user">Child User: {{ user.username }} | {{ user.password }}</p>
+<button (click)="updateUser()">Update User FROM Child</button>
+<div> </div>
+<button [disabled]="!buttonFlag">Button Flag is TRUE</button>
