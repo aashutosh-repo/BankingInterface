@@ -8,11 +8,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     console.log("Interceptor running for:", req.url);
   const securityService = inject(Oauth2Service);
   const token = securityService.getToken();
+  const isFileUpload = req.body instanceof FormData;
   if(token){
     const authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/json'
+      ...(isFileUpload ? {} : { 'Content-Type': 'application/json' })
     }
    });
    return next(authReq).pipe(
