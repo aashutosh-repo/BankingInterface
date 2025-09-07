@@ -1,0 +1,98 @@
+.upload-card {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #3f51b5;
+  }
+
+  .upload-section {
+    margin: 20px 0;
+
+    button {
+      margin-right: 10px;
+    }
+
+    .file-name {
+      font-weight: 500;
+      color: #444;
+    }
+  }
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    mat-progress-bar {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    span {
+      min-width: 30px;
+      font-weight: 500;
+    }
+  }
+}
+.info-card {
+  max-width: auto;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #e3f2fd;
+  border-left: 5px solid #2196f3;
+
+  p {
+    margin: 0;
+    color: #0d47a1;
+    font-weight: 500;
+  }
+}
+
+
+.file-metadata-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #3f51b5;
+  }
+
+  table {
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+
+    th {
+      background-color: #f1f1f1;
+    }
+
+    td, th {
+      padding: 12px;
+    }
+
+    .completed {
+      color: green;
+      font-weight: bold;
+    }
+
+    .failed {
+      color: red;
+      font-weight: bold;
+    }
+
+    .submitted {
+      color: orange;
+    }
+  }
+
+  mat-paginator {
+    margin-top: 1rem;
+  }
+}

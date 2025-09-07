@@ -1,0 +1,104 @@
+<mat-card class="info-card">
+  <h3>CSV Format Instructions</h3>
+  <p>Please ensure your CSV file follows this format:</p>
+  <pre>
+    transactionId,customerId,accountNumber,transactionType...
+    123456789,CUS1234,NBIQ76475938242194,DEBIT,UPI
+    987654321,CUS5678,NBIQ76475938242194,CREDIT,NEFT
+    </pre>
+    <p>Each row represents a single payment. Ensure there are no extra spaces or invalid characters.</p>
+    <p>For any issues, please contact support.</p>
+</mat-card>
+<mat-card class="upload-card">
+  <h2>📤 Upload Payment CSV</h2>
+
+  <div class="upload-section">
+    <input
+      type="file"
+      id="fileInput"
+      accept=".csv"
+      (change)="onFileSelected($event)"
+      hidden
+    />
+    <button mat-stroked-button color="primary" (click)="fileInput.click()" [disabled]="uploading">
+      <mat-icon>attach_file</mat-icon>
+      Choose CSV File
+    </button>
+    <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+    <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+  </div>
+
+  <div *ngIf="uploadProgress !== null" class="progress-container">
+    <mat-progress-bar mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+    <span>{{ uploadProgress }}%</span>
+  </div>
+
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="upload()"
+    [disabled]="!selectedFile || uploading"
+  >
+    <mat-icon>cloud_upload</mat-icon>
+    Upload
+  </button>
+</mat-card>
+
+
+<div class="file-metadata-container" *ngIf="dataSource">
+  <h2>Uploaded Files</h2>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
+    <ng-container matColumnDef="S.No.">
+  <th mat-header-cell *matHeaderCellDef> S.No. </th>
+  <td mat-cell *matCellDef="let row; let i = index">
+    {{ currentPage * pageSize + i + 1 }}
+  </td>
+</ng-container>
+
+    <!-- File Name -->
+    <ng-container matColumnDef="fileName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>File Name</th>
+      <td mat-cell *matCellDef="let file">{{ file.fileName }}</td>
+    </ng-container>
+
+    <!-- Uploaded By -->
+    <ng-container matColumnDef="uploadedBy">
+      <th mat-header-cell *matHeaderCellDef>Uploaded By</th>
+      <td mat-cell *matCellDef="let file">{{ file.uploadedBy }}</td>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let file">
+        <span [ngClass]="file.status.toLowerCase()">{{ file.status }}</span>
+      </td>
+    </ng-container>
+
+    <!-- Size -->
+    <ng-container matColumnDef="fileSizeBytes">
+      <th mat-header-cell *matHeaderCellDef>Size</th>
+      <td mat-cell *matCellDef="let file">{{ file.fileSizeBytes | number }} bytes</td>
+    </ng-container>
+
+    <!-- Uploaded At -->
+    <ng-container matColumnDef="uploadedAt">
+      <th mat-header-cell *matHeaderCellDef>Uploaded At</th>
+      <td mat-cell *matCellDef="let file">{{ file.uploadedAt | date:'medium' }}</td>
+    </ng-container>
+
+    <!-- Table Header and Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <!-- Pagination -->
+  <!-- <mat-paginator 
+    [length]="totalRecords"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)">
+  </mat-paginator> -->
+</div>

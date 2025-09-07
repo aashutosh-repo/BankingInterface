@@ -1,6 +1,15 @@
 import { Routes } from '@angular/router';
 import { PaymentProcesingComponent } from '../pages/payments/payment-procesing/payment-procesing.component';
+import { BulkPaymentsComponent } from '../pages/payments/bulk-payments/bulk-payments.component';
+import { LayoutComponent } from '../shared/layout/layout/layout.component';
 
 export const paymentRoutes: Routes = [
-  { path: 'payment', component: PaymentProcesingComponent }
+  {
+    path: 'payments',
+    component: LayoutComponent,
+    children: [
+      { path: 'digital', component: PaymentProcesingComponent },
+      { path: 'bulk-payments', component: BulkPaymentsComponent }
+    ]
+  }
 ];
