@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
 import { BulkPaymentService } from '../../../services/payments/bulkPayment.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -13,7 +13,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
   templateUrl: './bulk-payments.component.html',
   styleUrl: './bulk-payments.component.scss'
 })
-export class BulkPaymentsComponent implements OnInit {
+export class BulkPaymentsComponent implements AfterViewInit  {
   selectedFile: File | null = null;
   uploadProgress: number | null = null;
   uploading: boolean = false;
@@ -42,6 +42,7 @@ export class BulkPaymentsComponent implements OnInit {
     this.uploading = true;
     this.paymentService.uploadBulkPaymentFile(this.selectedFile).subscribe({
       next: (event) => {
+        setTimeout(() => {
         if (event.progress !== undefined) {
           this.uploadProgress = event.progress;
         }
@@ -49,6 +50,7 @@ export class BulkPaymentsComponent implements OnInit {
           this.snackBar.open('Upload successful!', 'Close', { duration: 3000 });
           this.reset();
         }
+        });
       },
       error: (err) => {
         this.snackBar.open('Upload failed.', 'Close', { duration: 4000 });
@@ -58,12 +60,15 @@ export class BulkPaymentsComponent implements OnInit {
     this.loadData();
   }
 
-  loadData(): void {
-    this.paymentService.ListUploads().subscribe({
+  loadData(page: number = this.currentPage, size: number = this.pageSize): void {
+    this.paymentService.ListUploads(page,size).subscribe({
       next: (data) => {
-        this.dataSource = data;
-        console.log('Uploads:', this.dataSource);
+        this.dataSource = data.content;
         this.totalRecords = data.totalElements;
+        this.currentPage = data.number;
+        setTimeout(() => {
+          this.dataReady = true;
+        });
       },
       error: (err) => {
         this.snackBar.open('Failed to fetch uploads.', 'Close', { duration: 4000 });
@@ -71,29 +76,23 @@ export class BulkPaymentsComponent implements OnInit {
     });
   }
 
+  dataReady: boolean = false;
   dataSource: FileMetadata[] = [];
   displayedColumns: string[] = ['S.No.','fileName', 'uploadedBy', 'status', 'fileSizeBytes', 'uploadedAt'];
   totalRecords = 0;
-  pageSize = 20;
-  currentPage = 0;
+  pageSize: number = 10;
+  currentPage: number = 0;
 
-  ngOnInit() {
+  ngAfterViewInit() {
     // this.loadData();
   }
 
-  // loadData() {
-  //   debugger;
-  //   this.paymentService.ListUploads(this.currentPage, this.pageSize).subscribe((res: any) => {
-  //     this.dataSource = res.content;
-  //     this.totalRecords = res.totalElements;
-  //   });
-  // }
-
-//   onPageChange(event: PageEvent) {
-//   this.pageSize = event.pageSize;
-//   this.currentPage = event.pageIndex;
-//   this.loadData();
-// }
+onPageChange(event: PageEvent): void {
+  this.dataReady = false;
+  this.pageSize = event.pageSize;
+  this.currentPage = event.pageIndex;
+  this.loadData(this.currentPage, this.pageSize);
+}
 
   reset(): void {
     this.selectedFile = null;

@@ -40,9 +40,9 @@ export class BulkPaymentService {
         return this.http.get(`/file/uploads/${uploadId}/status`);
     }
 
-    ListUploads(page=0,size=20): Observable<any>{
+    ListUploads(page=0,size=10): Observable<any>{
         // ?page=${page}&size=${size}
-        return this.http.get(`http://localhost:8086/file/uploads`);
+        return this.http.get(`http://localhost:8086/file/uploads?page=${page}&size=${size}`);
     }
 
     UploaadErrorReport(uploadId: number): Observable<Blob>{
