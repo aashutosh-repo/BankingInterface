@@ -5,9 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { LoginComponent } from '../../../pages/login/login.component';
-import { UserResponse } from '../../../model/interfaces/UserDetails.model';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UserResponse } from '../../../model/interfaces/security/UserDetails.model';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { UserRequest } from '../../model/interfaces/UserDetails.model';
 import { ChildComponent } from './child/child.component';
+import { UserRequest } from '../../model/interfaces/security/UserDetails.model';
 
 @Component({
   selector: 'app-parent',

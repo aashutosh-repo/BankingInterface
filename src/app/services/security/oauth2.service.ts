@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserRequest,UserResponse } from '../../model/interfaces/UserDetails.model';
+import { UserRequest,UserResponse } from '../../model/interfaces/security/UserDetails.model';
 import { catchError, Observable, of, throwError } from 'rxjs';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class Oauth2Service {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(user: UserRequest) {
+    debugger;
     if (!user.username || !user.password) {
       console.error('Username or password is empty');
       return;
@@ -48,7 +49,7 @@ export class Oauth2Service {
   }
 
   setExpiryTime(response: UserResponse){
-    localStorage.setItem('expiresAt', response.expiryTime.toString());
+    localStorage.setItem('expiresAt', response.expiryTime || '');
   }
 
   getExpiryTime(response: UserResponse): string{

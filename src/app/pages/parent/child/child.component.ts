@@ -1,7 +1,7 @@
 import { Component, EventEmitter, input, Input, Output, SimpleChanges } from '@angular/core';
-import { UserRequest } from '../../../model/interfaces/UserDetails.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UserRequest } from '../../../model/interfaces/security/UserDetails.model';
 
 @Component({
   selector: 'app-child',

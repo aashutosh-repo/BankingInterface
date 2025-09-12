@@ -1,9 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import { IUserDTO, UserRequest } from '../model/interfaces/UserDetails.model';
 import { ErrorService } from './error/error.service';
-import { Oauth2Service } from './security/oauth2.service';
+import { IUserDTO, UserRequest } from '../model/interfaces/security/UserDetails.model';
 
 @Injectable({
   providedIn: 'root'

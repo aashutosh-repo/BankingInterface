@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { LoginServicesService } from '../../services/login-services.service';
-import { IUserDTO, UserRequest, UserResponse } from '../../model/interfaces/UserDetails.model';
 
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorService } from '../../services/error/error.service';
 import { Oauth2Service } from '../../services/security/oauth2.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { UserRequest, UserResponse } from '../../model/interfaces/security/UserDetails.model';
 
 @Component({
   selector: 'app-login',
@@ -34,8 +34,10 @@ export class LoginComponent {
 
   verifyUser(): void {
     console.log("Existing Token ",this.oauth2Service.getToken());
+    debugger;
     this.oauth2Service.login(this.user)?.subscribe(
-      (response) => {
+      (response: UserResponse) => {
+        debugger;
         console.log('Login successful...');
         this.oauth2Service.saveToken(response.token);
         this.oauth2Service.setExpiryTime(response);
