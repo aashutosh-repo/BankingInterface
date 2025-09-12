@@ -20,6 +20,7 @@ interface PaymentMethod {
   label: string;
   value: string;
   childOptions?: PaymentOption[];
+  isActive?: boolean;
 }
 
 @Component({
@@ -52,7 +53,8 @@ export class PaymentProcesingComponent {
       childOptions: [
         { label: 'Pay full amount', value: 'full' },
         { label: 'Pay with EMI', value: 'emi' }
-      ]
+      ],
+      isActive: true
     },
     {
       label: 'UPI',
@@ -61,9 +63,13 @@ export class PaymentProcesingComponent {
         { label: 'Normal UPI Payment', value: 'normal' },
         { label: 'UPI EMI Payment', value: 'emi' },
         { label: 'UPI Advance Payment', value: 'advance' }
-      ]
+      ],
+       isActive: true
     },
-    { label: 'QR Code', value: 'qr' }
+    { label: 'QR Code', value: 'qr', isActive: false },
+    { label: 'Net Banking', value: 'netbanking', isActive: false },
+    { label: 'Wallet', value: 'wallet', isActive: false },
+    { label: 'paytm', value: 'cod', isActive: true }
   ];
 
   ngOnInit(): void {
@@ -86,7 +92,7 @@ export class PaymentProcesingComponent {
         country: ['', Validators.required],
         pincode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
       }),
-      paymentMethod: ['card', Validators.required],
+      paymentMethod: ['', Validators.required],
       selectedChildOption: [''],
       cardHolderName: [''],
       cardNumber: [''],
@@ -107,8 +113,8 @@ export class PaymentProcesingComponent {
         // Set validators for card payment method
         this.paymentForm.get('cardHolderName')?.setValidators([Validators.required]);
         this.paymentForm.get('cardNumber')?.setValidators([Validators.required, Validators.pattern(/^\d{16}$/)]);
-        this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
-        this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
+        this.paymentForm.get('expiryMonth');
+        this.paymentForm.get('expiryYear');
         this.paymentForm.get('cvv')?.setValidators([Validators.required, Validators.pattern(/^\d{3}$/)]);
         
         // Clear UPI validators as Card method has been selected 
@@ -119,14 +125,14 @@ export class PaymentProcesingComponent {
         // Clear card validators as UPI method has been selected 
         this.paymentForm.get('cardHolderName')?.clearValidators();
         this.paymentForm.get('cardNumber')?.clearValidators();
-        this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
-        this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
+        this.paymentForm.get('expiryMonth')?.clearValidators();
+        this.paymentForm.get('expiryYear')?.clearValidators();
         this.paymentForm.get('cvv')?.clearValidators();
       }
       this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
       this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-      this.paymentForm.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
-      this.paymentForm.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{1}$/)]);
+      this.paymentForm.get('expiryMonth');
+      this.paymentForm.get('expiryYear');
       this.paymentForm.get('cvv')?.updateValueAndValidity();
       this.paymentForm.get('upiId')?.updateValueAndValidity();
     });

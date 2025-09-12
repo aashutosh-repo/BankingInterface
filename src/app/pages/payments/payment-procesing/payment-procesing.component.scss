@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background-color: #f0f0f0;
   padding: 20px;
   box-sizing: border-box;
@@ -88,6 +87,38 @@ button[mat-raised-button] {
 .payment-option {
   font-weight: 500;
 }
+
+.payment-methods {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: left;
+  // width: 200px;             /* adjust card width */
+  height: 60px;            /* adjust card height */
+  // margin: 10px;
+  padding: 16px;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* hover effect */
+.payment-methods:hover {
+  border-color: #3f51b5; /* Material primary color */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* when selected */
+.payment-methods.mat-radio-checked {
+  border-color: #3f51b5;
+  background-color: #f3f6ff;
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3);
+}
+
 
 .child-options {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

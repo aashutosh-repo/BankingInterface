@@ -1,10 +1,10 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IUserDTO, UserResponse } from '../../model/interfaces/UserDetails.model';
 import { LoginComponent } from '../login/login.component';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { IUserDTO, UserResponse } from '../../model/interfaces/security/UserDetails.model';
 
 
 @Component({

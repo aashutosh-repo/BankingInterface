@@ -13,20 +13,10 @@
     </div>
 
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
-      <!-- <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Payment Method</mat-label>
-        <mat-select formControlName="paymentMethod">
-          <mat-option value="card">Credit/Debit Card</mat-option>
-          <mat-option value="upi">UPI</mat-option>
-          <mat-option value="netbanking" aria-disabled="">Net Banking</mat-option>
-          <mat-option value="wallet" aria-disabled="">Wallet</mat-option>
-          <mat-option value="qr">Pay with QR</mat-option>
-        </mat-select>
-      </mat-form-field> -->
 
   <mat-radio-group formControlName="paymentMethod" class="payment-option-group">
   <ng-container *ngFor="let method of paymentMethods">
-    <mat-radio-button [value]="method.value" class="payment-option">
+    <mat-radio-button *ngIf="method.isActive" [value]="method.value" class="payment-option payment-methods">
       {{ method.label }}
     </mat-radio-button>
 
@@ -37,21 +27,22 @@
     >
       <mat-radio-group formControlName="selectedChildOption">
         <ng-container *ngFor="let option of method.childOptions">
-          <mat-radio-button [value]="option.value" class="child-option">
-            {{ option.label }}
-          </mat-radio-button>
+            <mat-radio-button [value]="option.value" class="child-option">
+              {{ option.label }}
+            </mat-radio-button>
         </ng-container>
       </mat-radio-group>
       
 
       <!-- ✅ Card details shown only when current method is 'card' -->
-      <div class="card-details">
-        <div class="card-details-head">Card Details</div>
+      <!--  -->
       <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.value === 'card'">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Card Holder Name</mat-label>
-          <input matInput type="text" formControlName="cardHolderName" placeholder="Aashutosh Kumar" />
-        </mat-form-field>
+        <div class="card-details">
+          <div class="card-details-head">Card Details</div>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Card Holder Name</mat-label>
+            <input matInput type="text" formControlName="cardHolderName" placeholder="Aashutosh Kumar" />
+          </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width card-input-wrapper">
           <mat-label>Card Number</mat-label>
@@ -86,8 +77,9 @@
         <div class="billing-address">
           <app-billing-address [billingForm]="billingGroup"></app-billing-address>
         </div>
+      </div>
       </ng-container>
-    </div>
+
 
     <!-- ✅ UPI input (only for UPI method) -->
     <div *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.value === 'upi'">
