@@ -5,4 +5,5 @@ export interface FileMetadata {
   status: string;
   fileSizeBytes: number;
   uploadedAt: Date;
+  paginator?: any;
 }

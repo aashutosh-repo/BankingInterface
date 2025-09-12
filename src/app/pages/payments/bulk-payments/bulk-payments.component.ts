@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
 import { BulkPaymentService } from '../../../services/payments/bulkPayment.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FileMetadata } from '../../../model/interfaces/payments/metadata.model';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -17,6 +18,8 @@ export class BulkPaymentsComponent implements AfterViewInit  {
   selectedFile: File | null = null;
   uploadProgress: number | null = null;
   uploading: boolean = false;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
 
   constructor(
     private paymentService: BulkPaymentService,
@@ -57,18 +60,16 @@ export class BulkPaymentsComponent implements AfterViewInit  {
         this.uploading = false;
       },
     });
-    this.loadData();
   }
 
-  loadData(page: number = this.currentPage, size: number = this.pageSize): void {
+  loadData(page: number, size: number): void {
     this.paymentService.ListUploads(page,size).subscribe({
       next: (data) => {
-        this.dataSource = data.content;
+        this.dataSource.data = data.content;
         this.totalRecords = data.totalElements;
-        this.currentPage = data.number;
-        setTimeout(() => {
-          this.dataReady = true;
-        });
+        this.currentPage = page;
+        this.dataReady = true; 
+        // this.cdr.detectChanges(); // force sync change detection
       },
       error: (err) => {
         this.snackBar.open('Failed to fetch uploads.', 'Close', { duration: 4000 });
@@ -77,22 +78,26 @@ export class BulkPaymentsComponent implements AfterViewInit  {
   }
 
   dataReady: boolean = false;
-  dataSource: FileMetadata[] = [];
+  dataSource= new MatTableDataSource<FileMetadata>();
   displayedColumns: string[] = ['S.No.','fileName', 'uploadedBy', 'status', 'fileSizeBytes', 'uploadedAt'];
   totalRecords = 0;
   pageSize: number = 10;
   currentPage: number = 0;
 
   ngAfterViewInit() {
-    // this.loadData();
+  setTimeout(() => {
+    this.dataSource.paginator = this.paginator;
+    this.loadData(this.currentPage, this.pageSize);
+    this.currentPage = 1;
+  });
   }
 
-onPageChange(event: PageEvent): void {
-  this.dataReady = false;
-  this.pageSize = event.pageSize;
-  this.currentPage = event.pageIndex;
-  this.loadData(this.currentPage, this.pageSize);
-}
+  onPageChange(event: PageEvent): void {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.loadData(this.currentPage, this.pageSize);
+  }
+
 
   reset(): void {
     this.selectedFile = null;

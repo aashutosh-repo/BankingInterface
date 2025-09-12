@@ -9,6 +9,8 @@ import { loaderInterceptor } from './services/core/interceptor/loader.intercepto
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { CustomMatPaginatorIntl } from './services/utility/pagination.service';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
 
 export const appConfig: ApplicationConfig = {
@@ -21,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideStore(),
     provideEffects(),
+    { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl },
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
 ]
 };

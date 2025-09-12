@@ -50,11 +50,11 @@
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
     <ng-container matColumnDef="S.No.">
-  <th mat-header-cell *matHeaderCellDef> S.No. </th>
-  <td mat-cell *matCellDef="let row; let i = index">
-    {{ currentPage * pageSize + i + 1 }}
-  </td>
-</ng-container>
+        <th mat-header-cell *matHeaderCellDef> S.No. </th>
+        <td mat-cell *matCellDef="let row; let i = index">
+            {{ currentPage * pageSize + i + 1 }}
+        </td>
+    </ng-container>
 
     <!-- File Name -->
     <ng-container matColumnDef="fileName">
@@ -100,5 +100,6 @@
     [pageSize]="pageSize"
     [pageSizeOptions]="[5, 10, 20]"
     (page)="onPageChange($event)">
+    aria-label="Select page"
   </mat-paginator>
 </div>
