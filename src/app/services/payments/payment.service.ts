@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
 import { TransactionResponse } from '../../model/interfaces/payments/Transaction.model';
+import { PaymentStatusResponse } from '../../model/interfaces/payments/PaymentResponse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,23 +14,41 @@ export class PaymentService {
 
  paymentData ={
   "paymentMethod": "CARD",
-  "token": "string",
-  "merchantId": "string",
-  "customerId": "string",
-  "amount": 0,
-  "currency": "string",
+  "token": "gvscvksdhvjhcjsvjhvcljsdvcljdsvcljdvj",
+  "merchantId": "MERCHANT123",
+  "customerId": "CUST456",
+  "amount": 1000,
+  "currency": "INR",
   "billingAddress": {
-    "payerName": "string",
-    "city": "string",
-    "fullAddress": "string",
-    "country": "string",
-    "pincode": "string"
+    "payerName": "Aashutosh Kumar",
+    "city": "Aurangabad",
+    "fullAddress": "Jamhor Aurangabad, Bihar",
+    "country": "INDIA",
+    "pincode": "201306"
   },
   "cardNumber": "string",
   "expiryMonth": "string",
   "expiryYear": "string",
   "cvv": "string",
   "cardHolderName": "string"
+}
+
+
+ upiPaymentData ={
+  "paymentMethod": "UPI",
+  "token": "gvscvksdhvjhcjsvjhvcljsdvcljdsvcljdvj",
+  "merchantId": "MERCHANT123",
+  "customerId": "CUST0003",
+  "amount": 1000,
+  "currency": "INR",
+  "billingAddress": {
+    "payerName": "Aashutosh Kumar",
+    "city": "Aurangabad",
+    "fullAddress": "Jamhor Aurangabad, Bihar",
+    "country": "INDIA",
+    "pincode": "201306"
+  },
+  "upiId": "aashutosh@upi",
 }
 
 
@@ -52,14 +71,14 @@ export class PaymentService {
     }
   }
 
-    async initiate(encryptedPayload: string) {
+    async initiate(encryptedPayload: string): Promise<PaymentStatusResponse>  {
     try {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       debugger;
 
       return await firstValueFrom(
-        this.http.post<{ payload: string }>(
-          this.paymentUrl,this.paymentData)
+        this.http.post<PaymentStatusResponse>(
+          this.paymentUrl,this.upiPaymentData)
       );
     
     } catch (error) {

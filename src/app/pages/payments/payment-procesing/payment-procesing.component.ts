@@ -10,6 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EncryptionService } from '../../../services/encryption/encryption.service';
 import { BillingAddressComponent } from '../billing-address/billing-address.component';
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
+import { Router } from '@angular/router';
 
 interface PaymentOption {
   label: string;
@@ -40,6 +41,7 @@ export class PaymentProcesingComponent {
   paymentData: any = {}; // Declare at the component level
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, 
+    private router: Router,
     private encryptionService: EncryptionService,
     private coreServices: CoreServicesService,
     private paymentService: PaymentService,
@@ -86,11 +88,11 @@ export class PaymentProcesingComponent {
   initializeForm() {
     this.paymentForm = this.fb.group({
       billingForm: this.fb.group({
-        payerName: ['', Validators.required],
-        city: ['', Validators.required],
-        fullAddress: ['', Validators.required],
-        country: ['', Validators.required],
-        pincode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
+        payerName: ['Aashutosh Kumar', Validators.required],
+        city: ['Aurangabad', Validators.required],
+        fullAddress: ['Jamhor Aurangabad, Bihar', Validators.required],
+        country: ['INDIA', Validators.required],
+        pincode: ['201306', [Validators.required, Validators.pattern(/^\d{6}$/)]],
       }),
       paymentMethod: ['', Validators.required],
       selectedChildOption: [''],
@@ -108,6 +110,7 @@ export class PaymentProcesingComponent {
   }
 
   onPaymentMethodChange() {
+    console.log('Payment method changed', this.paymentForm.get('paymentMethod')?.value);
     this.paymentForm.get('paymentMethod')?.valueChanges.subscribe((method: string) => {
       if (method === 'card') {
         // Set validators for card payment method
@@ -120,21 +123,34 @@ export class PaymentProcesingComponent {
         // Clear UPI validators as Card method has been selected 
         this.paymentForm.get('upiId')?.clearValidators();
       } else if (method === 'upi') {
-        this.paymentForm.get('upiId')?.setValidators([Validators.required, Validators.pattern(/^[\w.-]+@[\w.-]+$/)]);
-        
-        // Clear card validators as UPI method has been selected 
+          this.paymentForm.get('upiId')?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[\w.-]+@[\w.-]+$/)
+        ]);
+
+        // Clear card validators
         this.paymentForm.get('cardHolderName')?.clearValidators();
         this.paymentForm.get('cardNumber')?.clearValidators();
         this.paymentForm.get('expiryMonth')?.clearValidators();
         this.paymentForm.get('expiryYear')?.clearValidators();
         this.paymentForm.get('cvv')?.clearValidators();
+
+        // Update validity for UPI and card controls
+        this.paymentForm.get('upiId')?.updateValueAndValidity();
+        this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
+        this.paymentForm.get('cardNumber')?.updateValueAndValidity();
+        this.paymentForm.get('expiryMonth')?.updateValueAndValidity();
+        this.paymentForm.get('expiryYear')?.updateValueAndValidity();
+        this.paymentForm.get('cvv')?.updateValueAndValidity();
       }
-      this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
-      this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-      this.paymentForm.get('expiryMonth');
-      this.paymentForm.get('expiryYear');
-      this.paymentForm.get('cvv')?.updateValueAndValidity();
-      this.paymentForm.get('upiId')?.updateValueAndValidity();
+      // this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
+      // this.paymentForm.get('cardNumber')?.updateValueAndValidity();
+      // this.paymentForm.get('expiryMonth')?.clearValidators();
+      // this.paymentForm.get('expiryYear')?.clearValidators();
+      // this.paymentForm.get('cvv')?.updateValueAndValidity();
+      // this.paymentForm.get('upiId')?.updateValueAndValidity();
+      this.paymentForm.updateValueAndValidity();
+
     });
   }
 
@@ -200,13 +216,14 @@ export class PaymentProcesingComponent {
         // const encryptedPayload = JSON.stringify(paymentData);
 
       
-      const response = await this.paymentService.initiatePayment(encryptedPayload);
+      const response = await this.paymentService.initiate(encryptedPayload);
+      console.log(response);
 
       // Decrypt the response
-      const decryptedResponse = await this.encryptionService.decrypt(response.payload);
-      console.log('Decrypted Response:', decryptedResponse);
+      // const decryptedResponse = await this.encryptionService.decrypt(response.payload);
+      // console.log('Decrypted Response:', decryptedResponse);
       this.dialog.open(SuccessDialogComponent, { width: '400px' });
-
+      this.router.navigate(['/payments/success'], { state: { payment: response } });
   } catch (error) {
       console.error('Tokenization or Payment failed!', error);
       alert('Tokenization or Payment failed!');

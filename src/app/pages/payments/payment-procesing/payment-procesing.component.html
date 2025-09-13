@@ -86,6 +86,12 @@
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>UPI ID</mat-label>
         <input matInput type="text" formControlName="upiId" placeholder="example@upi" />
+          <mat-error *ngIf="paymentForm.get('upiId')?.hasError('required')">
+            UPI ID is required
+          </mat-error>
+          <mat-error *ngIf="paymentForm.get('upiId')?.hasError('pattern')">
+            Please enter a valid UPI ID (e.g. yourname@upi)
+          </mat-error>
       </mat-form-field>
     </div>
 
