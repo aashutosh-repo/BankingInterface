@@ -35,7 +35,6 @@ export class BulkPaymentsComponent implements AfterViewInit  {
   }
 
   upload(): void {
-    debugger;
     if (!this.selectedFile) {
       this.snackBar.open('Please select a file first.', 'Close', { duration: 3000 });
       return;

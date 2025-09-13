@@ -74,8 +74,6 @@ export class PaymentService {
     async initiate(encryptedPayload: string): Promise<PaymentStatusResponse>  {
     try {
       const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      debugger;
-
       return await firstValueFrom(
         this.http.post<PaymentStatusResponse>(
           this.paymentUrl,this.upiPaymentData)

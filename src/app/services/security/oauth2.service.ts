@@ -15,7 +15,6 @@ export class Oauth2Service {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(user: UserRequest) {
-    debugger;
     if (!user.username || !user.password) {
       console.error('Username or password is empty');
       return;

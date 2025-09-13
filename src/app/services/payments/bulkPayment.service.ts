@@ -13,7 +13,6 @@ export class BulkPaymentService {
     bulkFileListUri= 'http://localhost:8086/file/uploads';
 
     uploadBulkPaymentFile(file: File): Observable<{progress?: number; body?: any}> {
-        debugger;
         const formData: FormData = new FormData();
         formData.append('file', file);
         return this.http.post(this.bulkFileUrl, formData, {

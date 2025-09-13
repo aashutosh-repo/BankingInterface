@@ -34,10 +34,8 @@ export class LoginComponent {
 
   verifyUser(): void {
     console.log("Existing Token ",this.oauth2Service.getToken());
-    debugger;
     this.oauth2Service.login(this.user)?.subscribe(
       (response: UserResponse) => {
-        debugger;
         console.log('Login successful...');
         this.oauth2Service.saveToken(response.token);
         this.oauth2Service.setExpiryTime(response);
