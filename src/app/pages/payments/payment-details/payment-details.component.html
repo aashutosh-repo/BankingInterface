@@ -1,0 +1,50 @@
+<div class="result-container" *ngIf="payment">
+  <mat-card class="result-card" [ngClass]="payment.status.toLowerCase()">
+    <mat-card-header>
+      <div mat-card-avatar class="status-icon">
+        <mat-icon *ngIf="payment.status === 'SUCCESS'" class="success">check_circle</mat-icon>
+        <mat-icon *ngIf="payment.status === 'FAILED'" class="failed">cancel</mat-icon>
+        <mat-icon *ngIf="payment.status === 'PENDING'" class="pending">hourglass_empty</mat-icon>
+      </div>
+      <mat-card-title>
+        Payment {{ payment.status }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ payment.message }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="detail-row">
+        <span>Transaction ID:</span>
+        <span>{{ payment.transactionId }}</span>
+      </div>
+      <div class="detail-row">
+        <span>Gateway:</span>
+        <span>{{ payment.gateway }}</span>
+      </div>
+      <div class="detail-row">
+        <span>Method:</span>
+        <span>{{ payment.method }}</span>
+      </div>
+      <div class="detail-row">
+        <span>Amount:</span>
+        <span>₹{{ payment.amount }}</span>
+      </div>
+      <div class="detail-row">
+        <span>Reference ID:</span>
+        <span>{{ payment.referenceId }}</span>
+      </div>
+      <!-- <div class="detail-row">
+        <span>Paid At:</span>
+        <span>{{ payment.paidAt | date:'medium' }}</span>
+      </div> -->
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" (click)="goHome()">
+        Back to Payment Page
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
