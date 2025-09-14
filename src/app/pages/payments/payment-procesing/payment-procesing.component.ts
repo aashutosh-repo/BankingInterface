@@ -11,6 +11,7 @@ import { EncryptionService } from '../../../services/encryption/encryption.servi
 import { BillingAddressComponent } from '../billing-address/billing-address.component';
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
 import { Router } from '@angular/router';
+import { filter, interval, Subscription, switchMap, takeWhile } from 'rxjs';
 
 interface PaymentOption {
   label: string;
@@ -222,8 +223,10 @@ export class PaymentProcesingComponent {
       // Decrypt the response
       // const decryptedResponse = await this.encryptionService.decrypt(response.payload);
       // console.log('Decrypted Response:', decryptedResponse);
-      this.dialog.open(SuccessDialogComponent, { width: '400px' });
-      this.router.navigate(['/payments/success'], { state: { payment: response } });
+      debugger;
+      this.startPollingStatus(response.transactionId);
+      // this.dialog.open(SuccessDialogComponent, { width: '400px' });
+      // this.router.navigate(['/payments/success'], { state: { payment: response } });
   } catch (error) {
       console.error('Tokenization or Payment failed!', error);
       alert('Tokenization or Payment failed!');
@@ -231,6 +234,28 @@ export class PaymentProcesingComponent {
       this.isLoading = false;
     }
   }
+
+private pollSub?: Subscription;
+
+startPollingStatus(txnId: string) {
+  this.pollSub = interval(3000).pipe(
+    switchMap(() => this.paymentService.getStatus(txnId)),
+    takeWhile(res => res.status !== 'SUCCESS' && res.status !== 'FAILURE', true) // ✅ keep last value
+  ).subscribe((res) => {
+    console.log('Polled status:', res.status);
+
+    if (res.status === 'SUCCESS') {
+      
+      this.dialog.open(SuccessDialogComponent, { width: '400px' });
+      this.router.navigate(['/payments/success'], { state: { payment: res } });
+
+      this.pollSub?.unsubscribe(); // stop polling
+    } else if (res.status === 'FAILURE') {
+      alert('Payment failed. Try again.');
+      this.pollSub?.unsubscribe(); // stop polling
+    }
+  });
+}
 
 
   qrData: string = '';

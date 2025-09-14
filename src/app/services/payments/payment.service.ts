@@ -8,6 +8,7 @@ import { PaymentStatusResponse } from '../../model/interfaces/payments/PaymentRe
   providedIn: 'root',
 })
 export class PaymentService {
+  private readonly baseURL = 'http://localhost:8080/payments';
   paymentProcessingUrl = 'http://localhost:8080/payments/process-payment'; // adjust URL as needed
   paymentUrl = 'http://localhost:8080/payments/initiate';
   private readonly apiUrl = 'http://localhost:8080/payments/getPaymentDetails';
@@ -83,6 +84,10 @@ export class PaymentService {
       console.error('Payment Processing Failed:', error);
       throw new Error('Something went wrong. Please try again.');
     }
+  }
+
+    getStatus(txnId: string): Observable<PaymentStatusResponse> {
+    return this.http.get<PaymentStatusResponse>(`${this.baseURL}/${txnId}/status`);
   }
 
   getTransctionDetails(): Observable<TransactionResponse[]> {
