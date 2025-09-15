@@ -12,6 +12,7 @@ import { BillingAddressComponent } from '../billing-address/billing-address.comp
 import { SharedMaterialModules } from '../../../shared/material-imports/shared-material.module';
 import { Router } from '@angular/router';
 import { filter, interval, Subscription, switchMap, takeWhile } from 'rxjs';
+import { generateRandomUpiOrder } from '../../../shared/Testdata/Paymentdata';
 
 interface PaymentOption {
   label: string;
@@ -216,8 +217,9 @@ export class PaymentProcesingComponent {
       const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
         // const encryptedPayload = JSON.stringify(paymentData);
 
+        const paymentPayload = generateRandomUpiOrder();
       
-      const response = await this.paymentService.initiate(encryptedPayload);
+      const response = await this.paymentService.initiate(paymentPayload);
       console.log(response);
 
       // Decrypt the response

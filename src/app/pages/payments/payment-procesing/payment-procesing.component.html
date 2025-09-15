@@ -83,7 +83,7 @@
 
     <!-- ✅ UPI input (only for UPI method) -->
     <div *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.value === 'upi'">
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline" class="full-width upi-container">
         <mat-label>UPI ID</mat-label>
         <input matInput type="text" formControlName="upiId" placeholder="example@upi" />
           <mat-error *ngIf="paymentForm.get('upiId')?.hasError('required')">
