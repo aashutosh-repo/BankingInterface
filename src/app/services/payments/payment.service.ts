@@ -105,4 +105,3 @@ function generateRandomUpiOrder() {
 
 // Example usage:
 const randomOrder = generateRandomUpiOrder();
-console.log(randomOrder);

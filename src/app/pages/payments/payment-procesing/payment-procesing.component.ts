@@ -112,7 +112,6 @@ export class PaymentProcesingComponent {
   }
 
   onPaymentMethodChange() {
-    console.log('Payment method changed', this.paymentForm.get('paymentMethod')?.value);
     this.paymentForm.get('paymentMethod')?.valueChanges.subscribe((method: string) => {
       if (method === 'card') {
         // Set validators for card payment method
@@ -192,8 +191,6 @@ export class PaymentProcesingComponent {
         };
       }
 
-      console.log('Captured Payment Data:', this.paymentData);
-      console.log('Billing Address: ', this.billingGroup.value)
       // Call your payment API here with the paymentData object
     } else {
       console.log('Invalid Form');
