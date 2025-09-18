@@ -276,9 +276,21 @@ startPollingStatus(txnId: string) {
       this.qrSuccess = true;
     }, 10000);
   }
-  selectedMethod: string = 'card'; // default selection
+  // selectedMethod: string = 'card'; // default selection
 
-  selectMethod(method: string) {
-    this.selectedMethod = method;
+  // selectMethod(method: string) {
+  //   this.selectedMethod = method;
+  // }
+  selectedMethod: string | null = null;
+  selectedChild: string | null = null;
+
+  selectMethod(method: PaymentMethod) {
+    if (!method.isActive) return; // disable inactive
+    this.selectedMethod = method.value;
+    this.selectedChild = null; // reset child
+  }
+
+  selectChild(childValue: string) {
+    this.selectedChild = childValue;
   }
 }

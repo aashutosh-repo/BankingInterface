@@ -1,76 +1,104 @@
-<div class="payment-template">
-  <div class="payment-wrapper">
-    <h2 mat-card-title>Payment Gateway</h2>
-    <div class="accepted-cards">
-      <p>We accept:</p>
-      <div class="card-logos">
-        <img src="/cardlogo/visa.png" alt="VISA" />
-        <img src="/cardlogo/mastercard.png" alt="Mastercard" />
-        <img src="/cardlogo/amex.png" alt="American Express" />
-        <img src="/cardlogo/rupay.png" alt="rupay-card" />
-      </div>
-    </div>
-  </div>
-  <div class="payment-container">
-  <!-- LHS: Payment Options -->
+<div class="payment-container">
+  <!-- LHS: Payment Methods -->
   <div class="payment-options">
-    <button [class.active]="selectedMethod === 'card'" (click)="selectMethod('card')">
-      Credit / Debit Card
-    </button>
-    <button [class.active]="selectedMethod === 'upi'" (click)="selectMethod('upi')">
-      UPI
-    </button>
-    <button [class.active]="selectedMethod === 'emi'" (click)="selectMethod('emi')">
-      EMI
-    </button>
-    <button [class.active]="selectedMethod === 'netbanking'" (click)="selectMethod('netbanking')">
-      Net Banking
+    <button 
+      *ngFor="let method of paymentMethods"
+      [disabled]="!method.isActive"
+      [class.active]="selectedMethod === method.value"
+      (click)="selectMethod(method)">
+      {{ method.label }}
     </button>
   </div>
 
-  <!-- RHS: Dynamic Content -->
-  <div class="payment-body">
-    <!-- Credit/Debit Card -->
-    <div *ngIf="selectedMethod === 'card'" class="payment-form">
-      <h3>Enter Card Details</h3>
-      <input type="text" placeholder="Card Number" maxlength="16" />
-      <div class="row">
-        <input type="text" placeholder="MM/YY" maxlength="5" />
-        <input type="password" placeholder="CVV" maxlength="3" />
+  <!-- RHS: Selected Method Content -->
+  <div class="payment-body" *ngIf="selectedMethod as sm">
+    <ng-container *ngFor="let method of paymentMethods">
+      <div *ngIf="sm === method.value">
+        
+        <!-- Child Options (if any) -->
+        <div *ngIf="method.childOptions?.length" class="child-options">
+          <h4>{{ method.label }} Options</h4>
+          <div class="child-list">
+            <button 
+              *ngFor="let child of method.childOptions"
+              [class.active]="selectedChild === child.value"
+              (click)="selectChild(child.value)">
+              {{ child.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Show Form Only if Child Selected -->
+        <div class="payment-form" *ngIf="!method.childOptions || selectedChild">
+          <!-- Credit Card -->
+          <ng-container *ngIf="method.value === 'card'">
+            <ng-container *ngIf="selectedChild === 'full'">
+              <h3>Credit Card - Full Payment</h3>
+              <input placeholder="Card Number" />
+              <input placeholder="MM/YY" />
+              <input placeholder="CVV" />
+              <button>Pay Now</button>
+            </ng-container>
+
+            <ng-container *ngIf="selectedChild === 'emi'">
+              <h3>Credit Card - EMI</h3>
+              <select>
+                <option>3 Months</option>
+                <option>6 Months</option>
+                <option>12 Months</option>
+              </select>
+              <button>Proceed</button>
+            </ng-container>
+          </ng-container>
+
+          <!-- UPI -->
+          <ng-container *ngIf="method.value === 'upi'">
+            <ng-container *ngIf="selectedChild === 'normal'">
+              <h3>UPI Payment</h3>
+              <input placeholder="Enter UPI ID" />
+              <button>Pay</button>
+            </ng-container>
+
+            <ng-container *ngIf="selectedChild === 'emi'">
+              <h3>UPI EMI</h3>
+              <select>
+                <option>3 Months</option>
+                <option>6 Months</option>
+              </select>
+              <button>Proceed</button>
+            </ng-container>
+
+            <ng-container *ngIf="selectedChild === 'advance'">
+              <h3>UPI Advance Payment</h3>
+              <input placeholder="Advance Amount" type="number" />
+              <button>Pay</button>
+            </ng-container>
+          </ng-container>
+
+          <!-- QR -->
+          <ng-container *ngIf="method.value === 'qr'">
+            <h3>Scan QR Code</h3>
+            <img src="assets/qr-placeholder.png" alt="QR Code" />
+          </ng-container>
+
+          <!-- Net Banking -->
+          <ng-container *ngIf="method.value === 'netbanking'">
+            <h3>Net Banking</h3>
+            <select>
+              <option>SBI</option>
+              <option>HDFC</option>
+              <option>ICICI</option>
+            </select>
+            <button>Proceed</button>
+          </ng-container>
+
+          <!-- COD -->
+          <ng-container *ngIf="method.value === 'cod'">
+            <h3>Pay on Delivery</h3>
+            <p>You will pay at the time of delivery.</p>
+          </ng-container>
+        </div>
       </div>
-      <input type="text" placeholder="Cardholder Name" />
-      <button>Pay Now</button>
-    </div>
-
-    <!-- UPI -->
-    <div *ngIf="selectedMethod === 'upi'" class="payment-form">
-      <h3>Pay via UPI</h3>
-      <input type="text" placeholder="Enter UPI ID" />
-      <button>Pay Now</button>
-    </div>
-
-    <!-- EMI -->
-    <div *ngIf="selectedMethod === 'emi'" class="payment-form">
-      <h3>Choose EMI Plan</h3>
-      <select>
-        <option>3 Months @ 12%</option>
-        <option>6 Months @ 14%</option>
-        <option>12 Months @ 16%</option>
-      </select>
-      <button>Proceed</button>
-    </div>
-
-    <!-- Net Banking -->
-    <div *ngIf="selectedMethod === 'netbanking'" class="payment-form">
-      <h3>Select Bank</h3>
-      <select>
-        <option>SBI</option>
-        <option>HDFC</option>
-        <option>ICICI</option>
-        <option>Axis</option>
-      </select>
-      <button>Proceed</button>
-    </div>
+    </ng-container>
   </div>
-</div>
 </div>
