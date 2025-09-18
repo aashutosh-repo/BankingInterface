@@ -1,0 +1,76 @@
+<div class="payment-template">
+  <div class="payment-wrapper">
+    <h2 mat-card-title>Payment Gateway</h2>
+    <div class="accepted-cards">
+      <p>We accept:</p>
+      <div class="card-logos">
+        <img src="/cardlogo/visa.png" alt="VISA" />
+        <img src="/cardlogo/mastercard.png" alt="Mastercard" />
+        <img src="/cardlogo/amex.png" alt="American Express" />
+        <img src="/cardlogo/rupay.png" alt="rupay-card" />
+      </div>
+    </div>
+  </div>
+  <div class="payment-container">
+  <!-- LHS: Payment Options -->
+  <div class="payment-options">
+    <button [class.active]="selectedMethod === 'card'" (click)="selectMethod('card')">
+      Credit / Debit Card
+    </button>
+    <button [class.active]="selectedMethod === 'upi'" (click)="selectMethod('upi')">
+      UPI
+    </button>
+    <button [class.active]="selectedMethod === 'emi'" (click)="selectMethod('emi')">
+      EMI
+    </button>
+    <button [class.active]="selectedMethod === 'netbanking'" (click)="selectMethod('netbanking')">
+      Net Banking
+    </button>
+  </div>
+
+  <!-- RHS: Dynamic Content -->
+  <div class="payment-body">
+    <!-- Credit/Debit Card -->
+    <div *ngIf="selectedMethod === 'card'" class="payment-form">
+      <h3>Enter Card Details</h3>
+      <input type="text" placeholder="Card Number" maxlength="16" />
+      <div class="row">
+        <input type="text" placeholder="MM/YY" maxlength="5" />
+        <input type="password" placeholder="CVV" maxlength="3" />
+      </div>
+      <input type="text" placeholder="Cardholder Name" />
+      <button>Pay Now</button>
+    </div>
+
+    <!-- UPI -->
+    <div *ngIf="selectedMethod === 'upi'" class="payment-form">
+      <h3>Pay via UPI</h3>
+      <input type="text" placeholder="Enter UPI ID" />
+      <button>Pay Now</button>
+    </div>
+
+    <!-- EMI -->
+    <div *ngIf="selectedMethod === 'emi'" class="payment-form">
+      <h3>Choose EMI Plan</h3>
+      <select>
+        <option>3 Months @ 12%</option>
+        <option>6 Months @ 14%</option>
+        <option>12 Months @ 16%</option>
+      </select>
+      <button>Proceed</button>
+    </div>
+
+    <!-- Net Banking -->
+    <div *ngIf="selectedMethod === 'netbanking'" class="payment-form">
+      <h3>Select Bank</h3>
+      <select>
+        <option>SBI</option>
+        <option>HDFC</option>
+        <option>ICICI</option>
+        <option>Axis</option>
+      </select>
+      <button>Proceed</button>
+    </div>
+  </div>
+</div>
+</div>

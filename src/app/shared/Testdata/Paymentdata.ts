@@ -24,7 +24,3 @@ export function generateRandomUpiOrder() {
     orderId: randomId("ORD", 8) // ✅ add a random orderId for tracking
   };
 }
-
-// Example usage:
-const randomOrder = generateRandomUpiOrder();
-console.log(randomOrder);

@@ -1,0 +1,112 @@
+.payment-container {
+  display: flex;
+  border: 1px solid #ccc;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Left side menu */
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  background: #f8f8f8;
+  border-right: 1px solid #ddd;
+}
+
+.payment-options button {
+  padding: 15px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.payment-options button:hover {
+  background: #efefef;
+}
+
+.payment-options button.active {
+  background: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Right side content */
+.payment-body {
+  flex: 1;
+  padding: 20px;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-form input,
+.payment-form select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.payment-form button {
+  padding: 12px;
+  background: #007bff;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.payment-form button:hover {
+  background: #0056b3;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  width: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card-logos img {
+  font-size: 30px;
+  width: 30px;
+  margin-right: 10px;
+}
+
+
+.payment-wrapper {
+  background: white;
+  padding: 20px 20px 0 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 100%;
+}
+
+.mat-card-title {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+  align-items: center;
+}
+
+.payment-template {
+  background: #f0f2f5;
+  min-height: auto;
+  max-width: 100%;
+  padding: 40px 20px;
+}

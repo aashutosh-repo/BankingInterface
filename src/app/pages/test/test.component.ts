@@ -4,6 +4,9 @@ import { CardMask } from '../../shared/pipes/card-mask.pipe';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { tokenizeCard } from '../../sdk/sdk';
+
+
 
 @Component({
   selector: 'app-test',
@@ -35,6 +38,9 @@ export class TestComponent implements OnInit {
       );
       this.showdropdown = searchvalue.length > 0 && this.filteredStates.length > 0;
     });
+
+    // this.tokenizeCard(this.cardsdata).forEach(res => console.log(res));
+    // this.doTokenize().then(res => console.log(res));
   }
 
   selectState(state: string): void {
@@ -58,4 +64,30 @@ export class TestComponent implements OnInit {
       complete: () => console.log('Request complete')
     });
   }
+
+  cardsdata ={ cardNumber: '4111111111111111', expiry: '12/25', cvv: '123' };
+
+  private apiUrl = 'http://localhost:4000/tokenize';
+  //   tokenizeCard(card: { cardNumber: string; expiry: string; cvv: string }): Observable<TokenResponse> {
+  //   return this.http.post<TokenResponse>(this.apiUrl, card);
+  // }
+
+  async doTokenize() {
+    debugger;
+  const res = await tokenizeCard({
+    cardNumber: '4111111111111111',
+    expiry: '12/29',
+    cvv: '123'
+  });
+  console.log('Token:', res);
+  return res;
+}
+
+}
+
+export interface TokenResponse {
+  token: string;
+  last4: string;
+  scheme: string;
+  expiry: string;
 }
