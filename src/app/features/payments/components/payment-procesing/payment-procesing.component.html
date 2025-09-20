@@ -1,5 +1,5 @@
-<div class="payment-container">
-  <!-- LHS: Payment Methods -->
+<div class="payment-container" [formGroup]="form">
+  <!-- LHS -->
   <div class="payment-options">
     <button 
       *ngFor="let method of paymentMethods"
@@ -10,12 +10,12 @@
     </button>
   </div>
 
-  <!-- RHS: Selected Method Content -->
+  <!-- RHS -->
   <div class="payment-body" *ngIf="selectedMethod as sm">
     <ng-container *ngFor="let method of paymentMethods">
       <div *ngIf="sm === method.value">
         
-        <!-- Child Options (if any) -->
+        <!-- Child Options -->
         <div *ngIf="method.childOptions?.length" class="child-options">
           <h4>{{ method.label }} Options</h4>
           <div class="child-list">
@@ -28,51 +28,56 @@
           </div>
         </div>
 
-        <!-- Show Form Only if Child Selected -->
+        <!-- Forms -->
         <div class="payment-form" *ngIf="!method.childOptions || selectedChild">
+          
           <!-- Credit Card -->
           <ng-container *ngIf="method.value === 'card'">
-            <ng-container *ngIf="selectedChild === 'full'">
+            <div *ngIf="selectedChild === 'full'">
               <h3>Credit Card - Full Payment</h3>
-              <input placeholder="Card Number" />
-              <input placeholder="MM/YY" />
-              <input placeholder="CVV" />
-              <button>Pay Now</button>
-            </ng-container>
+              <input formControlName="cardNumber" placeholder="Card Number" />
+              <div *ngIf="paymentForm.get('cardNumber')?.touched && paymentForm.get('cardNumber')?.invalid">
+                Must be 16 digits
+              </div>
+              <input formControlName="expiry" placeholder="MM/YY" />
+              <input formControlName="cvv" placeholder="CVV" type="password" />
+              <button (click)="submitPayment()">Pay Now</button>
+            </div>
 
-            <ng-container *ngIf="selectedChild === 'emi'">
+            <div *ngIf="selectedChild === 'emi'">
               <h3>Credit Card - EMI</h3>
-              <select>
-                <option>3 Months</option>
-                <option>6 Months</option>
-                <option>12 Months</option>
+              <select formControlName="emiTenure">
+                <option value="">Select Tenure</option>
+                <option value="3">3 Months</option>
+                <option value="6">6 Months</option>
+                <option value="12">12 Months</option>
               </select>
-              <button>Proceed</button>
-            </ng-container>
+              <button (click)="submitPayment()">Proceed</button>
+            </div>
           </ng-container>
 
           <!-- UPI -->
           <ng-container *ngIf="method.value === 'upi'">
-            <ng-container *ngIf="selectedChild === 'normal'">
+            <div *ngIf="selectedChild === 'normal'">
               <h3>UPI Payment</h3>
-              <input placeholder="Enter UPI ID" />
-              <button>Pay</button>
-            </ng-container>
+              <input formControlName="upiId" placeholder="Enter UPI ID" />
+              <button (click)="submitPayment()">Pay</button>
+            </div>
 
-            <ng-container *ngIf="selectedChild === 'emi'">
+            <div *ngIf="selectedChild === 'emi'">
               <h3>UPI EMI</h3>
-              <select>
-                <option>3 Months</option>
-                <option>6 Months</option>
+              <select formControlName="emiTenure">
+                <option value="3">3 Months</option>
+                <option value="6">6 Months</option>
               </select>
-              <button>Proceed</button>
-            </ng-container>
+              <button (click)="submitPayment()">Proceed</button>
+            </div>
 
-            <ng-container *ngIf="selectedChild === 'advance'">
+            <div *ngIf="selectedChild === 'advance'">
               <h3>UPI Advance Payment</h3>
-              <input placeholder="Advance Amount" type="number" />
-              <button>Pay</button>
-            </ng-container>
+              <input formControlName="advanceAmount" type="number" placeholder="Advance Amount" />
+              <button (click)="submitPayment()">Pay</button>
+            </div>
           </ng-container>
 
           <!-- QR -->
@@ -84,18 +89,19 @@
           <!-- Net Banking -->
           <ng-container *ngIf="method.value === 'netbanking'">
             <h3>Net Banking</h3>
-            <select>
-              <option>SBI</option>
-              <option>HDFC</option>
-              <option>ICICI</option>
+            <select formControlName="bank">
+              <option value="SBI">SBI</option>
+              <option value="HDFC">HDFC</option>
+              <option value="ICICI">ICICI</option>
             </select>
-            <button>Proceed</button>
+            <button (click)="submitPayment()">Proceed</button>
           </ng-container>
 
           <!-- COD -->
           <ng-container *ngIf="method.value === 'cod'">
             <h3>Pay on Delivery</h3>
             <p>You will pay at the time of delivery.</p>
+            <button (click)="submitPayment()">Confirm</button>
           </ng-container>
         </div>
       </div>

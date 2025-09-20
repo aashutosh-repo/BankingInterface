@@ -41,28 +41,11 @@ mat-card-title, .title {
   position: relative;
 }
 
-.card-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px;
-  height: auto;
-}
-
 .full-width {
   width: 100%;
 }
-
-.expiry-cvv-row {
-  display: flex;
-  gap: 16px;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.expiry-cvv-row mat-form-field {
-  flex: 1;
+.card-input {
+  position: relative;
 }
 
 button[mat-raised-button] {
@@ -72,10 +55,6 @@ button[mat-raised-button] {
 .qr-section {
   margin-top: 16px;
   text-align: center;
-}
-
-.qr-container {
-  margin-top: 16px;
 }
 
 .payment-option-group {
@@ -122,7 +101,7 @@ button[mat-raised-button] {
 
 .child-options {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-left: 24px;
+  // margin-left: 24px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -136,12 +115,12 @@ button[mat-raised-button] {
 
 .child-options .mat-mdc-radio-group {
   display: flex;
-  flex-direction: column; /* stack vertically */
-  gap: 8px; /* optional space between items */
+  flex-direction: column; 
+  gap: 8px; 
 }
 
 .child-options .mat-mdc-radio-button {
-  margin: 0; /* remove extra gaps from Material defaults */
+  margin: 0; 
 }
 
 .card-details {
@@ -158,4 +137,75 @@ button[mat-raised-button] {
 .upi-container {
   margin-left: 30px;
   width: 95%;
+}
+
+.payment-container {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem;
+}
+
+.parent-options {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  border: 1px solid #ddd;
+  padding-right: 1rem;
+  border-radius: 8px;
+}
+
+.parent-option {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.payment-body {
+  flex: 1;
+  padding: 0 1rem;
+}
+
+.card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-icon {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 30px;
+  height: auto;
+}
+
+.expiry-cvv {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.expiry-cvv mat-form-field {
+  flex: 1 1 120px; /* Flexible, min width 120px */
+  min-width: 100px;
+}
+
+.qr-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+
+.line-aaa {
+  height: 1px;
+  width: 100%;
+  background-color: #e0e0e0;
+  margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .expiry-cvv {
+    flex-direction: column;
+    gap: 12px;
+  }
 }

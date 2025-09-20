@@ -14,55 +14,63 @@
 
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
 
-  <mat-radio-group formControlName="paymentMethod" class="payment-option-group">
-  <ng-container *ngFor="let method of paymentMethods">
-    <mat-radio-button *ngIf="method.isActive" [value]="method.value" class="payment-option payment-methods">
+<div class="payment-container">
+  <!-- LHS: Parent payment methods -->
+  <mat-radio-group formControlName="paymentMethod" class="parent-options">
+    <mat-radio-button
+      *ngFor="let method of paymentMethods"
+      [value]="method.value"
+      class="parent-option"
+      [disabled]="!method.isActive"
+    >
       {{ method.label }}
     </mat-radio-button>
 
-    <!-- Show child options dynamically -->
-    <div
-      *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.childOptions"
-      class="child-options"
-    >
+  </mat-radio-group>
+
+  <!-- RHS: Child options + inputs -->
+  <div class="payment-body" *ngIf="selectedMethod">
+    <div class="child-options" *ngIf="selectedMethod.childOptions?.length">
       <mat-radio-group formControlName="selectedChildOption">
-        <ng-container *ngFor="let option of method.childOptions">
-            <mat-radio-button [value]="option.value" class="child-option">
-              {{ option.label }}
-            </mat-radio-button>
-        </ng-container>
+        <mat-radio-button
+          *ngFor="let option of selectedMethod.childOptions"
+          [value]="option.value"
+          class="child-option"
+        >
+          {{ option.label }}
+        </mat-radio-button>
       </mat-radio-group>
-      
+    </div>
 
-      <!-- ✅ Card details shown only when current method is 'card' -->
-      <!--  -->
-      <ng-container *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.value === 'card'">
-        <div class="card-details">
-          <div class="card-details-head">Card Details</div>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Card Holder Name</mat-label>
-            <input matInput type="text" formControlName="cardHolderName" placeholder="Aashutosh Kumar" />
-          </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width card-input-wrapper">
-          <mat-label>Card Number</mat-label>
-          <input matInput type="text" formControlName="cardNumber" placeholder="1234 5678 9123 4567"
-            (input)="detectCardType(paymentForm.get('cardNumber')?.value)" />
-          <ng-container *ngIf="cardType">
-            <img [src]="'/cardlogo/' + cardType + '.png'" [alt]="cardType" class="card-icon" />
-          </ng-container>
+    <!-- 🔹 Card form -->
+    <div *ngIf="paymentForm.value.paymentMethod === 'card' && paymentForm.value.selectedChildOption">
+      <div class="card-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Card Holder Name</mat-label>
+          <input matInput formControlName="cardHolderName" placeholder="John Doe" />
         </mat-form-field>
 
-        <div class="expiry-cvv-row">
+        <mat-form-field appearance="outline" class="full-width card-input">
+          <mat-label>Card Number</mat-label>
+          <input
+            matInput
+            formControlName="cardNumber"
+            placeholder="1234 5678 9012 3456"
+            (input)="detectCardType(paymentForm.get('cardNumber')?.value)"
+          />
+          <img *ngIf="cardType" [src]="'/cardlogo/' + cardType + '.png'" class="card-icon" />
+        </mat-form-field>
+
+        <div class="expiry-cvv">
           <mat-form-field appearance="outline">
-            <mat-label>Month</mat-label>
+            <mat-label>Expiry Month</mat-label>
             <mat-select formControlName="expiryMonth">
               <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Year</mat-label>
+            <mat-label>Expiry Year</mat-label>
             <mat-select formControlName="expiryYear">
               <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
             </mat-select>
@@ -70,47 +78,40 @@
 
           <mat-form-field appearance="outline">
             <mat-label>CVV</mat-label>
-            <input matInput type="text" formControlName="cvv" placeholder="123" />
+            <input matInput formControlName="cvv" placeholder="123" />
           </mat-form-field>
         </div>
-        <mat-divider></mat-divider>
-        <div class="billing-address">
-          <app-billing-address [billingForm]="billingGroup"></app-billing-address>
-        </div>
       </div>
-      </ng-container>
+      <app-billing-address [billingForm]=billingGroup></app-billing-address>
+    </div>
 
-
-    <!-- ✅ UPI input (only for UPI method) -->
-    <div *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.value === 'upi'">
-      <mat-form-field appearance="outline" class="full-width upi-container">
+    <!-- 🔹 UPI form -->
+    <div *ngIf="paymentForm.value.paymentMethod === 'upi' && paymentForm.value.selectedChildOption">
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>UPI ID</mat-label>
-        <input matInput type="text" formControlName="upiId" placeholder="example@upi" />
-          <mat-error *ngIf="paymentForm.get('upiId')?.hasError('required')">
-            UPI ID is required
-          </mat-error>
-          <mat-error *ngIf="paymentForm.get('upiId')?.hasError('pattern')">
-            Please enter a valid UPI ID (e.g. yourname@upi)
-          </mat-error>
+        <input matInput formControlName="upiId" placeholder="example@upi" />
+        <mat-error *ngIf="paymentForm.get('upiId')?.hasError('required')">
+          UPI ID is required
+        </mat-error>
+        <mat-error *ngIf="paymentForm.get('upiId')?.hasError('pattern')">
+          Enter a valid UPI ID
+        </mat-error>
       </mat-form-field>
     </div>
 
-    <!-- ✅ QR Section (only for QR method) -->
-    <div *ngIf="paymentForm.get('paymentMethod')?.value === method.value && method.value === 'qr'">
-      <div class="qr-section">
+    <!-- 🔹 QR form -->
+    <div *ngIf="paymentForm.value.paymentMethod === 'qr' && paymentForm.value.selectedChildOption">
+      <div class="qr-container">
         <button mat-raised-button color="primary" (click)="generateQR()">Generate QR</button>
-        <div *ngIf="qrData" class="qr-container">
+        <div *ngIf="qrData">
           <qrcode [qrdata]="qrData" [width]="200" errorCorrectionLevel="M"></qrcode>
-          <p><strong>Scan to pay:</strong> {{ qrData }}</p>
+          <p>Scan to pay: {{ qrData }}</p>
         </div>
-        <mat-progress-bar *ngIf="qrInProgress" mode="indeterminate"></mat-progress-bar>
-        <p *ngIf="qrSuccess" class="success-msg">✅ Payment Successful via QR!</p>
       </div>
     </div>
-    </div>
-  </ng-container>
-  
-</mat-radio-group>
+  </div>
+</div>
+
 
 
       <button mat-raised-button color="primary" type="submit" [disabled]="paymentForm.invalid">

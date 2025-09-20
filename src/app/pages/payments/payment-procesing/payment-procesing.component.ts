@@ -13,6 +13,7 @@ import { SharedMaterialModules } from '../../../shared/material-imports/shared-m
 import { Router } from '@angular/router';
 import { filter, interval, Subscription, switchMap, takeWhile } from 'rxjs';
 import { generateRandomUpiOrder } from '../../../shared/Testdata/Paymentdata';
+import { tokenizeCard } from '../../../sdk/sdk';
 
 interface PaymentOption {
   label: string;
@@ -77,12 +78,16 @@ export class PaymentProcesingComponent {
   ];
 
   ngOnInit(): void {
-
     this.initializeForm();
     this.onPaymentMethodChange();
     this.paymentForm.get('paymentMethod')?.valueChanges.subscribe(() => {
       this.paymentForm.get('selectedChildOption')?.reset();
     });
+  }
+
+
+  get selectedMethod() {
+    return this.paymentMethods.find(m => m.value === this.paymentForm.value.paymentMethod);
   }
 
   months: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -113,47 +118,57 @@ export class PaymentProcesingComponent {
 
   onPaymentMethodChange() {
     this.paymentForm.get('paymentMethod')?.valueChanges.subscribe((method: string) => {
+      const cardControls = [
+        'cardHolderName',
+        'cardNumber',
+        'expiryMonth',
+        'expiryYear',
+        'cvv'
+      ];
+      const upiControls = ['upiId'];
+
       if (method === 'card') {
-        // Set validators for card payment method
-        this.paymentForm.get('cardHolderName')?.setValidators([Validators.required]);
-        this.paymentForm.get('cardNumber')?.setValidators([Validators.required, Validators.pattern(/^\d{16}$/)]);
-        this.paymentForm.get('expiryMonth');
-        this.paymentForm.get('expiryYear');
-        this.paymentForm.get('cvv')?.setValidators([Validators.required, Validators.pattern(/^\d{3}$/)]);
-        
-        // Clear UPI validators as Card method has been selected 
-        this.paymentForm.get('upiId')?.clearValidators();
+        // Apply validators for card
+        this.setValidators('cardHolderName', [Validators.required]);
+        this.setValidators('cardNumber', [Validators.required, Validators.pattern(/^\d{16}$/)]);
+        this.setValidators('expiryMonth', [Validators.required]);
+        this.setValidators('expiryYear', [Validators.required]);
+        this.setValidators('cvv', [Validators.required, Validators.pattern(/^\d{3}$/)]);
+
+        // Clear UPI validators
+        upiControls.forEach(c => this.clearValidators(c));
+
       } else if (method === 'upi') {
-          this.paymentForm.get('upiId')?.setValidators([
+        // Apply validators for UPI
+        this.setValidators('upiId', [
           Validators.required,
           Validators.pattern(/^[\w.-]+@[\w.-]+$/)
         ]);
 
         // Clear card validators
-        this.paymentForm.get('cardHolderName')?.clearValidators();
-        this.paymentForm.get('cardNumber')?.clearValidators();
-        this.paymentForm.get('expiryMonth')?.clearValidators();
-        this.paymentForm.get('expiryYear')?.clearValidators();
-        this.paymentForm.get('cvv')?.clearValidators();
-
-        // Update validity for UPI and card controls
-        this.paymentForm.get('upiId')?.updateValueAndValidity();
-        this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
-        this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-        this.paymentForm.get('expiryMonth')?.updateValueAndValidity();
-        this.paymentForm.get('expiryYear')?.updateValueAndValidity();
-        this.paymentForm.get('cvv')?.updateValueAndValidity();
+        cardControls.forEach(c => this.clearValidators(c));
       }
-      // this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
-      // this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-      // this.paymentForm.get('expiryMonth')?.clearValidators();
-      // this.paymentForm.get('expiryYear')?.clearValidators();
-      // this.paymentForm.get('cvv')?.updateValueAndValidity();
-      // this.paymentForm.get('upiId')?.updateValueAndValidity();
-      this.paymentForm.updateValueAndValidity();
 
+      this.paymentForm.updateValueAndValidity();
     });
   }
+
+  private setValidators(controlName: string, validators: any[]) {
+    const control = this.paymentForm.get(controlName);
+    if (control) {
+      control.setValidators(validators);
+      control.updateValueAndValidity();
+    }
+  }
+
+  private clearValidators(controlName: string) {
+    const control = this.paymentForm.get(controlName);
+    if (control) {
+      control.clearValidators();
+      control.updateValueAndValidity();
+    }
+  }
+
 
   detectCardType(cardNumber: string) {
     const cardPatterns: { [key: string]: RegExp } = {
@@ -199,17 +214,19 @@ export class PaymentProcesingComponent {
   }
 
   async processPayment(paymentData: any) {
-    this.isLoading = true;
-    // Create a 3-second delay promise
-    const delay = new Promise(resolve => setTimeout(resolve, 3000));
-  
+    this.isLoading = true;  
     try {
       const cardNumber = this.paymentForm.value.cardNumber;
       // Tokenize card number
       // const tokenPromise = this.coreServices.tokenizeCard(cardNumber);
-      // const [token] = await Promise.all([tokenPromise, delay]);
-
-      // Initiate payment with the token
+     const res= await tokenizeCard({
+          cardNumber: cardNumber,
+          expiry: this.paymentForm.value.expiryMonth + '/' + this.paymentForm.value.expiryYear,
+          cvv: this.paymentForm.value.cvv
+        });
+      console.log('Tokenization result:', res);
+      
+        // Initiate payment with the token
       const paymentData = { cardNumber, amount: '100',data: this.paymentData };
       const encryptedPayload = await this.encryptionService.encrypt(JSON.stringify(paymentData));
         // const encryptedPayload = JSON.stringify(paymentData);
@@ -218,14 +235,7 @@ export class PaymentProcesingComponent {
       
       const response = await this.paymentService.initiate(paymentPayload);
       console.log(response);
-
-      // Decrypt the response
-      // const decryptedResponse = await this.encryptionService.decrypt(response.payload);
-      // console.log('Decrypted Response:', decryptedResponse);
-      debugger;
       this.startPollingStatus(response.transactionId);
-      // this.dialog.open(SuccessDialogComponent, { width: '400px' });
-      // this.router.navigate(['/payments/success'], { state: { payment: response } });
   } catch (error) {
       console.error('Tokenization or Payment failed!', error);
       alert('Tokenization or Payment failed!');

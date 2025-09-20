@@ -76,82 +76,114 @@ export class PaymentProcesingComponent {
     { label: 'paytm', value: 'cod', isActive: true }
   ];
 
-  ngOnInit(): void {
+  form!: FormGroup;
 
-    this.initializeForm();
-    this.onPaymentMethodChange();
-    this.paymentForm.get('paymentMethod')?.valueChanges.subscribe(() => {
-      this.paymentForm.get('selectedChildOption')?.reset();
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      cardNumber: [''],
+      expiry: [''],
+      cvv: [''],
+      emiTenure: [''],
+      upiId: [''],
+      advanceAmount: [''],
+      bank: ['']
     });
+
+    // this.initializeForm();
+    // this.onPaymentMethodChange();
+    this.applyValidators('card');
+
+    this.form.get('paymentMethod')?.valueChanges.subscribe((method: string) => {
+      this.applyValidators(method);
+    });
+    // this.paymentForm.get('paymentMethod')?.valueChanges.subscribe(() => {
+    //   this.paymentForm.get('selectedChildOption')?.reset();
+    // });
   }
 
   months: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
   years: number[] = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() + i);
-  initializeForm() {
-    this.paymentForm = this.fb.group({
-      billingForm: this.fb.group({
-        payerName: ['Aashutosh Kumar', Validators.required],
-        city: ['Aurangabad', Validators.required],
-        fullAddress: ['Jamhor Aurangabad, Bihar', Validators.required],
-        country: ['INDIA', Validators.required],
-        pincode: ['201306', [Validators.required, Validators.pattern(/^\d{6}$/)]],
-      }),
-      paymentMethod: ['', Validators.required],
-      selectedChildOption: [''],
-      cardHolderName: [''],
-      cardNumber: [''],
-      expiryMonth: [''],
-      expiryYear: [''],
-      cvv: [''],
-      upiId: [''],
-    });
-  }
+  // initializeForm() {
+  //   this.paymentForm = this.fb.group({
+  //     billingForm: this.fb.group({
+  //       payerName: ['Aashutosh Kumar', Validators.required],
+  //       city: ['Aurangabad', Validators.required],
+  //       fullAddress: ['Jamhor Aurangabad, Bihar', Validators.required],
+  //       country: ['INDIA', Validators.required],
+  //       pincode: ['201306', [Validators.required, Validators.pattern(/^\d{6}$/)]],
+  //     }),
+  //     paymentMethod: ['', Validators.required],
+  //     selectedChildOption: [''],
+  //     cardHolderName: [''],
+  //     cardNumber: [''],
+  //     expiryMonth: [''],
+  //     expiryYear: [''],
+  //     cvv: [''],
+  //     upiId: [''],
+  //   });
+  // }
 
   get billingGroup() {
     return this.paymentForm.get('billingForm') as FormGroup;
   }
 
-  onPaymentMethodChange() {
-    this.paymentForm.get('paymentMethod')?.valueChanges.subscribe((method: string) => {
-      if (method === 'card') {
-        // Set validators for card payment method
-        this.paymentForm.get('cardHolderName')?.setValidators([Validators.required]);
-        this.paymentForm.get('cardNumber')?.setValidators([Validators.required, Validators.pattern(/^\d{16}$/)]);
-        this.paymentForm.get('expiryMonth');
-        this.paymentForm.get('expiryYear');
-        this.paymentForm.get('cvv')?.setValidators([Validators.required, Validators.pattern(/^\d{3}$/)]);
-        
-        // Clear UPI validators as Card method has been selected 
-        this.paymentForm.get('upiId')?.clearValidators();
-      } else if (method === 'upi') {
-          this.paymentForm.get('upiId')?.setValidators([
-          Validators.required,
-          Validators.pattern(/^[\w.-]+@[\w.-]+$/)
-        ]);
+private applyValidators(method: string): void {
 
-        // Clear card validators
-        this.paymentForm.get('cardHolderName')?.clearValidators();
-        this.paymentForm.get('cardNumber')?.clearValidators();
-        this.paymentForm.get('expiryMonth')?.clearValidators();
-        this.paymentForm.get('expiryYear')?.clearValidators();
-        this.paymentForm.get('cvv')?.clearValidators();
+  console.log('Applying validators for method:', method);
+    if (method === 'card') {
+      this.setCardValidators();
+      this.clearUpiValidators();
+    } else if (method === 'upi') {
+      this.setUpiValidators();
+      this.clearCardValidators();
+    }
+  }
 
-        // Update validity for UPI and card controls
-        this.paymentForm.get('upiId')?.updateValueAndValidity();
-        this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
-        this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-        this.paymentForm.get('expiryMonth')?.updateValueAndValidity();
-        this.paymentForm.get('expiryYear')?.updateValueAndValidity();
-        this.paymentForm.get('cvv')?.updateValueAndValidity();
-      }
-      // this.paymentForm.get('cardHolderName')?.updateValueAndValidity();
-      // this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-      // this.paymentForm.get('expiryMonth')?.clearValidators();
-      // this.paymentForm.get('expiryYear')?.clearValidators();
-      // this.paymentForm.get('cvv')?.updateValueAndValidity();
-      // this.paymentForm.get('upiId')?.updateValueAndValidity();
-      this.paymentForm.updateValueAndValidity();
+  private setCardValidators() {
+    // this.paymentForm.get('cardHolderName')?.setValidators([Validators.required]);
+    this.form.get('cardNumber')?.setValidators([Validators.required, Validators.pattern(/^\d{16}$/)]);
+    this.form.get('expiryMonth')?.setValidators([Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])$/)]);
+    this.form.get('expiryYear')?.setValidators([Validators.required, Validators.pattern(/^\d{4}$/)]);
+    this.form.get('cvv')?.setValidators([Validators.required, Validators.pattern(/^\d{3}$/)]);
 
+    this.refreshControls(['cardHolderName', 'cardNumber', 'expiryMonth', 'expiryYear', 'cvv']);
+  }
+
+  private clearCardValidators() {
+    this.clearControls(['cardHolderName', 'cardNumber', 'expiryMonth', 'expiryYear', 'cvv']);
+  }
+
+  private setUpiValidators() {
+    this.form.get('upiId')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[\w.-]+@[\w.-]+$/)
+    ]);
+    this.refreshControls(['upiId']);
+  }
+
+  private clearUpiValidators() {
+    this.clearControls(['upiId']);
+  }
+
+  private clearControls(controls: string[]) {
+    controls.forEach(ctrl => {
+      this.form.get(ctrl)?.clearValidators();
+      this.form.get(ctrl)?.updateValueAndValidity({ emitEvent: false });
+    });
+  }
+
+  private refreshControls(controls: string[]) {
+    controls.forEach(ctrl => {
+      this.form.get(ctrl)?.updateValueAndValidity({ emitEvent: false });
+    });
+  }
+
+
+
+
+  private updateControls(controls: string[]) {
+    controls.forEach(ctrl => {
+      this.paymentForm.get(ctrl)?.updateValueAndValidity();
     });
   }
 
@@ -292,5 +324,15 @@ startPollingStatus(txnId: string) {
 
   selectChild(childValue: string) {
     this.selectedChild = childValue;
+  }
+
+  submitPayment() {
+    if (this.form.valid) {
+      console.log('Form submitted:', this.form.value);
+      alert('Payment submitted: ' + JSON.stringify(this.form.value));
+    } else {
+      alert('Please fill all required fields.');
+      //  this.paymentForm.markAllAsTouched();
+    }
   }
 }

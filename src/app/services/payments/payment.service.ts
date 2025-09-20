@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
 import { TransactionResponse } from '../../model/interfaces/payments/Transaction.model';
@@ -61,9 +61,9 @@ export class PaymentService {
           this.paymentUrl, paymentData)
       );
     
-    } catch (error) {
-      console.error('Payment Processing Failed:', error);
-      throw new Error('Something went wrong. Please try again.');
+    } catch (error: HttpErrorResponse | any) {
+      console.error('Payment Processing Failed:', error.message || error);
+      return error;
     }
   }
 
