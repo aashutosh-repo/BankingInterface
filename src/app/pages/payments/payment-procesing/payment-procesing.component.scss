@@ -101,26 +101,29 @@ button[mat-raised-button] {
 
 .child-options {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  // margin-left: 24px;
   display: flex;
-  flex-direction: column;
   gap: 6px;
+  flex-wrap: wrap;         
+}
+.child-option {
+  flex: 0 1 auto;          
+  white-space: nowrap;     
 }
 
 .child-options label {
   display: flex;
-  align-items: center;
   gap: 6px;
 }
 
 .child-options .mat-mdc-radio-group {
   display: flex;
-  flex-direction: column; 
-  gap: 8px; 
+  flex-wrap: wrap;     
+  gap: 8px;
 }
 
 .child-options .mat-mdc-radio-button {
-  margin: 0; 
+  flex: 0 1 auto;
+  white-space: nowrap;
 }
 
 .card-details {
