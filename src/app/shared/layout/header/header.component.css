@@ -27,11 +27,20 @@
   }
 }
 
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #fff;
+  margin-left: 8px;
+}
+
 .mobile-nav {
   display: flex;
   flex-direction: column;
   background: #eeeeee;
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem; */
 
   a {
     margin: 0.25rem 0;
@@ -85,4 +94,48 @@
   border: 2px solid #ccc;
 }
 
+.desktop-nav {
+  display: flex;
+  gap: 10px;
+}
 
+.mobile-nav {
+  display: none;
+}
+
+.page-header .mobile-nav .mat-form-field.nav-dropdown {
+  width: 120px;             
+  margin: 0;                
+}
+
+.page-header .mobile-nav .mat-form-field.nav-dropdown {
+  width: 150px;             /* or adjust to fit header nicely */
+  margin: 0;                /* remove extra spacing */
+}
+/* On small screens, hide desktop nav and show dropdown */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-nav {
+    display: block;
+    min-width: 120px;
+    z-index: 1;
+  }
+}
+
+.mobile-nav-dropdown {
+  display: flex;
+  position: inherit;
+  margin-top: 200px;
+  position: relative;
+  flex-direction: column;
+  /* background-color: #05164d; */
+  padding: 10px;
+}
+
+.mobile-nav-dropdown a {
+  color: #fff;
+  text-align: left;
+  font-weight: 500;
+}

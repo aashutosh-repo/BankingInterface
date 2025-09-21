@@ -3,11 +3,33 @@
   <span class="ms-2">Infinity Bank</span>
 
   <span class="spacer"></span>
+  <nav class="desktop-nav">
+    <a mat-button>Home</a>
+    <a mat-button>Documentation</a>
+    <a mat-button>Shortcut</a>
+    <a mat-button>About Us</a>
+  </nav>
+  <nav class="mobile-nav mobile-nav-dropdown" *ngIf="isExpanded">
+          <mat-option value="home">Home</mat-option>
+          <mat-option value="docs">Documentation</mat-option>
+          <mat-option value="shortcut">Shortcut</mat-option>
+          <mat-option value="about">About Us</mat-option>
+</nav>
 
-  <a mat-button>Home</a>
-  <a mat-button>Documentation</a>
-  <a mat-button>Shortcut</a>
-  <a mat-button>About Us</a>
+<!-- Hamburger icon / button to open mobile nav -->
+<button class="hamburger" (click)="toggleMenu()" *ngIf="isExpanded">
+  ☰
+</button>
+    <!-- <div class="mobile-nav">
+      <mat-form-field appearance="outline" class="nav-dropdown">
+        <mat-select placeholder="Menu" (selectionChange)="onMenuSelect($event.value)">
+          <mat-option value="home">Home</mat-option>
+          <mat-option value="docs">Documentation</mat-option>
+          <mat-option value="shortcut">Shortcut</mat-option>
+          <mat-option value="about">About Us</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
   @if (!userDetails) {
     <button class="login-button" (click)="openLoginDialog()">Login</button>
   }
@@ -25,12 +47,5 @@
 </mat-toolbar>
 
 <!-- Navigation Panel (for smaller screens) -->
-@if (isExpanded) {
-  <nav class="mobile-nav">
-    <a mat-button (click)="toggleMenu()">Home</a>
-    <a mat-button (click)="toggleMenu()">Customer</a>
-    <a mat-button (click)="toggleMenu()">Acounts</a>
-    <a mat-button (click)="toggleMenu()">About</a>
-  </nav>
-}
+
 </header>
