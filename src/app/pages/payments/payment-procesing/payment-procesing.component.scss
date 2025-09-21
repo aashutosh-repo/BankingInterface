@@ -99,11 +99,22 @@ button[mat-raised-button] {
 }
 
 
+.parent-option.mat-mdc-radio-checked {
+  background-color: #e3f2fd;
+}
+
+
+.child-option.mat-mdc-radio-checked {
+  background-color: bisque;
+}
+
 .child-options {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;         
+  flex-wrap: wrap;   
+  margin-bottom: 10px; 
+  padding-right: 10px;     
 }
 .child-option {
   flex: 0 1 auto;          
@@ -113,6 +124,12 @@ button[mat-raised-button] {
 .child-options label {
   display: flex;
   gap: 6px;
+}
+
+.child-option-label {
+padding-right: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
 }
 
 .child-options .mat-mdc-radio-group {
@@ -153,13 +170,13 @@ button[mat-raised-button] {
   flex-direction: column;
   min-width: 200px;
   border: 1px solid #ddd;
-  padding-right: 1rem;
   border-radius: 8px;
 }
 
 .parent-option {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .payment-body {

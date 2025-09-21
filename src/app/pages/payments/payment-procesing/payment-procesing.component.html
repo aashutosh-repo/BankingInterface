@@ -35,7 +35,7 @@
         <mat-radio-button
           *ngFor="let option of selectedMethod.childOptions"
           [value]="option.value"
-          class="child-option"
+          class="child-option child-option-label"
         >
           {{ option.label }}
         </mat-radio-button>
@@ -48,6 +48,10 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Card Holder Name</mat-label>
           <input matInput formControlName="cardHolderName" placeholder="John Doe" />
+          <mat-error *ngIf="paymentForm.get('cardHolderName')?.hasError('required') && 
+                   (paymentForm.get('cardHolderName')?.touched || submitted)">
+            Card Holder Name is required
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width card-input">
@@ -88,7 +92,7 @@
     <!-- 🔹 UPI form -->
     <div *ngIf="paymentForm.value.paymentMethod === 'upi' && paymentForm.value.selectedChildOption">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>UPI ID</mat-label>
+        <mat-label >UPI ID</mat-label>
         <input matInput formControlName="upiId" placeholder="example@upi" />
         <mat-error *ngIf="paymentForm.get('upiId')?.hasError('required')">
           UPI ID is required
