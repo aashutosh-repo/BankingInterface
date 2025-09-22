@@ -11,6 +11,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { CustomMatPaginatorIntl } from './services/utility/pagination.service';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { HttpErrorInterceptor } from '../app/services/error/http-error.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
@@ -19,7 +20,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor, loaderInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor,
+      loaderInterceptor,
+      HttpErrorInterceptor])),
     provideAnimations(),
     provideStore(),
     provideEffects(),

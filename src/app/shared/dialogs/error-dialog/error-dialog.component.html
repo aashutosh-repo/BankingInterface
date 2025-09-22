@@ -1,10 +1,10 @@
 <mat-dialog-content class="error-dialog">
   <div class="icon-container">
     @if (data.type === 'Error') {
-      <mat-icon class="error-icon">error</mat-icon>
+      <mat-icon class="error-icon">error_outline</mat-icon>
     }
     @if (data.type === 'Warning') {
-      <mat-icon class="warning-icon">warning</mat-icon>
+      <mat-icon class="warning-icon">warning_amber</mat-icon>
     }
   </div>
 
@@ -16,5 +16,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="center">
-  <button mat-raised-button color="warn" class="close-btn" (click)="closeDialog()">Close</button>
+  <button mat-raised-button color="primary" class="close-btn" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>&nbsp; Close
+  </button>
 </mat-dialog-actions>
