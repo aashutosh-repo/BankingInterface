@@ -82,6 +82,7 @@ export class PaymentProcesingComponent {
     { label: 'Net Banking', value: 'netbanking', isActive: false },
     { label: 'Wallet', value: 'wallet', isActive: false },
     { label: 'paytm', value: 'cod', isActive: true },
+    { label: 'PayU', value: 'payu', isActive: true },
   ];
 
   ngOnInit(): void {
@@ -246,25 +247,38 @@ export class PaymentProcesingComponent {
           cvv: this.paymentForm.value.cvv,
         });
         console.log('Tokenization result:', res);
+      } else if( paymentMethod === 'payu'){ 
+        debugger;
+        this.paymentService.goToPayU('ORD1238', '100', 'Aashutosh', 'test@ashu.com', '9999999999')
+        .subscribe((html: string) => {
+          document.open();
+          document.write(html);
+          document.close();
+        }, err => {
+          console.error('PayU redirect error', err);
+        });
+      }else {
+        // Initiate payment with the token
+        const paymentData = { cardNumber, amount: '100', data: this.paymentData };
+        const encryptedPayload = await this.encryptionService.encrypt(
+          JSON.stringify(paymentData)
+        );
+        // const encryptedPayload = JSON.stringify(paymentData);
+
+        const paymentPayload = generateRandomUpiOrder();
+
+        const response = await this.paymentService.initiate(paymentPayload);
+        console.log(response);
+        this.startPollingStatus(response.transactionId);
       }
-      // Initiate payment with the token
-      const paymentData = { cardNumber, amount: '100', data: this.paymentData };
-      const encryptedPayload = await this.encryptionService.encrypt(
-        JSON.stringify(paymentData)
-      );
-      // const encryptedPayload = JSON.stringify(paymentData);
-
-      const paymentPayload = generateRandomUpiOrder();
-
-      const response = await this.paymentService.initiate(paymentPayload);
-      console.log(response);
-      this.startPollingStatus(response.transactionId);
     } catch (error) {
       console.error('Tokenization or Payment failed!', error);
       alert('Tokenization or Payment failed!');
     } finally {
       this.isLoading = false;
     }
+  
+  
   }
 
   private pollSub?: Subscription;

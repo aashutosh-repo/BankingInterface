@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
 import { TransactionResponse } from '../../model/interfaces/payments/Transaction.model';
@@ -74,6 +74,24 @@ export class PaymentService {
   getTransctionDetails(): Observable<TransactionResponse[]> {
     return this.http.get<TransactionResponse[]>(this.apiUrl);
   }
+
+  goToPayU(orderId: string, amount: string, firstname: string, email: string, phone: string) {
+
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const payload = {
+    orderId,
+    amount,
+    firstname,
+    email,
+    phone
+  };
+    // Expect response as text/html
+    return this.http.post('http://localhost:8080/payments/payu/hostedRedirect', payload, {
+      headers,
+      responseType: 'text'
+    });
+  }
 }
 
 function generateRandomUpiOrder() {
@@ -102,6 +120,7 @@ function generateRandomUpiOrder() {
     orderId: randomId("ORD", 8) // ✅ add a random orderId for tracking
   };
 }
+
 
 // Example usage:
 const randomOrder = generateRandomUpiOrder();

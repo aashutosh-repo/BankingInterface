@@ -10,6 +10,8 @@ import { ErrorService } from './error.service';
 export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const platformId = inject(PLATFORM_ID); // Correctly import PLATFORM_ID
   const errorDialog = inject(ErrorService);
+  let type: 'Error' | 'Warning' = 'Error';
+  let errorId = 'GEN_000';
   
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -22,9 +24,14 @@ export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         }
       }
       if (error.status === 0) {
+        errorId="503"
         userMessage = isPlatformBrowser(platformId)
           ? 'Network error: Unable to connect to the server.'
           : 'Server is unreachable.';
+      }else if (error.error && typeof error.error === 'object') {
+        // ✅ Custom backend error object
+        errorId = error.error.errorId || errorId;
+        type = (error.error.type === 'Warning' ? 'Warning' : 'Error');          userMessage = error.error.errorMessage || userMessage;
       }else if (error.status >= 500) {
         // Handle other status codes
         userMessage = 'Server error occurred. Please try again later.';
@@ -33,7 +40,7 @@ export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
       }
 
       console.error('[HTTP ERROR]', userMessage, error);
-      errorDialog.showError("TEST",userMessage, "Error");
+      errorDialog.showError(errorId,userMessage, type);
 
 
       // Propagate a user-friendly error
